@@ -66,9 +66,9 @@ return array(
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
-			'database' => 'database',
-			'username' => 'root',
-			'password' => '',
+			'database' => 'karmajobs',
+			'username' => 'karmajobs',
+			'password' => 'nintendo',
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
