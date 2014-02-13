@@ -15,3 +15,10 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+Route::get('subreddits', function()
+{
+    $subreddits = Subreddit::all(); // Retrieve all rows in subreddits table
+
+    return View::make('subreddits')->with('subreddits', $subreddits);
+});
