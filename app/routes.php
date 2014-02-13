@@ -22,3 +22,5 @@ Route::get('subreddits', function()
 
     return View::make('subreddits')->with('subreddits', $subreddits);
 });
+
+Route::get('getjobpostings', 'GetJobPostingsController@getJobPostings');
