@@ -1,60 +1,6 @@
 <?php
 class GetJobPostingsController extends BaseController
 {
-    /**
-     * Send a GET request using cURL
-     * @param string $url to request
-     * @param array $get values to send
-     * @param array $options for cURL
-     * @return string
-     */
-    public function curlGet($url)
-    {
-        $defaults = array(
-            CURLOPT_URL => $url. (strpos($url, '?') === FALSE ? '?' : ''),
-            CURLOPT_HEADER => 0,
-            CURLOPT_RETURNTRANSFER => TRUE,
-            CURLOPT_TIMEOUT => 4
-        );
-
-        $ch = curl_init();
-        curl_setopt_array($ch, ($defaults));
-        if( ! $result = curl_exec($ch))
-        {
-            trigger_error(curl_error($ch));
-        }
-        curl_close($ch);
-        return $result;
-    }
-
-
-
-    public function getPosts($sub, $before = "", $limit = 100)
-    {
-        $url = "http://api.reddit.com/r/$sub?before=$before&limit=$limit&count=0";
-
-        $defaults = array(
-            CURLOPT_URL => $url. (strpos($url, '?') === FALSE ? '?' : ''),
-            CURLOPT_HEADER => 0,
-            CURLOPT_RETURNTRANSFER => TRUE,
-            CURLOPT_TIMEOUT => 4
-        );
-
-        $ch = curl_init();
-        curl_setopt_array($ch, $defaults);
-        if( ! $result = curl_exec($ch))
-        {
-            trigger_error(curl_error($ch));
-        }
-        curl_close($ch);
-
-        return json_decode($result, true)['data']['children']; // TODO Figure out why data is not coming back from that call.
-
-//        return json_decode($this->curlGet("http://api.reddit.com/r/$sub?before=$before&limit=$limit&count=0"), true)['data']['children'];
-    }
-
-////////////////////////////////////////////////////////////////////////////////
-
     public function getJobPostings()
     {
         $results = array();
@@ -63,10 +9,10 @@ class GetJobPostingsController extends BaseController
 
         foreach( $subreddits as $subreddit)
         {
-            $mostRecentId = ""; // TODO Get mostRecentId from database here
+            $lastPostId = $subreddit->last_post_id; // Get lastPostId from database
 
-            $posts =  $this->getPosts($subreddit, $mostRecentId, 4);
-            $mostRecentId = "";
+            $posts =  RedditApi::getPosts($subreddit, $lastPostId);
+            $lastPostId = "";
             foreach ($posts as $post)
             {
                 $fullname = $post['kind'] . "_" . $post['data']['id'];
@@ -74,11 +20,11 @@ class GetJobPostingsController extends BaseController
 
                 $formattedTime = date("Y-m-d h:i a", $timestamp);
 
-                array_push($results, array('subreddit' => $subreddit, 'fullname' => $fullname, 'time' => $formattedTime)); // TODO insert mostRecentId into database here
+                array_push($results, array('subreddit' => $subreddit, 'fullname' => $fullname, 'time' => $formattedTime)); // TODO insert lastPostId into database here
 
-                if ($mostRecentId == "")
+                if ($lastPostId == "")
                 {
-                    $mostRecentId = $fullname;
+                    $lastPostId = $fullname;
                 }
             }
         }
