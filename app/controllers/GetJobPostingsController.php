@@ -3,34 +3,31 @@ class GetJobPostingsController extends BaseController
 {
     public function getJobPostings()
     {
-        $results = array();
-
-        $subreddits = Subreddit::all();
-
-        foreach( $subreddits as $subreddit)
+        $subreddits = Subreddit::all(); // Retrieve all rows in subreddits table
+        foreach ($subreddits as $subreddit)
         {
-            $lastPostId = $subreddit->last_post_id; // Get lastPostId from database
-
-            $posts =  RedditApi::getPosts($subreddit, $lastPostId);
+            echo "<p>Getting job postings for: ".$subreddit->title."</p>"; //TODO Remove HTML
+            $jobPostings = RedditApi::getJobPostings($subreddit);
             $lastPostId = "";
-            foreach ($posts as $post)
+
+            foreach ($jobPostings as $jobPosting)
             {
-                $fullname = $post['kind'] . "_" . $post['data']['id'];
-                $timestamp = $post['data']['created'];
+                $jobPosting->save();
 
-                $formattedTime = date("Y-m-d h:i a", $timestamp);
-
-                array_push($results, array('subreddit' => $subreddit, 'fullname' => $fullname, 'time' => $formattedTime)); // TODO insert lastPostId into database here
+                echo "<p>Stored: ".$jobPosting->title."</p>"; //TODO Remove HTML
 
                 if ($lastPostId == "")
                 {
-                    $lastPostId = $fullname;
+                    // The reddit API returns posts in reverse chrono order – we want to make sure we only insert the first post ID in this loop
+                    $lastPostId = $jobPosting->reddit_post_id;
+                    $subreddit->last_post_id = $lastPostId;
+                    $subreddit->save();
+                    echo "<p>Updated subreddit ".$subreddit->title." with last post id: $lastPostId.</p>"; //TODO Remove HTML
                 }
             }
         }
-//        echo "<p>Finished run. ". count($posts) ." posts pulled; most recent id: $mostRecentId</p>";
 
-        return View::make('getjobpostings.results', array('results' => $results));
+//      return View::make('getjobpostings.results', array('results' => $results));
     }
 
 }

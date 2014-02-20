@@ -29,7 +29,7 @@ Route::get('insertsubreddits', function ()
 
     foreach ($subreddits as $subreddit)
     {
-        $subredditObj = RedditApi::getSubReddit($subreddit);
+        $subredditObj = RedditApi::getSubreddit($subreddit);
         $subredditObj->save();
     }
 
@@ -47,6 +47,20 @@ Route::get('jobpostings', function ()
     $jobpostings = JobPosting::all(); // Retrieve all rows in jobpostings table
 
     return View::make('jobpostings')->with('jobpostings', $jobpostings);
+});
+
+Route::get('getjobpostingsdebug', function ()
+{
+    $subreddits = Subreddit::all(); // Retrieve all rows in subreddits table
+    foreach ($subreddits as $subreddit)
+    {
+        echo $subreddit->title;
+        $jobPostings = RedditApi::getJobPostings($subreddit);
+
+        echo "<pre>"; print_r($jobPostings); echo "</pre>";
+    }
+
+//    return View::make('jobpostings')->with('jobpostings', $jobpostings);
 });
 
 Route::get('getjobpostings', 'GetJobPostingsController@getJobPostings');
