@@ -35,44 +35,11 @@ class SearchResultsController extends BaseController
         }
     }
 
-
-    /**
-     * @Deprecated
-     */
-    public function getAllSearchResults()
-    {
-        $sortOrder = Input::get('sort') != "" ? Input::get('sort') : "desc";
-
-        // If job posting id is set, get that (i.e. user has clicked on a search result)
-        if (Input::get('id') != "")
-        {
-            $selectedJobPosting = JobPosting::findOrFail(Input::get('id'));
-            $selectedJobPosting->created_time = $this->fuzzyDate($selectedJobPosting->created_time);
-        }
-        else
-        {
-            $selectedJobPosting = new JobPosting();
-        }
-
-        $jobPostings = JobPosting::orderBy('created_time', 'desc')->get();
-
-        foreach ($jobPostings as $jobPosting)
-        {
-            $jobPosting->created_time = $this->fuzzyDate($jobPosting->created_time);
-        }
-
-        return View::make('search.layout', array(
-            'jobPostings'        => $jobPostings,
-            'selectedJobPosting' => $selectedJobPosting
-        ));
-    }
-
-
     public function getSearchResults()
     {
         // Get variables from search form
         $keyword = strtolower(Input::get('keyword'));
-        $filter = Input::get('filter') != "" ? Input::get('filter') : "jobs";
+        $filter = Input::get('filter') != "" ? Input::get('filter') : "selftext";
         $city = strtolower(Input::get('city'));
         $distance = Input::get('distance');
         $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
@@ -88,7 +55,7 @@ class SearchResultsController extends BaseController
             $selectedJobPosting = new JobPosting(); // Set blank job posting for template
         }
 
-        if ($filter == "jobs") $filter = "selftext"; // Jobs filter searches selftext field in JobPosting model
+        if ($filter == "jobs") $filter = "selftext"; //TODO Jobs filter searches selftext field in JobPosting model (the frontend should just pass in "selptext" instead of "jobs")
 
         if ($keyword == "" && $city == "") // No search
         {

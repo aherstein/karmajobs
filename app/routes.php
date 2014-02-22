@@ -67,6 +67,4 @@ Route::get('getjobpostings', 'GetJobPostingsController@getJobPostings');
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Route::get('searchresults-all', 'SearchResultsController@getAllSearchResults');
-
-Route::get('searchresults', 'SearchResultsController@getSearchResults');
+Route::get('search', 'SearchResultsController@getSearchResults');

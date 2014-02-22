@@ -8,7 +8,7 @@
     <div id="results-list">
         @foreach($jobPostings as $jobPosting)
         <div class="result-listing">
-            <a href="/searchresults?keyword={{$keyword}}&filter={{$filter}}&city={{$city}}&distance={{$distance}}&sort={{$sort}}&id={{$jobPosting->id}}">{{$jobPosting->title}}</a>
+            <a href="/search?keyword={{$keyword}}&filter={{$filter}}&city={{$city}}&distance={{$distance}}&sort={{$sort}}&id={{$jobPosting->id}}">{{$jobPosting->title}}</a>
             <div class="time">{{$jobPosting->created_time}}</div>
         </div>
         @endforeach
