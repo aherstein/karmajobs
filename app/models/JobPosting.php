@@ -3,10 +3,11 @@
 class JobPosting extends Eloquent
 {
 
-    public function phone()
+    public function subreddit()
     {
-        return $this->hasOne('Subreddit');
+        return $this->belongsTo('Subreddit');
     }
+
 }
 
 ?>
