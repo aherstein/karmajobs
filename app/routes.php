@@ -64,3 +64,9 @@ Route::get('getjobpostingsdebug', function ()
 });
 
 Route::get('getjobpostings', 'GetJobPostingsController@getJobPostings');
+
+////////////////////////////////////////////////////////////////////////////////
+
+Route::get('searchresults-all', 'SearchResultsController@getAllSearchResults');
+
+Route::get('searchresults', 'SearchResultsController@getSearchResults');
