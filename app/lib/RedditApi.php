@@ -1,7 +1,7 @@
 <?php
-/*
+/**
  * This class makes calls to the Reddit API and returns respective models.
- * It DOES NOT make any insertions into the database – that is left to the controllers.
+ * It DOES NOT make any pulls or insertions into the database – that is left to the controllers.
  */
 
 define("MAX_POSTS_TO_FETCH", 10);
@@ -68,6 +68,9 @@ class RedditApi
         return json_decode($result, true);
     }
 
+    /**
+     * Checks for null values and returns a non-null value if null.
+     */
     protected static function validate($field)
     {
         $type = gettype($field);
@@ -116,7 +119,7 @@ class RedditApi
             $jobPostingObj = new JobPosting;
             $jobPostingObj->title = RedditApi::validate($post['title']);
             $jobPostingObj->selftext = RedditApi::validate($post['selftext']);
-            $jobPostingObj->selftext_html = RedditApi::validate(htmlspecialchars($post['selftext_html']));
+            $jobPostingObj->selftext_html = RedditApi::validate($post['selftext_html']);
             $jobPostingObj->is_self = $post['is_self'] == 1 ? true : false;
             $jobPostingObj->reddit_post_id = RedditApi::validate($post['name']);
             $jobPostingObj->clicked = RedditApi::validate($post['clicked']);
