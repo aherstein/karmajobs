@@ -35,6 +35,7 @@ class SearchResultsController extends BaseController
         }
     }
 
+
     public function getSearchResults()
     {
         // Get variables from search form
@@ -43,11 +44,14 @@ class SearchResultsController extends BaseController
         $city = strtolower(Input::get('city'));
         $distance = Input::get('distance');
         $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
+        $days = Input::get('days') != "" ? Input::get('days') : 1;
+        $karmaRank = Input::get('karmaRank');
+        $id = Input::get('id');
 
         // If job posting id is set, get that (i.e. user has clicked on a search result)
-        if (Input::get('id') != "")
+        if ($id != "")
         {
-            $selectedJobPosting = JobPosting::findOrFail(Input::get('id'));
+            $selectedJobPosting = JobPosting::findOrFail($id);
             $selectedJobPosting->created_time = $this->fuzzyDate($selectedJobPosting->created_time);
         }
         else
@@ -55,18 +59,44 @@ class SearchResultsController extends BaseController
             $selectedJobPosting = new JobPosting(); // Set blank job posting for template
         }
 
-        if ($filter == "jobs") $filter = "selftext"; //TODO Jobs filter searches selftext field in JobPosting model (the frontend should just pass in "selptext" instead of "jobs")
-
+        // Search options
         if ($keyword == "" && $city == "") // No search
         {
-            $jobPostings = JobPosting::orderBy('created_time', $sort)->get();
+            $where = "now() - created_time < INTERVAL '$days days'";
+
+            if ($karmaRank == "on")
+            {
+                $jobPostings = JobPosting::
+                    whereRaw($where)
+                    ->orderBy('num_up_votes', "desc")
+                    ->get();
+            }
+            else
+            {
+                $jobPostings = JobPosting::
+                    whereRaw($where)
+                    ->orderBy('created_time', $sort)
+                    ->get();
+            }
         }
         else // User searched for job postings
         {
-            $jobPostings = JobPosting::
-                whereRaw("lower($filter) LIKE '%$keyword%'")
-                ->orderBy('created_time', $sort)
-                ->get();
+            $where = "lower($filter) LIKE '%$keyword%' AND now() - created_time < INTERVAL '$days days'";
+
+            if ($karmaRank == "on")
+            {
+                $jobPostings = JobPosting::
+                    whereRaw($where)
+                    ->orderBy('num_up_votes', "desc")
+                    ->get();
+            }
+            else
+            {
+                $jobPostings = JobPosting::
+                    whereRaw($where)
+                    ->orderBy('created_time', $sort)
+                    ->get();
+            }
         }
 
         foreach ($jobPostings as $jobPosting)
@@ -82,7 +112,10 @@ class SearchResultsController extends BaseController
             'filter'             => $filter,
             'city'               => $city,
             'distance'           => $distance,
-            'sort'               => $sort
+            'sort'      => $sort,
+            'days'      => $days,
+            'karmaRank' => $karmaRank,
+            'id'        => $id
         ));
     }
 

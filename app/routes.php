@@ -11,10 +11,10 @@
 |
 */
 
-Route::get('/', function ()
-{
-    return View::make('hello');
-});
+//Route::get('/', function ()
+//{
+//    return View::make('hello');
+//});
 
 Route::get('subreddits', function ()
 {
@@ -67,4 +67,5 @@ Route::get('getjobpostings', 'GetJobPostingsController@getJobPostings');
 
 ////////////////////////////////////////////////////////////////////////////////
 
+Route::get('/', 'SearchResultsController@getSearchResults');
 Route::get('search', 'SearchResultsController@getSearchResults');
