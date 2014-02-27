@@ -56,6 +56,22 @@
                 scrollInertia:0
             });
         });
+
+
+        // Side Menu Column
+        $("#filter").val("{{$filter}}");
+
+
+        // Results Column
+        $("#days").val("{{$days}}");
+
+        $(":checkbox[id='karma-rank']").click(function () {
+            $("#sort-controls-form").submit();
+        });
+
+        $("#days").change(function () {
+            window.location.href = "/search?keyword={{$keyword}}&filter={{$filter}}&city={{$city}}&distance={{$distance}}&days=" + $("#days").val();
+        });
     </script>
 </head>
 <body>

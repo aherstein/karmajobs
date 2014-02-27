@@ -1,5 +1,4 @@
 @section('side-menu')
-<script>$("#filter").change("{{$filter}}");</script>
 <div id="side-menu" class="main-column">
     <a id="search-toggle" href="#"></a>
 

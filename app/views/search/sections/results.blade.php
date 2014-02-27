@@ -1,15 +1,5 @@
 @section('results')
-<script>$("#days").val("{{$days}}");</script>
-<script>
-    $(":checkbox[id='karma-rank']").click(function () {
-        $("#sort-controls-form").submit();
-    });
-
-    $("#days").change(function () {
-        window.location.href = "/search?keyword={{$keyword}}&filter={{$filter}}&city={{$city}}&distance={{$distance}}&days=" + $("#days").val();
-    });
-</script>
-<div id="results"  class="main-column">
+<div id="results" class="main-column">
     <h2>{{sizeof($jobPostings)}} Results</h2>
 
     <div id="sort-controls" class="clearfix">
