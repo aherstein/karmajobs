@@ -47,6 +47,16 @@
             jQuery('#back').on("click", function(event){
                 jQuery('#result-detail').removeClass('activated')
             });
+
+            // Results column – rank by karma checkbox
+            $(":checkbox[id='karma-rank']").click(function () {
+                $("#sort-controls-form").submit();
+            });
+
+            // Results column – days filter dropdown
+            $("#days").change(function () {
+                window.location.href = "/search?keyword={{$keyword}}&filter={{$filter}}&city={{$city}}&distance={{$distance}}&days=" + $("#days").val();
+            });
         });
         jQuery(window).load(function(){
             jQuery("#results-list").mCustomScrollbar({
@@ -55,23 +65,17 @@
             jQuery("#post-text").mCustomScrollbar({
                 scrollInertia:0
             });
+
+            // Side Menu Column – select filter dropdown
+            $("#filter").val("{{$filter}}");
+
+
+            // Results Column – select days colum
+            $("#days").val("{{$days}}");
         });
 
 
-        // Side Menu Column
-        $("#filter").val("{{$filter}}");
 
-
-        // Results Column
-        $("#days").val("{{$days}}");
-
-        $(":checkbox[id='karma-rank']").click(function () {
-            $("#sort-controls-form").submit();
-        });
-
-        $("#days").change(function () {
-            window.location.href = "/search?keyword={{$keyword}}&filter={{$filter}}&city={{$city}}&distance={{$distance}}&days=" + $("#days").val();
-        });
     </script>
 </head>
 <body>
