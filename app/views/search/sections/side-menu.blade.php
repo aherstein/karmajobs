@@ -9,17 +9,23 @@
             <div class="input-wrap">
                 <input class="text-input" name="keyword" value="{{$keyword}}" placeholder="keyword" type="text"/>
                 <select name="filter" id="filter">
-                    <option value="selftext">jobs</option>
-                    <option value="title">titles</option>
+                    <option value="selftext"
+                    @if ($filter == "selftext") selected @endif>jobs</option>
+                    <option value="title"
+                    @if ($filter == "title") selected @endif>titles</option>
                 </select>
             </div>
             <div class="input-wrap">
                 <input class="text-input" name="city" value="{{$city}}" placeholder="city or zip" type="text"/>
                 <select name="distance" id="distance">
-                    <option value="25">25 mi.</option>
-                    <option value="50">50 mi.</option>
+                    <option value="25"
+                    @if ($distance == "25") selected @endif>25 mi.</option>
+                    <option value="50"
+                    @if ($distance == "50") selected @endif>50 mi.</option>
                 </select>
             </div>
+            <input type="hidden" name="days" value="{{$days}}">
+            <input type="hidden" name="karmaRank" value="{{$karmaRank}}">
             <button type="submit" value="search" id="submit">search</button>
         </form>
     </div>

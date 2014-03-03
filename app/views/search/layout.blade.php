@@ -16,12 +16,92 @@
     <script src="js/jquery.mousewheel.min.js" type="application/javascript"></script>
     <script src="js/jquery.mCustomScrollbar.min.js" type="application/javascript"></script>
     <script src="js/icheck.min.js" type="application/javascript"></script>
-    <script src="js/main.js" type="application/javascript"></script>
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
     <link rel="stylesheet" href="css/minimal/minimal.css">
     <link rel="stylesheet" href="css/minimal/grey.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/styles.css">
+
+    <script>
+        // Iterate over each select element to create custom element
+        function setupSelects() {
+            jQuery('select').each(function () {
+
+                // Cache the number of options
+                var $this = $(this),
+                    numberOfOptions = $(this).children('option').length;
+
+                // Hides the select element
+                $this.addClass('s-hidden');
+
+                // Wrap the select element in a div
+                $this.wrap('<div class="select"></div>');
+
+                // Insert a styled div to sit over the top of the hidden select element
+                $this.after('<div class="styledSelect"></div>');
+
+                // Cache the styled div
+                var $styledSelect = $this.next('div.styledSelect');
+
+                // Show the selected option in the styled div
+                for (var i = 0; i < numberOfOptions; i++) {
+                    if ($this[0][i].selected) $styledSelect.text($this.children('option').eq(i).text());
+                }
+
+                // Insert an unordered list after the styled div and also cache the list
+                var $list = $('<ul />', {
+                    'class': 'options'
+                }).insertAfter($styledSelect);
+
+                // Insert a list item into the unordered list for each select option
+                for (var i = 0; i < numberOfOptions; i++) {
+                    $('<li />', {
+                        text: $this.children('option').eq(i).text(),
+                        rel: $this.children('option').eq(i).val()
+                    }).appendTo($list);
+                }
+
+                // Cache the list items
+                var $listItems = $list.children('li');
+
+                // Show the unordered list when the styled div is clicked (also hides it if the div is clicked again)
+                $styledSelect.click(function (e) {
+                    e.stopPropagation();
+                    if (jQuery('div.styledSelect.active').length) {
+                        $('div.styledSelect.active').each(function () {
+                            $(this).removeClass('active').next('ul.options').hide();
+                        });
+                    } else {
+                        $(this).toggleClass('active').next('ul.options').toggle();
+                    }
+
+
+                });
+
+                // Hides the unordered list when a list item is clicked and updates the styled div to show the selected list item
+                // Updates the select element to have the value of the equivalent option
+                $listItems.click(function (e) {
+                    e.stopPropagation();
+                    $styledSelect.text($(this).text()).removeClass('active');
+                    $this.val($(this).attr('rel'));
+                    $list.hide();
+                    /* alert($this.val()); /* Uncomment this for demonstration! */
+
+                    /**
+                     * Workaround for inability to use jQuery events with this styling function
+                     */
+                    if ($this[0].id == "days") window.location.href = "/search?keyword={{$keyword}}&filter={{$filter}}&city={{$city}}&distance={{$distance}}&karmaRank={{$karmaRank}}&days=" + $("#days").val();
+                });
+
+                // Hides the unordered list when clicking outside of it
+                $(document).click(function () {
+                    $styledSelect.removeClass('active');
+                    $list.hide();
+                });
+
+            });
+        }
+    </script>
 
     <script>
         jQuery(document).ready(function(){
@@ -48,15 +128,13 @@
                 jQuery('#result-detail').removeClass('activated')
             });
 
-            // Results column – rank by karma checkbox
-            $(":checkbox[id='karma-rank']").click(function () {
+            $('#karma-rank').on('ifChecked', function (event) {
+                $("#sort-controls-form").submit();
+            });
+            $('#karma-rank').on('ifUnchecked', function (event) {
                 $("#sort-controls-form").submit();
             });
 
-            // Results column – days filter dropdown
-            $("#days").change(function () {
-                window.location.href = "/search?keyword={{$keyword}}&filter={{$filter}}&city={{$city}}&distance={{$distance}}&days=" + $("#days").val();
-            });
         });
         jQuery(window).load(function(){
             jQuery("#results-list").mCustomScrollbar({
@@ -65,13 +143,6 @@
             jQuery("#post-text").mCustomScrollbar({
                 scrollInertia:0
             });
-
-            // Side Menu Column – select filter dropdown
-            $("#filter").val("{{$filter}}");
-
-
-            // Results Column – select days colum
-            $("#days").val("{{$days}}");
         });
 
 
