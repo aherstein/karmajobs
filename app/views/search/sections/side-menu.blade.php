@@ -5,8 +5,8 @@
     <div id="search">
         <h3>search parameters</h3>
 
-        <form>
-            <div class="input-wrap">
+        <form action="/search">
+        <div class="input-wrap">
                 <input class="text-input" name="keyword" value="{{$keyword}}" placeholder="keyword" type="text"/>
                 <select name="filter" id="filter">
                     <option value="selftext"

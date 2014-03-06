@@ -3,7 +3,9 @@
     <a id="previous-toggle" href="#"></a>
     <h2>previous searches</h2>
     <div class="searches">
-        <a href="#">design jobs 25 mi. fr...</a>
+        @foreach($previousSearches as $previousSearch)
+        <a href="/search?keyword={{$previousSearch}}">{{$previousSearch}}</a>
+        @endforeach
     </div>
 </div>
 @stop

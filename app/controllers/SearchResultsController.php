@@ -36,6 +36,50 @@ class SearchResultsController extends BaseController
     }
 
 
+    public function getAllJobPostings()
+    {
+        $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
+        $days = Input::get('days') != "" ? Input::get('days') : 1;
+        $karmaRank = Input::get('karmaRank');
+        $id = Input::get('id');
+
+        $where = "now() - created_time < INTERVAL '$days days'";
+
+        if ($karmaRank == "on")
+        {
+            $jobPostings = JobPosting::
+                whereRaw($where)
+                ->orderBy('num_up_votes', "desc")
+                ->get();
+        }
+        else
+        {
+            $jobPostings = JobPosting::
+                whereRaw($where)
+                ->orderBy('created_time', $sort)
+                ->get();
+        }
+
+        // Get previous searches list
+        $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
+
+        return View::make('search.layout', array(
+            'jobPostings'        => $jobPostings,
+            'selectedJobPosting' => new JobPosting(),
+            'keyword'            => "",
+            'filter'             => "",
+            'city'               => "",
+            'distance'           => "",
+            'sort'               => $sort,
+            'days'               => $days,
+            'karmaRank'          => $karmaRank,
+            'id'                 => $id,
+            'previousSearches'   => $previousSearches
+        ));
+
+    }
+
+
     public function getSearchResults()
     {
         // Get variables from search form
@@ -97,6 +141,19 @@ class SearchResultsController extends BaseController
                     ->orderBy('created_time', $sort)
                     ->get();
             }
+
+            // Set/get previous searches list
+            if (!isset($_COOKIE['previousSearches']))
+            {
+                setcookie("previousSearches", $keyword, time() + 60 * 60 * 24 * 30, "/");
+                $previousSearches = array();
+            }
+            else
+            {
+                setcookie("previousSearches", $_COOKIE['previousSearches'] . "," . $keyword, time() + 60 * 60 * 24 * 30, "/");
+                $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
+            }
+
         }
 
         foreach ($jobPostings as $jobPosting)
@@ -112,10 +169,11 @@ class SearchResultsController extends BaseController
             'filter'             => $filter,
             'city'               => $city,
             'distance'           => $distance,
-            'sort'      => $sort,
-            'days'      => $days,
-            'karmaRank' => $karmaRank,
-            'id'        => $id
+            'sort'             => $sort,
+            'days'             => $days,
+            'karmaRank'        => $karmaRank,
+            'id'               => $id,
+            'previousSearches' => $previousSearches
         ));
     }
 
