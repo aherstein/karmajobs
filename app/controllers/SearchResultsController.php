@@ -60,8 +60,22 @@ class SearchResultsController extends BaseController
                 ->get();
         }
 
-        // Get previous searches list
-        $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
+        // Set/get previous searches list
+        if (!isset($_COOKIE['previousSearches']))
+        {
+            setcookie("previousSearches", "", time() + 60 * 60 * 24 * 30, "/");
+            $previousSearches = array();
+        }
+        else
+        {
+            $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
+        }
+
+        // Apply fuzzy dates
+        foreach ($jobPostings as $jobPosting)
+        {
+            $jobPosting->created_time = $this->fuzzyDate($jobPosting->created_time);
+        }
 
         return View::make('search.layout', array(
             'jobPostings'        => $jobPostings,
@@ -122,6 +136,17 @@ class SearchResultsController extends BaseController
                     ->orderBy('created_time', $sort)
                     ->get();
             }
+
+            // Set/get previous searches list
+            if (!isset($_COOKIE['previousSearches']))
+            {
+                setcookie("previousSearches", $keyword, time() + 60 * 60 * 24 * 30, "/");
+                $previousSearches = array();
+            }
+            else
+            {
+                $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
+            }
         }
         else // User searched for job postings
         {
@@ -156,6 +181,7 @@ class SearchResultsController extends BaseController
 
         }
 
+        // Apply fuzzy dates
         foreach ($jobPostings as $jobPosting)
         {
             $jobPosting->created_time = $this->fuzzyDate($jobPosting->created_time);
