@@ -1,20 +1,23 @@
 <?php
-class GetJobPostingsController extends BaseController
+
+class FetchJobPostingsController extends BaseController
 {
-    public function getJobPostings()
+    public function index()
     {
+        $returnArray = array();
         $subreddits = Subreddit::all(); // Retrieve all rows in subreddits table
         foreach ($subreddits as $subreddit)
         {
-            echo "<p>Getting job postings for: ".$subreddit->title."</p>"; //TODO Remove HTML
+            Log::info("Getting job postings for: " . $subreddit->title);
             $jobPostings = RedditApi::getJobPostings($subreddit);
             $lastPostId = "";
 
             foreach ($jobPostings as $jobPosting)
             {
+                array_push($returnArray, array('subreddit' => $subreddit->title, 'title' => $jobPosting->title));
                 $jobPosting->save();
 
-                echo "<p>Stored: ".$jobPosting->title."</p>"; //TODO Remove HTML
+                Log::info("Stored: " . $jobPosting->title);
 
                 if ($lastPostId == "")
                 {
@@ -22,13 +25,21 @@ class GetJobPostingsController extends BaseController
                     $lastPostId = $jobPosting->reddit_post_id;
                     $subreddit->last_post_id = $lastPostId;
                     $subreddit->save();
-                    echo "<p>Updated subreddit ".$subreddit->title." with last post id: $lastPostId.</p>"; //TODO Remove HTML
+                    Log::info("Updated subreddit " . $subreddit->title . " with last post id: $lastPostId");
                 }
             }
         }
 
-//      return View::make('getjobpostings.results', array('results' => $results));
+        return Response::json(array(
+                'success'     => true,
+                'error'       => false,
+                'jobpostings' => $returnArray
+            ),
+            200
+        );
+
     }
 
 }
+
 ?>
