@@ -16,16 +16,6 @@ class SubredditController extends BaseController
         $subredditObj = RedditApi::getSubreddit($subreddit);
         $subredditObj->save();
 
-        App::error(function (Exception $exception)
-        {
-            return Response::json(array(
-                    'success' => false,
-                    'error'   => $exception
-                ),
-                200
-            );
-        });
-
         return Response::json(array(
                 'success'   => true,
                 'error'     => false,
