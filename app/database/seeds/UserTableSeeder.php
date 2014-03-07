@@ -11,6 +11,11 @@ class UserTableSeeder extends Seeder
             'email'    => 'aherstein@gmail.com',
             'password' => Hash::make('nintendo')
         ));
+
+        User::create(array(
+            'email'    => 'dev@karmajobs.net',
+            'password' => Hash::make('up vote down vote')
+        ));
     }
 
 }
