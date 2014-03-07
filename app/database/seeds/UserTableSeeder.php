@@ -14,7 +14,7 @@ class UserTableSeeder extends Seeder
 
         User::create(array(
             'email'    => 'dev@karmajobs.net',
-            'password' => Hash::make('up vote down vote')
+            'password' => Hash::make('upvotedownvote')
         ));
     }
 
