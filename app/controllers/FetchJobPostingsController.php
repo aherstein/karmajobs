@@ -4,11 +4,13 @@ class FetchJobPostingsController extends BaseController
 {
     public function index()
     {
+        Log::info("[" . get_class($this) . "] Starting run.");
+
         $returnArray = array();
         $subreddits = Subreddit::all(); // Retrieve all rows in subreddits table
         foreach ($subreddits as $subreddit)
         {
-            Log::info("Getting job postings for: " . $subreddit->title);
+            Log::info("Fetching job postings for: " . $subreddit->title);
             $jobPostings = RedditApi::getJobPostings($subreddit);
             $lastPostId = "";
 
@@ -29,6 +31,8 @@ class FetchJobPostingsController extends BaseController
                 }
             }
         }
+
+        Log::info("[" . get_class($this) . "] Finished run.");
 
         return Response::json(array(
                 'success'     => true,
