@@ -16,11 +16,6 @@ class FetchJobPostingsController extends BaseController
 
             foreach ($jobPostings as $jobPosting)
             {
-                array_push($returnArray, array('subreddit' => $subreddit->title, 'title' => $jobPosting->title));
-                $jobPosting->save();
-
-                Log::info("Stored: " . $jobPosting->title);
-
                 if ($lastPostId == "")
                 {
                     // The reddit API returns posts in reverse chrono order – we want to make sure we only insert the first post ID in this loop
@@ -29,6 +24,23 @@ class FetchJobPostingsController extends BaseController
                     $subreddit->save();
                     Log::info("Updated subreddit " . $subreddit->title . " with last post id: $lastPostId");
                 }
+
+                try
+                {
+                    $jobPosting->save();
+                }
+                catch (Illuminate\Database\QueryException $e)
+                {
+                    if (str_contains($e, "Unique violation")) // Duplicate job posting
+                    {
+                        Log::warning("Duplicate job posting: " . $jobPosting->title . " (" . $jobPosting->reddit_post_id . ")");
+                        continue;
+                    }
+                }
+
+                Log::info("Stored: " . $jobPosting->title);
+                array_push($returnArray, array('subreddit' => $subreddit->title, 'title' => $jobPosting->title));
+
             }
         }
 

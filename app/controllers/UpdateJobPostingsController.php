@@ -1,6 +1,6 @@
 <?php
 
-define("MAX_POSTS_TO_UPDATE", 10);
+define("MAX_POSTS_TO_UPDATE", 100);
 
 class UpdateJobPostingsController extends BaseController
 {
@@ -13,10 +13,10 @@ class UpdateJobPostingsController extends BaseController
         foreach ($subreddits as $subreddit)
         {
             Log::info("Getting updated job postings for: " . $subreddit->title);
-            echo $subreddit->title . "<br>";
+//            echo $subreddit->title . "<br>";
             $jobPostingsReddit = RedditApi::getJobPostingsForUpdate($subreddit, MAX_POSTS_TO_UPDATE - 1);
             $jobPostingsKarmaJobs = JobPosting::
-                whereRaw("subreddit_id = " . $subreddit->id)
+                where('subreddit_id', $subreddit->id)
                 ->orderBy('created_time', "DESC")
                 ->take(MAX_POSTS_TO_UPDATE)
                 ->get();
@@ -24,40 +24,43 @@ class UpdateJobPostingsController extends BaseController
             $redditPostIds = array();
             $karmaJobsPostIds = array();
 
+            if (count($jobPostingsReddit) == 0) // The last post id was deleted from reddit, so we need to reset it so that the fetch job will repull the posts.
+            {
+                Log::info("Subreddit " . $subreddit->title . "last post id was deleted from reddit. Need to reset.");
+                $subreddit->last_post_id = "";
+                $subreddit->save();
+                continue;
+            }
             array_push($redditPostIds, $subreddit->last_post_id); // Add last post id to the reddits array because we know we have that one in the database already.
 
             // Get all post IDs from reddit
             foreach ($jobPostingsReddit as $jobPosting)
             {
-//                array_push($returnArray, array('subreddit' => $subreddit->title, 'title' => $jobPosting->title));
-//                $jobPosting->save();
                 array_push($redditPostIds, $jobPosting->reddit_post_id);
-                echo $jobPosting->created_time . "<br>";
             }
-
-            echo "<br>" . "<br>";
 
             // Get all post IDs from KarmaJobs database
             foreach ($jobPostingsKarmaJobs as $jobPosting)
             {
-//                array_push($returnArray, array('subreddit' => $subreddit->title, 'title' => $jobPosting->title));
-//                $jobPosting->save();
                 array_push($karmaJobsPostIds, $jobPosting->reddit_post_id);
-                echo $jobPosting->created_time . "<br>";
             }
 
             // Get the difference between the two posts.
             $diffPosts = array_diff($karmaJobsPostIds, $redditPostIds);
 
-            //TODO Delete different posts
+            // Delete posts
+            foreach ($diffPosts as $postToDelete)
+            {
+                JobPosting::where('reddit_post_id', $postToDelete)->delete();
+                array_push($returnArray, $postToDelete);
+                Log::info("Deleted " . $postToDelete);
+            }
 
-            echo "<pre>";
-            print_r($redditPostIds);
-            print_r($karmaJobsPostIds);
-            print_r($diffPosts);
-            echo "</pre>";
-
-            return;
+//            echo "<pre>";
+//            print_r($redditPostIds);
+//            print_r($karmaJobsPostIds);
+//            print_r($diffPosts);
+//            echo "</pre>";
         }
 
         Log::info("[" . get_class($this) . "] Finished run.");
@@ -65,7 +68,7 @@ class UpdateJobPostingsController extends BaseController
         return Response::json(array(
                 'success'     => true,
                 'error'       => false,
-                'jobpostings' => $returnArray
+                'deletedjobpostings' => $returnArray
             ),
             200
         );
