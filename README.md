@@ -3,7 +3,7 @@
 - Apache 2.2+ - Web server
 - PHP 4.x+ - Scripting language
   - Laravel 4.1.x - Application framework
-- MySQL 5.x+ - Relational database
+- Postgres 9.x+ - Relational database
 
 ## Front-end Stack
 - jQuery 1.x - Client DOM utility and fx framework
