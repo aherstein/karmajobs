@@ -150,7 +150,7 @@ class SearchResultsController extends BaseController
         }
         else // User searched for job postings
         {
-            $where = "lower($filter) LIKE '%$keyword%' AND now() - created_time < INTERVAL '$days days'";
+            $where = "(lower(title) LIKE '%$keyword%' OR lower(selftext) LIKE '%$keyword%') AND category_id = '$filter' AND now() - created_time < INTERVAL '$days days'";
 
             if ($karmaRank == "on")
             {
