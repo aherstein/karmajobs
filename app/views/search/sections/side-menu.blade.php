@@ -9,22 +9,10 @@
         <div class="input-wrap">
                 <input class="text-input" name="keyword" value="{{$keyword}}" placeholder="keyword" type="text"/>
                 <select name="filter" id="filter">
-                    <option value="1"
-                    @if ($filter == "1") selected @endif>Jobs/Job Seekers</option>
-                    <option value="2"
-                    @if ($filter == "2") selected @endif>Jobs</option>
-                    <option value="3"
-                    @if ($filter == "3") selected @endif>Job Seekers</option>
-                    <option value="4"
-                    @if ($filter == "4") selected @endif>Non Profit</option>
-                    <option value="5"
-                    @if ($filter == "5") selected @endif>Internships</option>
-                    <option value="6"
-                    @if ($filter == "6") selected @endif>Job Discussion</option>
-                    <option value="7"
-                    @if ($filter == "7") selected @endif>Crypto Currency Jobs</option>
-                    <option value="0"
-                    @if ($filter == "0") selected @endif>default (for dev purposes only)</option>
+                    @foreach($categories as $category)
+                    <option value="{{$category->id}}"
+                    @if ($filter == "$category->id") selected @endif>{{$category->title}}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="input-wrap">

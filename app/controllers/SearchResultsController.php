@@ -77,6 +77,9 @@ class SearchResultsController extends BaseController
             $jobPosting->created_time = $this->fuzzyDate($jobPosting->created_time);
         }
 
+        // Get categories from database
+        $categories = Category::all();
+
         return View::make('search.layout', array(
             'jobPostings'        => $jobPostings,
             'selectedJobPosting' => new JobPosting(),
@@ -88,7 +91,8 @@ class SearchResultsController extends BaseController
             'days'               => $days,
             'karmaRank'          => $karmaRank,
             'id'                 => $id,
-            'previousSearches'   => $previousSearches
+            'previousSearches' => $previousSearches,
+            'categories'       => $categories
         ));
 
     }
@@ -187,6 +191,9 @@ class SearchResultsController extends BaseController
             $jobPosting->created_time = $this->fuzzyDate($jobPosting->created_time);
         }
 
+        // Get categories from database
+        $categories = Category::all();
+
         // Return the view. We need to pass back all the search criteria variables for the job posting links.
         return View::make('search.layout', array(
             'jobPostings'        => $jobPostings,
@@ -199,7 +206,8 @@ class SearchResultsController extends BaseController
             'days'             => $days,
             'karmaRank'        => $karmaRank,
             'id'               => $id,
-            'previousSearches' => $previousSearches
+            'previousSearches' => $previousSearches,
+            'categories'       => $categories
         ));
     }
 
