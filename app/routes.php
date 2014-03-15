@@ -17,6 +17,7 @@ Route::get('search', 'SearchResultsController@getSearchResults');
 Route::group(array('prefix' => 'api', 'before' => 'auth.basic'), function ()
 {
     Route::resource('subreddit', 'SubredditController');
+    Route::resource('jobpostings', 'GetJobPostingsController');
     Route::resource('fetchjobpostings', 'FetchJobPostingsController');
     Route::resource('updatejobpostings', 'UpdateJobPostingsController');
 });
