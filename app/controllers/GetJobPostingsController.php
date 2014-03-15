@@ -4,7 +4,9 @@ class GetJobPostingsController extends BaseController
 {
     public function index()
     {
-        $jobpostings = JobPosting::all();
+        $limit = Request::get('limit');
+
+        $jobpostings = JobPosting::all()->take($limit);
 
         return $jobpostings;
     }
