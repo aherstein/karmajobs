@@ -124,7 +124,7 @@ class SearchResultsController extends BaseController
         // Search options
         if ($keyword == "" && $city == "") // No search
         {
-            $where = "now() - created_time < INTERVAL '$days days'";
+            $where = "now() - created_time < INTERVAL '$days days' AND category_id = $filter";
 
             if ($karmaRank == "on")
             {
