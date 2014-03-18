@@ -11,7 +11,20 @@ class FetchJobPostingsController extends BaseController
         foreach ($subreddits as $subreddit)
         {
             Log::info("Fetching job postings for: " . $subreddit->title);
-            $jobPostings = RedditApi::getJobPostings($subreddit);
+
+            try
+            {
+                $jobPostings = RedditApi::getJobPostings($subreddit);
+            }
+            catch (ErrorException $e)
+            {
+                return Response::json(array(
+                        'success' => false,
+                        'error'   => $e->getMessage()
+                    ),
+                    500
+                );
+            }
             $lastPostId = "";
 
             foreach ($jobPostings as $jobPosting)

@@ -22,6 +22,17 @@ Route::group(array('prefix' => 'api', 'before' => 'auth.basic'), function ()
     Route::resource('updatejobpostings', 'UpdateJobPostingsController');
 });
 
+Route::get('test', function ()
+{
+    $job = new JobPosting();
+    $job->title = "[discussion] great job!";
+//    $job->subreddit->title = "cscareerquestions";
+
+    echo "<pre>";
+    print_r(Classifier::classify($job));
+    echo "</pre>";
+});
+
 Route::get('info', function ()
 {
     phpinfo();

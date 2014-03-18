@@ -137,7 +137,7 @@ class RedditApi
             $jobPostingObj->domain = RedditApi::validate($post['domain']);
 
             // TODO Classify data
-            $classifiedData = Classifier::Classify($post);
+            $classifiedData = Classifier::classify($post);
             $jobPostingObj->category_id = RedditApi::validate($classifiedData['category_id']);
             $jobPostingObj->location = RedditApi::validate($classifiedData['location']);
             $jobPostingObj->city = RedditApi::validate($classifiedData['city']);

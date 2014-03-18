@@ -14,7 +14,20 @@ class UpdateJobPostingsController extends BaseController
         {
             Log::info("Getting updated job postings for: " . $subreddit->title);
 //            echo $subreddit->title . "<br>";
-            $jobPostingsReddit = RedditApi::getJobPostingsForUpdate($subreddit, MAX_POSTS_TO_UPDATE - 1);
+            try
+            {
+                $jobPostingsReddit = RedditApi::getJobPostingsForUpdate($subreddit, MAX_POSTS_TO_UPDATE - 1);
+            }
+            catch (ErrorException $e)
+            {
+                return Response::json(array(
+                        'success' => false,
+                        'error'   => $e->getMessage()
+                    ),
+                    500
+                );
+            }
+
             $jobPostingsKarmaJobs = JobPosting::
                 where('subreddit_id', $subreddit->id)
                 ->orderBy('created_time', "DESC")
@@ -66,8 +79,8 @@ class UpdateJobPostingsController extends BaseController
         Log::info("[" . get_class($this) . "] Finished run.");
 
         return Response::json(array(
-                'success'     => true,
-                'error'       => false,
+                'success'            => true,
+                'error'              => false,
                 'deletedjobpostings' => $returnArray
             ),
             200

@@ -10,6 +10,12 @@ class JobPosting extends Eloquent
         return $this->belongsTo('Subreddit');
     }
 
+
+    public function category()
+    {
+        return $this->belongsTo('Category');
+    }
+
 }
 
 ?>
