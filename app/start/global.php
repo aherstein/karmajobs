@@ -21,6 +21,9 @@ ClassLoader::addDirectories(array(
 
 ));
 
+// Global constants
+define("REDDIT_API_MAX_POSTS", 25);
+
 /*
 |--------------------------------------------------------------------------
 | Application Error Logger

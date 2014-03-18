@@ -1,6 +1,6 @@
 <?php
 
-define("MAX_POSTS_TO_UPDATE", 100);
+//define("MAX_POSTS_TO_UPDATE", 25);
 
 class UpdateJobPostingsController extends BaseController
 {
@@ -16,7 +16,7 @@ class UpdateJobPostingsController extends BaseController
 //            echo $subreddit->title . "<br>";
             try
             {
-                $jobPostingsReddit = RedditApi::getJobPostingsForUpdate($subreddit, MAX_POSTS_TO_UPDATE - 1);
+                $jobPostingsReddit = RedditApi::getJobPostingsForUpdate($subreddit, REDDIT_API_MAX_POSTS - 1);
             }
             catch (ErrorException $e)
             {
@@ -31,7 +31,7 @@ class UpdateJobPostingsController extends BaseController
             $jobPostingsKarmaJobs = JobPosting::
                 where('subreddit_id', $subreddit->id)
                 ->orderBy('created_time', "DESC")
-                ->take(MAX_POSTS_TO_UPDATE)
+                ->take(REDDIT_API_MAX_POSTS)
                 ->get();
 
             $redditPostIds = array();
@@ -79,8 +79,8 @@ class UpdateJobPostingsController extends BaseController
         Log::info("[" . get_class($this) . "] Finished run.");
 
         return Response::json(array(
-                'success'            => true,
-                'error'              => false,
+                'success' => true,
+                'error'   => false,
                 'deletedjobpostings' => $returnArray
             ),
             200

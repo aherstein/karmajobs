@@ -46,153 +46,21 @@ class Classifier
     }
 
 
+    //@formatter:off
     protected static function classifyCategory($post)
     {
         //TODO Store this info in the database
-        $combinationSubreddits = array(
-            "albertajobs",
-            "ArkansasJobs",
-            "atljobs",
-            "ausjobs",
-            "austinjobs",
-            "BaltimoreForHire",
-            "baltimorejobs",
-            "bigdatajobs",
-            "boisejobs",
-            "bostonjobs",
-            "boulderjobs",
-            "bristoljobs",
-            "buffalojobs",
-            "CalgaryJobs",
-            "cciejobs",
-            "charlestonjobs",
-            "charlottejobs",
-            "chicagojobs",
-            "ChinaJobs",
-            "CincinnatiJobs",
-            "CLEClassifieds",
-            "columbusclassifieds",
-            "ctjobs",
-            "dcjobs",
-            "DEjobs",
-            "denverjobs",
-            "designjobs",
-            "detroitjobs",
-            "dfwjobs",
-            "dsmjobs",
-            "edmontonJobs",
-            "EdmontonJobs",
-            "empleos_AR",
-            "forhire",
-            "geologycareers",
-            "gisjobs",
-            "grjobs",
-            "hfxjobs",
-            "HIJobs",
-            "houstonjobs",
-            "indyjobs",
-            "irejobs",
-            "JacksonvilleJobs",
-            "jobb",
-            "jobbit",
-            "jobsinOC",
-            "JobsPhilippines",
-            "KCjobs",
-            "kentuckianajobs",
-            "lajobs",
-            "london_forhire",
-            "longislandjobs",
-            "Louisianajobs",
-            "lvjobs",
-            "MexiJobs",
-            "mnjobs",
-            "montrealjobs",
-            "nashvillejobs",
-            "NetworkingJobs",
-            "norjobs",
-            "nycjobs",
-            "NYCjobs",
-            "okjobs",
-            "olyjobs",
-            "omahajobs",
-            "orlandojobs",
-            "Ottawa_jobs",
-            "ottawajobs",
-            "parkrangers",
-            "PDXEmployment",
-            "PDXjobs",
-            "PerthJobs",
-            "philadelphiajobs",
-            "PhillyJobs",
-            "phxjobs",
-            "pittsburghjobs",
-            "PortlandJobConnection",
-            "portlandjobs",
-            "PuertoRicoJobs",
-            "rijobs",
-            "ritforhire",
-            "SacJobs",
-            "SanAntonioJobs",
-            "sandiegojobs",
-            "scienceforhire",
-            "sdjobs",
-            "seajobs",
-            "seattlejobs",
-            "sfbayjobs",
-            "shovelbum",
-            "siouxfallsjobs",
-            "soflojobs",
-            "spacecoastjobs",
-            "SpokaneJobs",
-            "STLjobs",
-            "sysadminjobs",
-            "tampajobs",
-            "tcjobs",
-            "tesoljobs",
-            "ThaiJobs",
-            "TOjobexchange",
-            "TorontoJobPostings",
-            "torontoJobs",
-            "trianglejobs",
-            "tucsonjobs",
-            "ukjobs",
-            "utahjobs",
-            "vancouverjobs",
-            "wiscojobs",
-            "youngjobs"
-        );
+        $combinationSubreddits = array("albertajobs","ArkansasJobs","atljobs","ausjobs","austinjobs","BaltimoreForHire","baltimorejobs","bigdatajobs","boisejobs","bostonjobs","boulderjobs","bristoljobs","buffalojobs","CalgaryJobs","cciejobs","charlestonjobs","charlottejobs","chicagojobs","ChinaJobs","CincinnatiJobs","CLEClassifieds","columbusclassifieds","ctjobs","dcjobs","DEjobs","denverjobs","designjobs","detroitjobs","dfwjobs","dsmjobs","edmontonJobs","EdmontonJobs","empleos_AR","forhire","geologycareers","gisjobs","grjobs","hfxjobs","HIJobs","houstonjobs","indyjobs","irejobs","JacksonvilleJobs","jobb","jobbit","jobsinOC","JobsPhilippines","KCjobs","kentuckianajobs","lajobs","london_forhire","longislandjobs","Louisianajobs","lvjobs","MexiJobs","mnjobs","montrealjobs","nashvillejobs","NetworkingJobs","norjobs","nycjobs","NYCjobs","okjobs","olyjobs","omahajobs","orlandojobs","Ottawa_jobs","ottawajobs","parkrangers","PDXEmployment","PDXjobs","PerthJobs","philadelphiajobs","PhillyJobs","phxjobs","pittsburghjobs","PortlandJobConnection","portlandjobs","PuertoRicoJobs","rijobs","ritforhire","SacJobs","SanAntonioJobs","sandiegojobs","scienceforhire","sdjobs","seajobs","seattlejobs","sfbayjobs","shovelbum","siouxfallsjobs","soflojobs","spacecoastjobs","SpokaneJobs","STLjobs","sysadminjobs","tampajobs","tcjobs","tesoljobs","ThaiJobs","TOjobexchange","TorontoJobPostings","torontoJobs","trianglejobs","tucsonjobs","ukjobs","utahjobs","vancouverjobs","wiscojobs","youngjobs");
         $nonprofitSubreddits = array("Nonprofit_Jobs");
         $internshipsSubreddits = array("Internships");
-        $discussionSubreddits = array(
-            "AskHR",
-            "careerguidance",
-            "careeropportunities",
-            "cscareerquestions",
-            "DreamcareerHelp",
-            "entrepreneur",
-            "freelance",
-            "GetEmployed",
-            "HowsYourJob",
-            "InterviewFauxYou",
-            "jobnetworking",
-            "Jobs",
-            "jobsearchhacks",
-            "jobsecrets",
-            "resumes",
-            "retailmanagement",
-            "talesfromthejob",
-            "thisismyjob",
-            "work"
-        );
+        $discussionSubreddits = array("AskHR","careerguidance","careeropportunities","cscareerquestions","DreamcareerHelp","entrepreneur","freelance","GetEmployed","HowsYourJob","InterviewFauxYou","jobnetworking","Jobs","jobsearchhacks","jobsecrets","resumes","retailmanagement","talesfromthejob","thisismyjob","work");
 
         // Lowercase all subreddits arrays
-        for ($i = 0; $i < count($combinationSubreddits); $i++)
-        {
-            $combinationSubreddits[$i] = strtolower($combinationSubreddits[$i]);
-        }
+        for ($i = 0; $i < count($combinationSubreddits); $i++) $combinationSubreddits[$i] = strtolower($combinationSubreddits[$i]);
         for ($i = 0; $i < count($nonprofitSubreddits); $i++) $nonprofitSubreddits[$i] = strtolower($nonprofitSubreddits[$i]);
         for ($i = 0; $i < count($internshipsSubreddits); $i++) $internshipsSubreddits[$i] = strtolower($internshipsSubreddits[$i]);
         for ($i = 0; $i < count($discussionSubreddits); $i++) $discussionSubreddits[$i] = strtolower($discussionSubreddits[$i]);
+
 
         if (stristr($post['title'], "for hire") !== false) return Classifier::$categories['JOB_SEEKERS'];
         if (stristr($post['title'], "hiring") !== false) return Classifier::$categories['JOBS'];

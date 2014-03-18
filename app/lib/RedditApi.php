@@ -4,7 +4,7 @@
  * It DOES NOT make any pulls or insertions into the database – that is left to the controllers.
  */
 
-define("MAX_POSTS_TO_FETCH", 100);
+//define("MAX_POSTS_TO_FETCH", 25);
 define("DATE_FORMAT", "Y-m-d H:i:s");
 
 class RedditApi
@@ -105,7 +105,7 @@ class RedditApi
     }
 
 
-    public static function getJobPostings($subreddit, $limit = MAX_POSTS_TO_FETCH)
+    public static function getJobPostings($subreddit, $limit = REDDIT_API_MAX_POSTS)
     {
         $result = RedditApi::curlGet("http://api.reddit.com/r/".$subreddit->title."?before=".$subreddit->last_post_id."&limit=$limit&count=0");
         $postsArray = $result['data']['children']; // This is the path to the array of posts.
@@ -115,6 +115,8 @@ class RedditApi
         {
 //          $fullname = $post['kind'] . "_" . $post['data']['id'];
             $post = $post['data']; // All the data we are after are in the data sub-array.
+
+            if ($post['stickied'] == true) continue; // We don't want sticky posts, as they mess up the last post id (i.e. the post used to remenber where to start the pull next)
 
             $jobPostingObj = new JobPosting;
             $jobPostingObj->title = RedditApi::validate($post['title']);
@@ -160,7 +162,7 @@ class RedditApi
      * @param int $limit
      * @return array
      */
-    public static function getJobPostingsForUpdate($subreddit, $limit = MAX_POSTS_TO_FETCH)
+    public static function getJobPostingsForUpdate($subreddit, $limit = REDDIT_API_MAX_POSTS)
     {
         $result = RedditApi::curlGet("http://api.reddit.com/r/" . $subreddit->title . "?after=" . $subreddit->last_post_id . "&limit=$limit&count=0");
         $postsArray = $result['data']['children']; // This is the path to the array of posts.
@@ -170,6 +172,8 @@ class RedditApi
         {
 //          $fullname = $post['kind'] . "_" . $post['data']['id'];
             $post = $post['data']; // All the data we are after are in the data sub-array.
+
+            if ($post['stickied'] == true) continue; // We don't want sticky posts, as they mess up the last post id (i.e. the post used to remenber where to start the pull next)
 
             $jobPostingObj = new JobPosting;
             $jobPostingObj->title = RedditApi::validate($post['title']);
