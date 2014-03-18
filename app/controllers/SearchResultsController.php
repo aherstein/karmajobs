@@ -102,7 +102,7 @@ class SearchResultsController extends BaseController
     {
         // Get variables from search form
         $keyword = strtolower(Input::get('keyword'));
-        $filter = Input::get('filter') != "" ? Input::get('filter') : "selftext";
+        $filter = Input::get('filter') != "" ? Input::get('filter') : 0;
         $city = strtolower(Input::get('city'));
         $distance = Input::get('distance');
         $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
@@ -121,10 +121,20 @@ class SearchResultsController extends BaseController
             $selectedJobPosting = new JobPosting(); // Set blank job posting for template
         }
 
+        // Set filter portion of WHERE clause
+        if ($filter != 0)
+        {
+            $whereFilter = "  AND category_id = $filter";
+        }
+        else
+        {
+            $whereFilter = "";
+        }
+
         // Search options
         if ($keyword == "" && $city == "") // No search
         {
-            $where = "now() - created_time < INTERVAL '$days days' AND category_id = $filter";
+            $where = "now() - created_time < INTERVAL '$days days' $whereFilter";
 
             if ($karmaRank == "on")
             {
@@ -154,7 +164,7 @@ class SearchResultsController extends BaseController
         }
         else // User searched for job postings
         {
-            $where = "(lower(title) LIKE '%$keyword%' OR lower(selftext) LIKE '%$keyword%') AND category_id = '$filter' AND now() - created_time < INTERVAL '$days days'";
+            $where = "(lower(title) LIKE '%$keyword%' OR lower(selftext) LIKE '%$keyword%') AND category_id = '$filter' AND now() - created_time < INTERVAL '$days days' $whereFilter";
 
             if ($karmaRank == "on")
             {
