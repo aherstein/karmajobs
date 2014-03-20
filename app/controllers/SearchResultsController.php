@@ -122,7 +122,11 @@ class SearchResultsController extends BaseController
         }
 
         // Set filter portion of WHERE clause
-        if ($filter != 0)
+        if ($filter == 1) // Jobs/Job Postings combined category
+        {
+            $whereFilter = "  AND (category_id = 2 OR category_id = 3)";
+        }
+        elseif ($filter != 0)
         {
             $whereFilter = "  AND category_id = $filter";
         }
