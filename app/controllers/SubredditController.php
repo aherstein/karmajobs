@@ -2,7 +2,7 @@
 
 class SubredditController extends BaseController
 {
-    public function index()
+    public function index() // GET
     {
         $subreddits = Subreddit::all();
 
@@ -10,11 +10,11 @@ class SubredditController extends BaseController
     }
 
 
-    public function store()
+    public function store() // POST
     {
         try
         {
-            $subreddit = Request::get('subreddit');
+            $subreddit = Request::get('s');
             $subredditObj = RedditApi::getSubreddit($subreddit);
             $subredditObj->save();
         }
@@ -48,4 +48,31 @@ class SubredditController extends BaseController
             200
         );
     }
+
+
+    public function destroy() // DELETE
+    {
+        try
+        {
+            $subreddit = Request::get('s');
+            Subreddit::where('title', '=', $subreddit)->delete();
+        }
+        catch (Exception $e)
+        {
+            return Response::json(array(
+                    'success' => false,
+                    'error'   => $e->getMessage(),
+                ),
+                500
+            );
+        }
+
+        return Response::json(array(
+                'success' => true,
+                'error'   => false
+            ),
+            200
+        );
+    }
+
 } 
