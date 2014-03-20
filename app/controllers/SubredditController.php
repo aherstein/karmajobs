@@ -10,11 +10,11 @@ class SubredditController extends BaseController
     }
 
 
-    public function store() // POST
+    public function update($subreddit) // PUT
     {
         try
         {
-            $subreddit = Request::get('s');
+//            $subreddit = Request::get('s');
             $subredditObj = RedditApi::getSubreddit($subreddit);
             $subredditObj->save();
         }
@@ -50,11 +50,11 @@ class SubredditController extends BaseController
     }
 
 
-    public function destroy() // DELETE
+    public function destroy($subreddit) // DELETE
     {
         try
         {
-            $subreddit = Request::get('s');
+//            $subreddit = Request::get('s');
             Subreddit::where('title', '=', $subreddit)->delete();
         }
         catch (Exception $e)
