@@ -1,0 +1,17 @@
+Fetch job postings:
+curl --user dev@karmajobs.net:******** http://local.karmajobs.net/api/fetchjobpostings
+
+Update job postings:
+curl --user dev@karmajobs.net:******** http://local.karmajobs.net/api/updatejobpostings
+
+
+Get subreddits:
+curl --user dev@karmajobs.net:******** http://local.karmajobs.net/api/subreddit
+
+
+Add subreddit:
+curl -XPUT --user dev@karmajobs.net:******** http://local.karmajobs.net/api/subreddit/chicagojobs'
+
+
+Delete subreddit:
+curl -XDELETE --user dev@karmajobs.net:******** http://local.karmajobs.net/api/subreddit/chicagojobs'
