@@ -38,7 +38,42 @@ class SearchResultsController extends BaseController
 
     private function getCityByZip($zipcode)
     {
+        // Check to make sure we have a valid 5 digit zip code
+        if (!(strlen($zipcode) == 5 && preg_match('/^[0-9]{5}$/', $zipcode))) // Is not a 5 digit zip code
+        {
+            return $zipcode;
+        }
 
+        $zipcodeObj = ZipCode::find($zipcode); // Search the database for the zip code
+
+        if ($zipcodeObj == null) // If not found, call the SmartyStreets API and store that result inthe database
+        {
+            Log::info("No zipcode found in cache, calling API");
+            $smartyStreets = Curl::get("https://api.smartystreets.com/zipcode/?auth-id=" . LOCATION_AUTH_ID . "&auth-token=" . LOCATION_AUTH_TOKEN . "&zipcode=$zipcode");
+
+            if (isset($smartyStreets[0]['status'])) // Error
+            {
+                Log::info($smartyStreets[0]['reason']);
+
+                return $smartyStreets[0]['reason'];
+            }
+
+            // Store the results from the API call into the database for caching
+            $zipcodeObj = new ZipCode();
+            $zipcodeObj->zip = $smartyStreets[0]['zipcodes'][0]['zipcode'];
+            $zipcodeObj->city = $smartyStreets[0]['city_states'][0]['city'];
+            $zipcodeObj->state_abbreviation = $smartyStreets[0]['city_states'][0]['state_abbreviation'];
+            $zipcodeObj->state = $smartyStreets[0]['city_states'][0]['state'];
+            $zipcodeObj->lat = $smartyStreets[0]['zipcodes'][0]['latitude'];
+            $zipcodeObj->long = $smartyStreets[0]['zipcodes'][0]['longitude'];
+            $zipcodeObj->save();
+        }
+        else
+        {
+            Log::info("Zipcode found in cache, retrieving from database.");
+        }
+
+        return $zipcodeObj->city;
     }
 
 
@@ -53,8 +88,10 @@ class SearchResultsController extends BaseController
 //        $selectedJobPostings = DB::table('job_postings')->order_by('created_time', 'desc')->first();
 //        $selectedJobPostings[0]->created_time = $this->fuzzyDate($selectedJobPostings[0]->created_time);
 
+        // Apply days filter
         $where = "now() - created_time < INTERVAL '$days days'";
 
+        // Rank by karma
         if ($karmaRank == "on")
         {
             $jobPostings = JobPosting::
@@ -139,12 +176,8 @@ class SearchResultsController extends BaseController
             $selectedJobPosting = new JobPosting(); // Set blank job posting for template
         }
 
-        // Set filter portion of WHERE clause
-        if ($filter == 1) // Jobs/Job Postings combined category
-        {
-            $whereFilter = "  AND (category_id = 2 OR category_id = 3)";
-        }
-        elseif ($filter != 0)
+        // Set filter (category) portion of WHERE clause
+        if ($filter != 0)
         {
             $whereFilter = "  AND category_id = $filter";
         }
@@ -186,8 +219,22 @@ class SearchResultsController extends BaseController
         }
         else // User searched for job postings
         {
+            // Generate where portion of query – keyword amd days
             $where = "(lower(title) LIKE '%$keyword%' OR lower(selftext) LIKE '%$keyword%') AND category_id = '$filter' AND now() - created_time < INTERVAL '$days days' $whereFilter";
 
+            // Process city field
+            $cityWhere = "";
+            if ($city != "") // City field is set
+            {
+                if (strlen($city) == 5 && preg_match('/^[0-9]{5}$/', $city)) // Is a 5 digit zip code
+                {
+                    $city = strtolower($this->getCityByZip($city));
+                }
+                $cityWhere = "AND (lower(title) LIKE '%$city%' OR lower(selftext) LIKE '%$city%')";
+            }
+            $where .= $cityWhere;
+
+            // Rank by karma
             if ($karmaRank == "on")
             {
                 $jobPostings = JobPosting::

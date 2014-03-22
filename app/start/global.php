@@ -13,16 +13,18 @@
 
 ClassLoader::addDirectories(array(
 
-	app_path().'/commands',
-	app_path().'/controllers',
-	app_path().'/models',
-	app_path().'/database/seeds',
-    app_path().'/lib',
+    app_path() . '/commands',
+    app_path() . '/controllers',
+    app_path() . '/models',
+    app_path() . '/database/seeds',
+    app_path() . '/lib',
 
 ));
 
 // Global constants
 define("REDDIT_API_MAX_POSTS", 25);
+define("LOCATION_AUTH_ID", "57df26a1-1cd4-4edc-857d-c66d5a504c6f");
+define("LOCATION_AUTH_TOKEN", "qbE%2B9oHsvWFk0P0H9qkyB4adQl3Junk2dCUQEW%2BtJONW3ifFo%2FAknAGbCCg%2B0ynXz%2BNIawZVoyrkBJML6DwM5w%3D%3D");
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +37,7 @@ define("REDDIT_API_MAX_POSTS", 25);
 |
 */
 
-Log::useFiles(storage_path().'/logs/laravel.log');
+Log::useFiles(storage_path() . '/logs/laravel.log');
 
 /*
 |--------------------------------------------------------------------------
@@ -50,9 +52,9 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 |
 */
 
-App::error(function(Exception $exception, $code)
+App::error(function (Exception $exception, $code)
 {
-	Log::error($exception);
+    Log::error($exception);
 });
 
 /*
@@ -66,9 +68,9 @@ App::error(function(Exception $exception, $code)
 |
 */
 
-App::down(function()
+App::down(function ()
 {
-	return Response::make("Be right back!", 503);
+    return Response::make("Be right back!", 503);
 });
 
 /*
@@ -82,4 +84,4 @@ App::down(function()
 |
 */
 
-require app_path().'/filters.php';
+require app_path() . '/filters.php';
