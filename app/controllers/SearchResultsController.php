@@ -36,12 +36,22 @@ class SearchResultsController extends BaseController
     }
 
 
+    private function getCityByZip($zipcode)
+    {
+
+    }
+
+
     public function getAllJobPostings()
     {
         $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
         $days = Input::get('days') != "" ? Input::get('days') : 1;
         $karmaRank = Input::get('karmaRank');
         $id = Input::get('id');
+
+        // Get newest job posting
+//        $selectedJobPostings = DB::table('job_postings')->order_by('created_time', 'desc')->first();
+//        $selectedJobPostings[0]->created_time = $this->fuzzyDate($selectedJobPostings[0]->created_time);
 
         $where = "now() - created_time < INTERVAL '$days days'";
 
@@ -80,6 +90,11 @@ class SearchResultsController extends BaseController
         // Get categories from database
         $categories = Category::all();
 
+        // Get category counts
+        $countJobs = JobPosting::jobs()->count();
+        $countJobSeekers = JobPosting::jobSeekers()->count();
+        $countDiscussions = JobPosting::discussions()->count();
+
         return View::make('search.layout', array(
             'jobPostings'        => $jobPostings,
             'selectedJobPosting' => new JobPosting(),
@@ -92,7 +107,10 @@ class SearchResultsController extends BaseController
             'karmaRank'          => $karmaRank,
             'id'                 => $id,
             'previousSearches' => $previousSearches,
-            'categories'       => $categories
+            'categories'       => $categories,
+            'countJobs'        => $countJobs,
+            'countJobSeekers'  => $countJobSeekers,
+            'countDiscussions' => $countDiscussions
         ));
 
     }
@@ -208,6 +226,11 @@ class SearchResultsController extends BaseController
         // Get categories from database
         $categories = Category::all();
 
+        // Get category counts
+        $countJobs = JobPosting::jobs()->count();
+        $countJobSeekers = JobPosting::jobSeekers()->count();
+        $countDiscussions = JobPosting::discussions()->count();
+
         // Return the view. We need to pass back all the search criteria variables for the job posting links.
         return View::make('search.layout', array(
             'jobPostings'        => $jobPostings,
@@ -221,7 +244,10 @@ class SearchResultsController extends BaseController
             'karmaRank'        => $karmaRank,
             'id'               => $id,
             'previousSearches' => $previousSearches,
-            'categories'       => $categories
+            'categories'       => $categories,
+            'countJobs'        => $countJobs,
+            'countJobSeekers'  => $countJobSeekers,
+            'countDiscussions' => $countDiscussions
         ));
     }
 

@@ -3,9 +3,9 @@
     <div id="top-status">
         <a href="/" id="karma-header"><img src="img/karmajobs.png"/> </a>
 
-        <div class="status-text">9,241 jobs</div>
-        <div class="status-text">11,241 job seekers</div>
-        <div class="status-text">114,221 job discussions</div>
+        <div class="status-text">{{$countJobs}} jobs</div>
+        <div class="status-text">{{$countJobSeekers}} job seekers</div>
+        <div class="status-text">{{$countDiscussions}} job discussions</div>
     </div>
     {{--
     <div id="top-links">
