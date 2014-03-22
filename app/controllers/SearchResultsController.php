@@ -48,7 +48,7 @@ class SearchResultsController extends BaseController
 
         if ($zipcodeObj == null) // If not found, call the SmartyStreets API and store that result inthe database
         {
-            Log::info("No zipcode found in cache, calling API");
+            Log::info("No zipcode found  for $zipcode in cache, calling API");
             $smartyStreets = Curl::get("https://api.smartystreets.com/zipcode/?auth-id=" . LOCATION_AUTH_ID . "&auth-token=" . LOCATION_AUTH_TOKEN . "&zipcode=$zipcode");
 
             if (isset($smartyStreets[0]['status'])) // Error
@@ -70,7 +70,7 @@ class SearchResultsController extends BaseController
         }
         else
         {
-            Log::info("Zipcode found in cache, retrieving from database.");
+            Log::info("Zipcode $zipcode found in cache, retrieving from database.");
         }
 
         return $zipcodeObj->city;
@@ -232,7 +232,7 @@ class SearchResultsController extends BaseController
                 }
                 $cityWhere = "AND (lower(title) LIKE '%$city%' OR lower(selftext) LIKE '%$city%')";
             }
-            $where .= $cityWhere;
+            $where .= $cityWhere; // Append city where clause to the main where clause
 
             // Rank by karma
             if ($karmaRank == "on")
