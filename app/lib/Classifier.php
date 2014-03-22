@@ -9,14 +9,12 @@
 class Classifier
 {
     /*
-        [DEFAULT] => 0
-        [JOBS_JOB_SEEKERS] => 1
         [JOBS] => 2
         [JOB_SEEKERS] => 3
         [NON_PROFIT] => 4
         [INTERNSHIPS] => 5
-        [JOB_DISCUSSION] => 6
-        [CRYPTO_CURRENCY_JOBS] => 7
+        [DISCUSSION] => 6
+        [CRYPTO_JOBS] => 7
     */
 
     static $categories = array();
@@ -66,12 +64,12 @@ class Classifier
 
         if (stristr($post['title'], "for hire") !== false) return Classifier::$categories['JOB_SEEKERS'];
         if (stristr($post['title'], "hiring") !== false) return Classifier::$categories['JOBS'];
-        if (stristr($post['title'], "discussion") !== false) return Classifier::$categories['JOB_DISCUSSION'];
+        if (stristr($post['title'], "discussion") !== false) return Classifier::$categories['DISCUSSION'];
         if (in_array(strtolower($post['subreddit']), $jobsSubreddits)) return Classifier::$categories['JOBS'];
         if (in_array(strtolower($post['subreddit']), $nonprofitSubreddits)) return Classifier::$categories['NON_PROFIT'];
         if (in_array(strtolower($post['subreddit']), $nonprofitSubreddits)) return Classifier::$categories['NON_PROFIT'];
         if (in_array(strtolower($post['subreddit']), $internshipsSubreddits)) return Classifier::$categories['INTERNSHIPS'];
-        if (in_array(strtolower($post['subreddit']), $discussionSubreddits)) return Classifier::$categories['JOB_DISCUSSION'];
+        if (in_array(strtolower($post['subreddit']), $discussionSubreddits)) return Classifier::$categories['DISCUSSION'];
 
         return 0;
     }
