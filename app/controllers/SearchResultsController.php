@@ -258,7 +258,10 @@ class SearchResultsController extends BaseController
             }
             else
             {
-                setcookie("previousSearches", $_COOKIE['previousSearches'] . "," . $keyword, time() + 60 * 60 * 24 * 30, "/");
+                if ($keyword != "")
+                {
+                    setcookie("previousSearches", $_COOKIE['previousSearches'] . "," . $keyword, time() + 60 * 60 * 24 * 30, "/");
+                }
                 $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
             }
 
