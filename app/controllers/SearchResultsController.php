@@ -220,7 +220,7 @@ class SearchResultsController extends BaseController
         else // User searched for job postings
         {
             // Generate where portion of query – keyword amd days
-            $where = "(lower(title) LIKE '%$keyword%' OR lower(selftext) LIKE '%$keyword%') AND category_id = '$filter' AND now() - created_time < INTERVAL '$days days' $whereFilter";
+            $where = "(lower(job_postings.title) LIKE '%$keyword%' OR lower(selftext) LIKE '%$keyword%') AND category_id = '$filter' AND now() - created_time < INTERVAL '$days days' $whereFilter";
 
             // Process city field
             $cityWhere = "";
@@ -230,22 +230,22 @@ class SearchResultsController extends BaseController
                 {
                     $city = strtolower($this->getCityByZip($city));
                 }
-                $cityWhere = "AND (lower(title) LIKE '%$city%' OR lower(selftext) LIKE '%$city%')";
+                $cityWhere = "AND (lower(job_postings.title) LIKE '%$city%' OR lower(selftext) LIKE '%$city%' OR lower(subreddits.title) LIKE '%$city%')";
             }
             $where .= $cityWhere; // Append city where clause to the main where clause
 
             // Rank by karma
             if ($karmaRank == "on")
             {
-                $jobPostings = JobPosting::
-                    whereRaw($where)
+                $jobPostings = Subreddit::join('job_postings', 'job_postings.subreddit_id', '=', 'subreddits.id') // Join the subreddits table so we can search on subreddit title
+                    ->whereRaw($where)
                     ->orderBy('num_up_votes', "desc")
                     ->get();
             }
             else
             {
-                $jobPostings = JobPosting::
-                    whereRaw($where)
+                $jobPostings = Subreddit::join('job_postings', 'subreddits.id', '=', 'job_postings.subreddit_id') // Join the subreddits table so we can search on subreddit title
+                    ->whereRaw($where)
                     ->orderBy('created_time', $sort)
                     ->get();
             }
@@ -280,6 +280,8 @@ class SearchResultsController extends BaseController
         $countJobs = JobPosting::jobs()->count();
         $countJobSeekers = JobPosting::jobSeekers()->count();
         $countDiscussions = JobPosting::discussions()->count();
+
+//        echo "<pre>"; print_r($jobPostings); die();
 
         // Return the view. We need to pass back all the search criteria variables for the job posting links.
         return View::make('search.layout', array(
