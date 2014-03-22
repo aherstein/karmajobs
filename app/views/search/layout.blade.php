@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
     <link rel="stylesheet" href="css/minimal/minimal.css">
     <link rel="stylesheet" href="css/minimal/grey.css">
-    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/styles.css">
 
     <script>
