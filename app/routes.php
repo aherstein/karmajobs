@@ -20,6 +20,7 @@ Route::group(array('prefix' => 'api', 'before' => 'auth.basic'), function ()
     Route::resource('jobpostings', 'GetJobPostingsController');
     Route::resource('fetchjobpostings', 'FetchJobPostingsController');
     Route::resource('updatejobpostings', 'UpdateJobPostingsController');
+    Route::resource('historical', 'HistoricalJobPostingsController');
 });
 
 Route::get('test', function ()

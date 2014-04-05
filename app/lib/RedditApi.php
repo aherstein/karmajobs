@@ -48,9 +48,19 @@ class RedditApi
     }
 
 
-    public static function getJobPostings($subreddit, $limit = REDDIT_API_MAX_POSTS)
+    public static function getJobPostings($subreddit, $historical = false, $lastPostId = "")
     {
-        $result = Curl::get("http://api.reddit.com/r/" . $subreddit->title . "?before=" . $subreddit->last_post_id . "&limit=$limit&count=0");
+        $limit = REDDIT_API_MAX_POSTS;
+
+        if ($historical)
+        {
+            $result = Curl::get("http://api.reddit.com/r/" . $subreddit->title . "?after=" . $lastPostId . "&limit=$limit&count=0");
+        }
+        else
+        {
+            $result = Curl::get("http://api.reddit.com/r/" . $subreddit->title . "?before=" . $subreddit->last_post_id . "&limit=$limit&count=0");
+        }
+
         $postsArray = $result['data']['children']; // This is the path to the array of posts.
 
         $returnArray = array();

@@ -5,6 +5,10 @@ Update job postings:
 curl --user dev@karmajobs.net:******** http://local.karmajobs.net/api/updatejobpostings
 
 
+Historical job postings:
+curl -XPUT --user dev@karmajobs.net:******** http://local.karmajobs.net/api/historical/subreddit
+
+
 Get subreddits:
 curl --user dev@karmajobs.net:******** http://local.karmajobs.net/api/subreddit
 
