@@ -4,6 +4,7 @@ class FetchJobPostingsController extends BaseController
 {
     public function index()
     {
+        $startTime = time();
         Log::info("[" . get_class($this) . "] Starting run.");
 
         $returnArray = array();
@@ -58,11 +59,16 @@ class FetchJobPostingsController extends BaseController
         }
 
         Log::info("[" . get_class($this) . "] Finished run.");
+        $endTime = time();
+
+        $took = $endTime - $startTime;
 
         return Response::json(array(
                 'success'     => true,
                 'error'       => false,
-                'jobpostings' => $returnArray
+//                'jobpostings' => $returnArray
+                'num'  => count($returnArray),
+                'took' => $took
             ),
             200
         );
