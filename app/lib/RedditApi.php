@@ -42,6 +42,7 @@ class RedditApi
         $subredditObj->title = $result['data']['display_name'];
         $subredditObj->last_post_id = "";
         $subredditObj->url = $result['data']['url'];
+        $subredditObj->description = $result['data']['title'];
 
         return $subredditObj;
     }
@@ -80,7 +81,7 @@ class RedditApi
             $jobPostingObj->permalink = RedditApi::validate($post['permalink']);
             $jobPostingObj->domain = RedditApi::validate($post['domain']);
 
-            // TODO Classify data
+            // Classify data
             $classifiedData = Classifier::classify($post);
             $jobPostingObj->category_id = RedditApi::validate($classifiedData['category_id']);
             $jobPostingObj->location = RedditApi::validate($classifiedData['location']);

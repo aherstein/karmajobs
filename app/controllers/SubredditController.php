@@ -6,7 +6,14 @@ class SubredditController extends BaseController
     {
         $subreddits = Subreddit::all();
 
-        return $subreddits;
+        $subredditsArray = Array();
+
+        foreach ($subreddits as $subredditObj)
+        {
+            array_push($subredditsArray, $subredditObj->title);
+        }
+
+        return json_encode($subredditsArray);
     }
 
 
@@ -29,6 +36,15 @@ class SubredditController extends BaseController
                     500
                 );
             }
+            else
+            {
+                return Response::json(array(
+                        'success' => false,
+                        'error'   => $e->getMessage(),
+                    ),
+                    500
+                );
+            }
         }
         catch (Exception $e)
         {
@@ -43,7 +59,8 @@ class SubredditController extends BaseController
         return Response::json(array(
                 'success'   => true,
                 'error'     => false,
-                'subreddit' => $subredditObj->toArray()
+//                'subreddit' => $subredditObj->toArray()
+                'subreddit' => $subredditObj->title
             ),
             200
         );

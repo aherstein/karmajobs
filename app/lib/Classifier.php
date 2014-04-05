@@ -71,7 +71,7 @@ class Classifier
         if (in_array(strtolower($post['subreddit']), $internshipsSubreddits)) return Classifier::$categories['INTERNSHIPS'];
         if (in_array(strtolower($post['subreddit']), $discussionSubreddits)) return Classifier::$categories['DISCUSSION'];
 
-        return 0;
+        return Classifier::$categories['DISCUSSION'];
     }
 
 
