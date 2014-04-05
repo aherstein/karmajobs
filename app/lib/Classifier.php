@@ -53,6 +53,7 @@ class Classifier
         $nonprofitSubreddits = array("Nonprofit_Jobs");
         $internshipsSubreddits = array("Internships");
         $discussionSubreddits = array("AskHR","careerguidance","careeropportunities","cscareerquestions","DreamcareerHelp","entrepreneur","freelance","GetEmployed","HowsYourJob","InterviewFauxYou","jobnetworking","Jobs","jobsearchhacks","jobsecrets","resumes","retailmanagement","talesfromthejob","thisismyjob","work");
+        $cryptoSubreddits = array("Jobs4Bitcoins","Jobs4Crypto");
 
         // Lowercase all subreddits arrays
         for ($i = 0; $i < count($combinationSubreddits); $i++) $combinationSubreddits[$i] = strtolower($combinationSubreddits[$i]);
@@ -70,7 +71,9 @@ class Classifier
         if (in_array(strtolower($post['subreddit']), $nonprofitSubreddits)) return Classifier::$categories['NON_PROFIT'];
         if (in_array(strtolower($post['subreddit']), $internshipsSubreddits)) return Classifier::$categories['INTERNSHIPS'];
         if (in_array(strtolower($post['subreddit']), $discussionSubreddits)) return Classifier::$categories['DISCUSSION'];
+        if (in_array(strtolower($post['subreddit']), $cryptoSubreddits)) return Classifier::$categories['CRYPTO_JOBS'];
 
+        // No classification – default to discussion
         return Classifier::$categories['DISCUSSION'];
     }
 
