@@ -143,11 +143,11 @@ class SearchResultsController extends BaseController
             'days'               => $days,
             'karmaRank'          => $karmaRank,
             'id'                 => $id,
-            'previousSearches' => $previousSearches,
-            'categories'       => $categories,
-            'countJobs'        => $countJobs,
-            'countJobSeekers'  => $countJobSeekers,
-            'countDiscussions' => $countDiscussions
+            'previousSearches'   => $previousSearches,
+            'categories'         => $categories,
+            'countJobs'          => $countJobs,
+            'countJobSeekers'    => $countJobSeekers,
+            'countDiscussions'   => $countDiscussions
         ));
 
     }
@@ -230,7 +230,7 @@ class SearchResultsController extends BaseController
                 {
                     $city = strtolower($this->getCityByZip($city));
                 }
-                $cityWhere = "AND (lower(job_postings.title) LIKE '%$city%' OR lower(selftext) LIKE '%$city%' OR lower(subreddits.title) LIKE '%$city%')";
+                $cityWhere = "AND (lower(job_postings.title) LIKE '%$city%' OR lower(selftext) LIKE '%$city%' OR lower(subreddits.title) LIKE '%$city%' OR lower(subreddits.description) LIKE '%$city%')";
             }
             $where .= $cityWhere; // Append city where clause to the main where clause
 
@@ -291,15 +291,15 @@ class SearchResultsController extends BaseController
             'filter'             => $filter,
             'city'               => $city,
             'distance'           => $distance,
-            'sort'             => $sort,
-            'days'             => $days,
-            'karmaRank'        => $karmaRank,
-            'id'               => $id,
-            'previousSearches' => $previousSearches,
-            'categories'       => $categories,
-            'countJobs'        => $countJobs,
-            'countJobSeekers'  => $countJobSeekers,
-            'countDiscussions' => $countDiscussions
+            'sort'               => $sort,
+            'days'               => $days,
+            'karmaRank'          => $karmaRank,
+            'id'                 => $id,
+            'previousSearches'   => $previousSearches,
+            'categories'         => $categories,
+            'countJobs'          => $countJobs,
+            'countJobSeekers'    => $countJobSeekers,
+            'countDiscussions'   => $countDiscussions
         ));
     }
 
