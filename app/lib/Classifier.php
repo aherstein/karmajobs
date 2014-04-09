@@ -63,15 +63,15 @@ class Classifier
         for ($i = 0; $i < count($discussionSubreddits); $i++) $discussionSubreddits[$i] = strtolower($discussionSubreddits[$i]);
 
 
+        if (in_array($post['subreddit'], $cryptoSubreddits)) return Classifier::$categories['CRYPTO_JOBS']; // Crypto jobs takes priority over tag
         if (stristr($post['title'], "for hire") !== false) return Classifier::$categories['JOB_SEEKERS'];
         if (stristr($post['title'], "hiring") !== false) return Classifier::$categories['JOBS'];
         if (stristr($post['title'], "discussion") !== false) return Classifier::$categories['DISCUSSION'];
-        if (in_array(strtolower($post['subreddit']), $jobsSubreddits)) return Classifier::$categories['JOBS'];
-        if (in_array(strtolower($post['subreddit']), $nonprofitSubreddits)) return Classifier::$categories['NON_PROFIT'];
-        if (in_array(strtolower($post['subreddit']), $nonprofitSubreddits)) return Classifier::$categories['NON_PROFIT'];
-        if (in_array(strtolower($post['subreddit']), $internshipsSubreddits)) return Classifier::$categories['INTERNSHIPS'];
-        if (in_array(strtolower($post['subreddit']), $discussionSubreddits)) return Classifier::$categories['DISCUSSION'];
-        if (in_array(strtolower($post['subreddit']), $cryptoSubreddits)) return Classifier::$categories['CRYPTO_JOBS'];
+        if (in_array($post['subreddit'], $jobsSubreddits)) return Classifier::$categories['JOBS'];
+        if (in_array($post['subreddit'], $nonprofitSubreddits)) return Classifier::$categories['NON_PROFIT'];
+        if (in_array($post['subreddit'], $nonprofitSubreddits)) return Classifier::$categories['NON_PROFIT'];
+        if (in_array($post['subreddit'], $internshipsSubreddits)) return Classifier::$categories['INTERNSHIPS'];
+        if (in_array($post['subreddit'], $discussionSubreddits)) return Classifier::$categories['DISCUSSION'];
 
         // No classification – default to discussion
         return Classifier::$categories['DISCUSSION'];
