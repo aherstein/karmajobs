@@ -13,7 +13,7 @@ class HistoricalJobPostingsController extends BaseController
 
         foreach ($subreddits as $subreddit)
         {
-            if ($subreddit->title != $subredditTitle)
+            if ($subreddit->title != $subredditTitle && $subredditTitle != "all")
             {
                 continue;
             }
@@ -38,6 +38,12 @@ class HistoricalJobPostingsController extends BaseController
                         ),
                         500
                     );
+                }
+
+                if ($jobPostings == null)
+                {
+                    Log::info("Reached end of posts.");
+                    break 1;
                 }
 
                 foreach ($jobPostings as $jobPosting)

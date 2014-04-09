@@ -23,7 +23,7 @@ ClassLoader::addDirectories(array(
 
 // Global constants
 define("REDDIT_API_MAX_POSTS", 100);
-define("MAX_HISTORICAL_POSTS", 5000);
+define("MAX_HISTORICAL_POSTS", 1000);
 define("LOCATION_AUTH_ID", "57df26a1-1cd4-4edc-857d-c66d5a504c6f");
 define("LOCATION_AUTH_TOKEN", "qbE%2B9oHsvWFk0P0H9qkyB4adQl3Junk2dCUQEW%2BtJONW3ifFo%2FAknAGbCCg%2B0ynXz%2BNIawZVoyrkBJML6DwM5w%3D%3D");
 
