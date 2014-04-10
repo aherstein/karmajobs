@@ -6,6 +6,8 @@ class UpdateJobPostingsController extends BaseController
 {
     public function index()
     {
+        set_time_limit(0);
+
         Log::info("[" . get_class($this) . "] Starting run.");
 
         $returnArray = array();

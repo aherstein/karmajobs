@@ -4,6 +4,8 @@ class FetchJobPostingsController extends BaseController
 {
     public function index()
     {
+        set_time_limit(0);
+
         $startTime = time();
         Log::info("[" . get_class($this) . "] Starting run.");
 

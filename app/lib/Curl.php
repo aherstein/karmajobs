@@ -53,7 +53,7 @@ class Curl
             CURLOPT_URL            => $url,
             CURLOPT_HEADER         => 0,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT        => 4
+            CURLOPT_TIMEOUT => 400
         );
 
         $ch = curl_init();

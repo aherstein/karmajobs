@@ -4,6 +4,8 @@ class HistoricalJobPostingsController extends BaseController
 {
     public function update($subredditTitle) // PUT
     {
+        set_time_limit(0);
+
         $startTime = time();
         Log::info("[" . get_class($this) . "] Starting run.");
 
@@ -78,6 +80,7 @@ class HistoricalJobPostingsController extends BaseController
         return Response::json(array(
                 'success' => true,
                 'error'   => false,
+                'subreddit' => $subredditTitle,
 //                'jobpostings' => $returnArray
                 'num'     => count($returnArray),
                 'took'    => $took
