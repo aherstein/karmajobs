@@ -158,7 +158,7 @@ class SearchResultsController extends BaseController
     {
         // Get variables from search form
         $keyword = strtolower(Input::get('keyword'));
-        $filter = Input::get('filter') != "" ? Input::get('filter') : 0;
+        $filter = Input::get('filter') != "" ? Input::get('filter') : 2;
         $city = strtolower(Input::get('city'));
         $distance = Input::get('distance');
         $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
