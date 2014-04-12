@@ -1,7 +1,7 @@
 @section('result-detail')
 <div id="result-detail"  class="main-column">
     @if ($selectedJobPosting->title != "")
-    <a id="star-link"></a>
+    {{--<a id="star-link"></a>--}}
     <div id="post-text">
         <a id="back"></a>
         <h2>{{$selectedJobPosting->title}}</h2><span class="time">{{$selectedJobPosting->created_time}}</span>
