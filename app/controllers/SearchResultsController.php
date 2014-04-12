@@ -139,7 +139,7 @@ class SearchResultsController extends BaseController
             'jobPostings'        => $jobPostings,
             'selectedJobPosting' => new JobPosting(),
             'keyword'            => "",
-            'filter'             => "",
+            'filter' => "2",
             'city'               => "",
             'distance'           => "",
             'sort'               => $sort,
