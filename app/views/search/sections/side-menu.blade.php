@@ -16,13 +16,15 @@
                 </select>
             </div>
             <div class="input-wrap">
-                <input class="text-input" name="city" value="{{$city}}" placeholder="city or zip" type="text"/>
+                <input class="text-input-long" name="city" value="{{$city}}" placeholder="city or zip" type="text"/>
+                {{--
                 <select name="distance" id="distance">
                     <option value="25"
                     @if ($distance == "25") selected @endif>25 mi.</option>
                     <option value="50"
                     @if ($distance == "50") selected @endif>50 mi.</option>
                 </select>
+                --}}
             </div>
             <input type="hidden" name="days" value="{{$days}}">
             <input type="hidden" name="karmaRank" value="{{$karmaRank}}">

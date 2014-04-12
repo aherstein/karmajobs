@@ -132,6 +132,27 @@ h3 {
     height: 40px;
 }
 
+.text-input-long {
+    -webkit-border-top-left-radius: .5em;
+    -webkit-border-bottom-left-radius: .5em;
+    -webkit-border-top-right-radius: .5em;
+    -webkit-border-bottom-right-radius: .5em;
+    -moz-border-radius-topleft: .5em;
+    -moz-border-radius-bottomleft: .5em;;
+    -moz-border-radius-topright: .5em;
+    -moz-border-radius-bottomright: .5em;
+    border-top-left-radius: .5em;
+    border-bottom-left-radius: .5em;
+    border-top-right-radius: .5em;
+    border-bottom-right-radius: .5em;
+    border: none;
+    background-color: #9dc4ff;
+    color: #2d5289;
+    padding: 2%;
+    width: 92.5%;
+    height: 40px;
+}
+
 .icheckbox_minimal {
     background-color: #d3d3d3;
     margin-right: 5px;
