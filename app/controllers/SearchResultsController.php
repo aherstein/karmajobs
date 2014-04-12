@@ -280,12 +280,15 @@ class SearchResultsController extends BaseController
             }
 
             // Open first job posting
-            foreach ($jobPostings as $jobPosting)
+            if ($id == "")
             {
-                $id = $jobPosting->id;
-                $selectedJobPosting = JobPosting::findOrFail($jobPosting->id);
-                $selectedJobPosting->created_time = $this->fuzzyDate($selectedJobPosting->created_time);
-                break;
+                foreach ($jobPostings as $jobPosting)
+                {
+                    $id = $jobPosting->id;
+                    $selectedJobPosting = JobPosting::findOrFail($jobPosting->id);
+                    $selectedJobPosting->created_time = $this->fuzzyDate($selectedJobPosting->created_time);
+                    break;
+                }
             }
 
         }
