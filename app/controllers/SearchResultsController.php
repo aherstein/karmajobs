@@ -147,7 +147,8 @@ class SearchResultsController extends BaseController
             'categories'         => $categories,
             'countJobs'          => $countJobs,
             'countJobSeekers'    => $countJobSeekers,
-            'countDiscussions'   => $countDiscussions
+            'countDiscussions' => $countDiscussions,
+            'title'            => "KarmaJobs"
         ));
 
     }
@@ -283,7 +284,15 @@ class SearchResultsController extends BaseController
         $countJobSeekers = number_format(JobPosting::jobSeekers()->count());
         $countDiscussions = number_format(JobPosting::discussions()->count());
 
-//        echo "<pre>"; print_r($jobPostings); die();
+        // Set page title
+        if ($id == "") // No post was selected
+        {
+            $title = "KarmaJobs";
+        }
+        else // A post was selected, set title to title of that post
+        {
+            $title = $selectedJobPosting->title;
+        }
 
         // Return the view. We need to pass back all the search criteria variables for the job posting links.
         return View::make('search.layout', array(
@@ -301,7 +310,8 @@ class SearchResultsController extends BaseController
             'categories'         => $categories,
             'countJobs'          => $countJobs,
             'countJobSeekers'    => $countJobSeekers,
-            'countDiscussions'   => $countDiscussions
+            'countDiscussions' => $countDiscussions,
+            'title'            => $title
         ));
     }
 
