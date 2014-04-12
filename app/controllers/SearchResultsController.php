@@ -147,8 +147,8 @@ class SearchResultsController extends BaseController
             'categories'         => $categories,
             'countJobs'          => $countJobs,
             'countJobSeekers'    => $countJobSeekers,
-            'countDiscussions' => $countDiscussions,
-            'title'            => "KarmaJobs"
+            'countDiscussions'   => $countDiscussions,
+            'title'              => "KarmaJobs"
         ));
 
     }
@@ -172,7 +172,18 @@ class SearchResultsController extends BaseController
             $selectedJobPosting = JobPosting::findOrFail($id);
             $selectedJobPosting->created_time = $this->fuzzyDate($selectedJobPosting->created_time);
 
-            // TODO Insert into job postings views table
+            //Insert into job postings views table
+            try
+            {
+                $jobPostingView = new JobPostingView;
+                $jobPostingView->job_id = $id;
+                $jobPostingView->ip_address = $_SERVER['REMOTE_ADDR'];
+                $jobPostingView->save();
+            }
+            catch (Illuminate\Database\QueryException $e)
+            {
+                Log::info("Duplicate job posting view: " . $jobPostingView);
+            }
         }
         else
         {
@@ -310,8 +321,8 @@ class SearchResultsController extends BaseController
             'categories'         => $categories,
             'countJobs'          => $countJobs,
             'countJobSeekers'    => $countJobSeekers,
-            'countDiscussions' => $countDiscussions,
-            'title'            => $title
+            'countDiscussions'   => $countDiscussions,
+            'title'              => $title
         ));
     }
 
