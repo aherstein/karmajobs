@@ -279,6 +279,15 @@ class SearchResultsController extends BaseController
                 $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
             }
 
+            // Open first job posting
+            foreach ($jobPostings as $jobPosting)
+            {
+                $id = $jobPosting->id;
+                $selectedJobPosting = JobPosting::findOrFail($jobPosting->id);
+                $selectedJobPosting->created_time = $this->fuzzyDate($selectedJobPosting->created_time);
+                break;
+            }
+
         }
 
         // Apply fuzzy dates
