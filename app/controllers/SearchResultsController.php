@@ -91,6 +91,9 @@ class SearchResultsController extends BaseController
         // Apply days filter
         $where = "now() - created_time < INTERVAL '$days days'";
 
+        // Default to showing only jobs category
+        $where .= "  AND category_id = '2'";
+
         // Rank by karma
         if ($karmaRank == "on")
         {
@@ -158,7 +161,7 @@ class SearchResultsController extends BaseController
     {
         // Get variables from search form
         $keyword = strtolower(Input::get('keyword'));
-        $filter = Input::get('filter') != "" ? Input::get('filter') : 2;
+        $filter = Input::get('filter') != "" ? Input::get('filter') : 0;
         $city = strtolower(Input::get('city'));
         $distance = Input::get('distance');
         $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
