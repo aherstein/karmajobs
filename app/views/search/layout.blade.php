@@ -104,7 +104,15 @@
     </script>
 
     <script>
-        jQuery(document).ready(function(){
+        jQuery(document).ready(function () {
+            // Custom scrollbars
+            jQuery("#results-list").mCustomScrollbar({
+                scrollInertia: 0
+            });
+            jQuery("#post-text").mCustomScrollbar({
+                scrollInertia: 0
+            });
+
             setupSelects();
             $('#karma-rank').iCheck({
                 checkboxClass: 'icheckbox_minimal',
@@ -135,14 +143,6 @@
                 $("#sort-controls-form").submit();
             });
 
-        });
-        jQuery(window).load(function(){
-            jQuery("#results-list").mCustomScrollbar({
-                scrollInertia:0
-            });
-            jQuery("#post-text").mCustomScrollbar({
-                scrollInertia:0
-            });
         });
 
 
