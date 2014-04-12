@@ -128,9 +128,9 @@ class SearchResultsController extends BaseController
         $categories = Category::all();
 
         // Get category counts
-        $countJobs = JobPosting::jobs()->count();
-        $countJobSeekers = JobPosting::jobSeekers()->count();
-        $countDiscussions = JobPosting::discussions()->count();
+        $countJobs = number_format(JobPosting::jobs()->count());
+        $countJobSeekers = number_format(JobPosting::jobSeekers()->count());
+        $countDiscussions = number_format(JobPosting::discussions()->count());
 
         return View::make('search.layout', array(
             'jobPostings'        => $jobPostings,
@@ -170,6 +170,8 @@ class SearchResultsController extends BaseController
         {
             $selectedJobPosting = JobPosting::findOrFail($id);
             $selectedJobPosting->created_time = $this->fuzzyDate($selectedJobPosting->created_time);
+
+            // TODO Insert into job postings views table
         }
         else
         {
@@ -277,9 +279,9 @@ class SearchResultsController extends BaseController
         $categories = Category::all();
 
         // Get category counts
-        $countJobs = JobPosting::jobs()->count();
-        $countJobSeekers = JobPosting::jobSeekers()->count();
-        $countDiscussions = JobPosting::discussions()->count();
+        $countJobs = number_format(JobPosting::jobs()->count());
+        $countJobSeekers = number_format(JobPosting::jobSeekers()->count());
+        $countDiscussions = number_format(JobPosting::discussions()->count());
 
 //        echo "<pre>"; print_r($jobPostings); die();
 
