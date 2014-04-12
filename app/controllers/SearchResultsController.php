@@ -80,7 +80,7 @@ class SearchResultsController extends BaseController
     public function getAllJobPostings()
     {
         $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
-        $days = Input::get('days') != "" ? Input::get('days') : 1;
+        $days = Input::get('days') != "" ? Input::get('days') : 7;
         $karmaRank = Input::get('karmaRank');
         $id = Input::get('id');
 
@@ -162,7 +162,7 @@ class SearchResultsController extends BaseController
         $city = strtolower(Input::get('city'));
         $distance = Input::get('distance');
         $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
-        $days = Input::get('days') != "" ? Input::get('days') : 1;
+        $days = Input::get('days') != "" ? Input::get('days') : 7;
         $karmaRank = Input::get('karmaRank');
         $id = Input::get('id');
 
