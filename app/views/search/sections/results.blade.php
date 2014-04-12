@@ -28,8 +28,9 @@
     <div id="results-list">
         @foreach($jobPostings as $jobPosting)
         <div class="result-listing">
-            <a href="/search?keyword={{$keyword}}&filter={{$filter}}&city={{$city}}&distance={{$distance}}&days={{$days}}&karmaRank={{$karmaRank}}&id={{$jobPosting->id}}">{{$jobPosting->title}}</a>
-
+            @if ($jobPosting->id == $id) <b> @endif
+                <a href="/search?keyword={{$keyword}}&filter={{$filter}}&city={{$city}}&distance={{$distance}}&days={{$days}}&karmaRank={{$karmaRank}}&id={{$jobPosting->id}}">{{$jobPosting->title}}</a>
+                @if ($jobPosting->id == $id) </b> @endif
             <div class="time">{{$jobPosting->created_time}}</div>
         </div>
         @endforeach
