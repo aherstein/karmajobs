@@ -150,7 +150,8 @@
     </script>
 </head>
 <body>
-    @yield('top-bar')
+@include('includes.google-analytics')
+@yield('top-bar')
     <div id="middle">
         @yield('side-menu')
         @yield('results')
