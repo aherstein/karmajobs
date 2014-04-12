@@ -4,7 +4,7 @@
     <h2>previous searches</h2>
     <div class="searches">
         @foreach($previousSearches as $previousSearch)
-        <a href="/search?keyword={{$previousSearch}}">{{$previousSearch}}</a>
+        <a href="/search?keyword={{$previousSearch}}&filter=2">{{$previousSearch}}</a>
         @endforeach
     </div>
 </div>
