@@ -386,6 +386,7 @@ h3 {
 #results-list .time {
     font-size: .75em;
     color: #a1a1a1;
+    padding: 0 5px;
 }
 
 #result-detail h2 {
