@@ -239,7 +239,7 @@ h3 {
 .options li {
     padding: 10px 6px;
     margin-top: .25em;
-    padding: 0 10px;
+    padding: 5px 10px;
 }
 
 .options li:first-child {
