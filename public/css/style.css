@@ -100,10 +100,12 @@ a {
    Author's custom styles
    ========================================================================== */
 h2 {
-    color: #6e6e6e;
+    color: #000;
     font-weight: 400;
     margin: 3% 0;
     line-height: 1.25em;
+    font-size:2em;
+    padding-right:5px;
 }
 
 h3 {
