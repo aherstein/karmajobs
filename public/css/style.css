@@ -389,6 +389,11 @@ h3 {
     padding: 0 5px;
 }
 
+#results-list .time a {
+    display: inline;
+    padding: 0;
+}
+
 #result-detail h2 {
     display: inline;
 }
