@@ -135,6 +135,12 @@ class SearchResultsController extends BaseController
         $countJobSeekers = number_format(JobPosting::jobSeekers()->count());
         $countDiscussions = number_format(JobPosting::discussions()->count());
 
+        // Create the subreddit title field here
+        foreach ($jobPostings as $j)
+        {
+            $j->subreddit_title = $j->subreddit->title;
+        }
+
         return View::make('search.layout', array(
             'jobPostings'        => $jobPostings,
             'selectedJobPosting' => new JobPosting(),
@@ -318,6 +324,12 @@ class SearchResultsController extends BaseController
         else // A post was selected, set title to title of that post
         {
             $title = $selectedJobPosting->title;
+        }
+
+        // Since we are using the join method for the query (I think), we can't call the subreddit object for the job postings, so we create the field here
+        foreach ($jobPostings as $j)
+        {
+            $j->subreddit_title = str_replace("/", "", str_replace("/r/", "", $j->url));
         }
 
         // Return the view. We need to pass back all the search criteria variables for the job posting links.

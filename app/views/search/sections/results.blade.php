@@ -31,8 +31,8 @@
             @if ($jobPosting->id == $id) <b> @endif
                 <a href="/search?keyword={{$keyword}}&filter={{$filter}}&city={{$city}}&distance={{$distance}}&days={{$days}}&karmaRank={{$karmaRank}}&id={{$jobPosting->id}}">{{$jobPosting->title}}</a>
                 @if ($jobPosting->id == $id) </b> @endif
-            <div class="time">{{$jobPosting->created_time}} in <a
-                    href="http://reddit.com/r/{{$jobPosting->subreddit->title}}" target="_blank">{{$jobPosting->subreddit->title}}</a>
+            <div class="time">{{$jobPosting->created_time}} in
+                <a href="http://reddit.com/r/{{$jobPosting->subreddit_title}}" target="_blank">{{$jobPosting->subreddit_title}}</a>
             </div>
         </div>
         @endforeach
