@@ -364,6 +364,12 @@ h3 {
 
 #results-list a {
     color: #6e6e6e;
+    display: block;
+    padding: 5px;
+}
+
+#restuls-list a:hover {
+    background: #CBCBCB;
 }
 
 #results-list {
