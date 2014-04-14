@@ -60,10 +60,10 @@ class FetchJobPostingsController extends BaseController
             }
         }
 
-        Log::info("[" . get_class($this) . "] Finished run.");
         $endTime = time();
-
         $took = $endTime - $startTime;
+        
+        Log::info("[" . get_class($this) . "] Finished run. (num=". count($returnArray) .", took=".$took.")");
 
         return Response::json(array(
                 'success'     => true,
