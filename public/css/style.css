@@ -424,7 +424,8 @@ h3 {
 
 #post-text {
     font-size: .75em;
-    max-height: 90%;
+    max-height: 100%;
+    margin-bottom: 2.7em;
 }
 
 #post-text p:first-of-type {
@@ -459,6 +460,7 @@ h3 {
     text-align: center;
     width: 11em;
     margin-top: 2%;
+    font-size: 16px;
 }
 
 #star-link {
@@ -646,6 +648,7 @@ h3 {
     left: 46%;
     padding: .75em .5em 0 1em;
     width: 39%;
+    overflow: scroll;
 }
 
 #previous-search {
