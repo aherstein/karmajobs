@@ -2,7 +2,7 @@
 @if ($selectedJobPosting->title != "")
 {{--<a id="star-link"></a>--}}
 <div id="post-text">
-    <a id="back"></a>
+    <a id="back" href="javascript:$('#result-detail').removeClass('activated');"></a>
 
     <h2>{{$selectedJobPosting->title}}</h2><span class="time">{{$selectedJobPosting->created_time}}</span>
 
