@@ -15,8 +15,7 @@
     <p>Job posting is a link to {{$selectedJobPosting->domain}}.</p>
     @endif
 
-    <a href="http://reddit.com{{$selectedJobPosting->permalink}}" id="post-text-link" target="_blank">View Post on
-        Reddit</a>
+    <a href="http://reddit.com{{$selectedJobPosting->permalink}}" id="post-text-link" target="_blank">View Post on Reddit</a>
 </div>
 
 @endif

@@ -424,8 +424,8 @@ h3 {
 
 #post-text {
     font-size: .75em;
-    max-height: 100%;
-    margin-bottom: 2.7em;
+    height: 100%;
+    /*margin-bottom: 2.7em;*/
 }
 
 #post-text p:first-of-type {

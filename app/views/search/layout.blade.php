@@ -148,15 +148,17 @@
 
     <script>
         function getResultsDetail(id) {
-            $('#result-detail').load('/ajax/result-detail?id=' + id);
+            $('#result-detail').load('/ajax/result-detail?id=' + id); // Replace result detail with content via ajax
+            $('#result-detail').scrollTop(0); // Scroll to the top
 
+            // Unbold all other links
             arr = document.getElementsByName('link');
             for (var i = 0; i < arr.length; i++) {
                 var obj = document.getElementsByName('link').item(i)
                 obj.style.fontWeight = 'normal';
             }
 
-
+            // Bold the current link
             document.getElementById('link' + id).style.fontWeight = 'bold';
         }
     </script>
