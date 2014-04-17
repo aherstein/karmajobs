@@ -138,10 +138,13 @@ class SearchResultsController extends BaseController
             {
                 setcookie("previousSearches", $keyword, time() + 60 * 60 * 24 * 30, "/");
                 $previousSearches = array();
+                array_push($previousSearches, $keyword);
             }
             else
             {
-                $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
+                $previousSearches = explode(",", $_COOKIE['previousSearches']);
+                array_push($previousSearches, $keyword);
+                $previousSearches = array_unique(array_reverse($previousSearches));
             }
         }
         else // User searched for job postings
@@ -182,6 +185,7 @@ class SearchResultsController extends BaseController
             {
                 setcookie("previousSearches", $keyword, time() + 60 * 60 * 24 * 30, "/");
                 $previousSearches = array();
+                array_push($previousSearches, $keyword);
             }
             else
             {
@@ -189,7 +193,9 @@ class SearchResultsController extends BaseController
                 {
                     setcookie("previousSearches", $_COOKIE['previousSearches'] . "," . $keyword, time() + 60 * 60 * 24 * 30, "/");
                 }
-                $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
+                $previousSearches = explode(",", $_COOKIE['previousSearches']);
+                array_push($previousSearches, $keyword);
+                $previousSearches = array_unique(array_reverse($previousSearches));
             }
 
             // Open first job posting
@@ -278,7 +284,6 @@ class SearchResultsController extends BaseController
         else
         {
             $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
-
             return $this->renderSearchResults($previousSearches[0], 2, "", "", $sort, $days, $karmaRank, $id);
         }
 
