@@ -14,6 +14,12 @@
 Route::get('/', 'SearchResultsController@getAllJobPostings');
 Route::get('search', 'SearchResultsController@getSearchResults');
 
+// Ajax
+Route::get('/ajax/result-detail', array(
+    'as'   => 'search.ajax.result-detail',
+    'uses' => 'SearchResultsController@resultDetail'
+));
+
 Route::group(array('prefix' => 'api', 'before' => 'auth.basic'), function ()
 {
     Route::resource('subreddit', 'SubredditController');
@@ -23,16 +29,16 @@ Route::group(array('prefix' => 'api', 'before' => 'auth.basic'), function ()
     Route::resource('historical', 'HistoricalJobPostingsController');
 });
 
-Route::get('test', function ()
-{
-    $job = new JobPosting();
-    $job->title = "[discussion] great job!";
-//    $job->subreddit->title = "cscareerquestions";
-
-    echo "<pre>";
-    print_r(Classifier::classify($job));
-    echo "</pre>";
-});
+//Route::get('test', function ()
+//{
+//    $job = new JobPosting();
+//    $job->title = "[discussion] great job!";
+////    $job->subreddit->title = "cscareerquestions";
+//
+//    echo "<pre>";
+//    print_r(Classifier::classify($job));
+//    echo "</pre>";
+//});
 
 Route::get('info', function ()
 {

@@ -144,9 +144,21 @@
             });
 
         });
+    </script>
+
+    <script>
+        function getResultsDetail(id) {
+            $('#result-detail').load('/ajax/result-detail?id=' + id);
+
+            arr = document.getElementsByName('link');
+            for (var i = 0; i < arr.length; i++) {
+                var obj = document.getElementsByName('link').item(i)
+                obj.style.fontWeight = 'normal';
+            }
 
 
-
+            document.getElementById('link' + id).style.fontWeight = 'bold';
+        }
     </script>
 </head>
 <body>
@@ -155,7 +167,9 @@
     <div id="middle">
         @yield('side-menu')
         @yield('results')
-        @yield('result-detail')
+        <div id="result-detail" class="main-column">
+            @yield('result-detail')
+        </div>
         @yield('previous-search')
     </div>
     @yield('footer')

@@ -367,6 +367,20 @@ class SearchResultsController extends BaseController
 
     }
 
+
+    // Ajax functions
+    public function resultDetail()
+    {
+        $id = Input::get('id');
+
+        $selectedJobPosting = JobPosting::findOrFail($id);
+        $selectedJobPosting->created_time = $this->fuzzyDate($selectedJobPosting->created_time);
+
+        return View::make('search.ajax.result-detail', array(
+            'selectedJobPosting' => $selectedJobPosting
+        ));
+    }
+
 }
 
 ?>
