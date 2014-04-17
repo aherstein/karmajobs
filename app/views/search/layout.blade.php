@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="css/minimal/grey.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/png" href="/img/favicon.png">
 
     <script>
         // Iterate over each select element to create custom element
@@ -120,19 +121,19 @@
                 cursor: true
             });
 
-            jQuery('#search-toggle').on("click", function(event){
+            jQuery('#search-toggle').on("click", function (event) {
                 jQuery('#side-menu').toggleClass('expanded')
             });
 
-            jQuery('#previous-toggle').on("click", function(event){
+            jQuery('#previous-toggle').on("click", function (event) {
                 jQuery('#previous-search').toggleClass('expanded')
             });
 
-            jQuery('.result-listing a').on("click", function(event){
+            jQuery('.result-listing a').on("click", function (event) {
                 jQuery('#result-detail').addClass('activated')
             });
 
-            jQuery('#back').on("click", function(event){
+            jQuery('#back').on("click", function (event) {
                 jQuery('#result-detail').removeClass('activated')
             });
 
@@ -166,15 +167,15 @@
 <body>
 @include('includes.google-analytics')
 @yield('top-bar')
-    <div id="middle">
-        @yield('side-menu')
-        @yield('results')
-        <div id="result-detail" class="main-column">
-            @yield('result-detail')
-        </div>
-        @yield('previous-search')
+<div id="middle">
+    @yield('side-menu')
+    @yield('results')
+    <div id="result-detail" class="main-column">
+        @yield('result-detail')
     </div>
-    @yield('footer')
+    @yield('previous-search')
+</div>
+@yield('footer')
 </body>
 </html>
 
