@@ -77,104 +77,8 @@ class SearchResultsController extends BaseController
     }
 
 
-    public function getAllJobPostings()
+    private function renderSearchResults($keyword, $filter, $city, $distance, $sort, $days, $karmaRank, $id)
     {
-        $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
-        $days = Input::get('days') != "" ? Input::get('days') : 7;
-        $karmaRank = Input::get('karmaRank');
-        $id = Input::get('id');
-
-        // Get newest job posting
-//        $selectedJobPostings = DB::table('job_postings')->order_by('created_time', 'desc')->first();
-//        $selectedJobPostings[0]->created_time = $this->fuzzyDate($selectedJobPostings[0]->created_time);
-
-        // Apply days filter
-        $where = "now() - created_time < INTERVAL '$days days'";
-
-        // Default to showing only jobs category
-        $where .= "  AND category_id = '2'";
-
-        // Rank by karma
-        if ($karmaRank == "on")
-        {
-            $jobPostings = JobPosting::
-                whereRaw($where)
-                ->orderBy('num_up_votes', "desc")
-                ->get();
-        }
-        else
-        {
-            $jobPostings = JobPosting::
-                whereRaw($where)
-                ->orderBy('created_time', $sort)
-                ->get();
-        }
-
-        // Set/get previous searches list
-        if (!isset($_COOKIE['previousSearches']))
-        {
-            setcookie("previousSearches", "", time() + 60 * 60 * 24 * 30, "/");
-            $previousSearches = array();
-        }
-        else
-        {
-            $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
-        }
-
-        // Apply fuzzy dates
-        foreach ($jobPostings as $jobPosting)
-        {
-            $jobPosting->created_time = $this->fuzzyDate($jobPosting->created_time);
-        }
-
-        // Get categories from database
-        $categories = Category::all();
-
-        // Get category counts
-        $countJobs = number_format(JobPosting::jobs()->count());
-        $countJobSeekers = number_format(JobPosting::jobSeekers()->count());
-        $countDiscussions = number_format(JobPosting::discussions()->count());
-
-        // Create the subreddit title field here
-        foreach ($jobPostings as $j)
-        {
-            $j->subreddit_title = $j->subreddit->title;
-        }
-
-        return View::make('search.layout', array(
-            'jobPostings'        => $jobPostings,
-            'selectedJobPosting' => new JobPosting(),
-            'keyword'            => "",
-            'filter' => "2",
-            'city'               => "",
-            'distance'           => "",
-            'sort'               => $sort,
-            'days'               => $days,
-            'karmaRank'          => $karmaRank,
-            'id'                 => $id,
-            'previousSearches'   => $previousSearches,
-            'categories'         => $categories,
-            'countJobs'          => $countJobs,
-            'countJobSeekers'    => $countJobSeekers,
-            'countDiscussions'   => $countDiscussions,
-            'title'              => "KarmaJobs"
-        ));
-
-    }
-
-
-    public function getSearchResults()
-    {
-        // Get variables from search form
-        $keyword = strtolower(Input::get('keyword'));
-        $filter = Input::get('filter') != "" ? Input::get('filter') : 0;
-        $city = strtolower(Input::get('city'));
-        $distance = Input::get('distance');
-        $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
-        $days = Input::get('days') != "" ? Input::get('days') : 7;
-        $karmaRank = Input::get('karmaRank');
-        $id = Input::get('id');
-
         // If job posting id is set, get that (i.e. user has clicked on a search result)
         if ($id != "")
         {
@@ -351,6 +255,111 @@ class SearchResultsController extends BaseController
             'countDiscussions'   => $countDiscussions,
             'title'              => $title
         ));
+    }
+
+
+    public function getAllJobPostings()
+    {
+        $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
+        $days = Input::get('days') != "" ? Input::get('days') : 7;
+        $karmaRank = Input::get('karmaRank');
+        $id = Input::get('id');
+
+        // Get newest job posting
+//        $selectedJobPostings = DB::table('job_postings')->order_by('created_time', 'desc')->first();
+//        $selectedJobPostings[0]->created_time = $this->fuzzyDate($selectedJobPostings[0]->created_time);
+
+        // Set/get previous searches list
+        if (!isset($_COOKIE['previousSearches']))
+        {
+            setcookie("previousSearches", "", time() + 60 * 60 * 24 * 30, "/");
+            $previousSearches = array();
+        }
+        else
+        {
+            $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
+
+            return $this->renderSearchResults($previousSearches[0], 2, "", "", $sort, $days, $karmaRank, $id);
+        }
+
+        // Apply days filter
+        $where = "now() - created_time < INTERVAL '$days days'";
+
+        // Default to showing only jobs category
+        $where .= "  AND category_id = '2'";
+
+        // Rank by karma
+        if ($karmaRank == "on")
+        {
+            $jobPostings = JobPosting::
+                whereRaw($where)
+                ->orderBy('num_up_votes', "desc")
+                ->get();
+        }
+        else
+        {
+            $jobPostings = JobPosting::
+                whereRaw($where)
+                ->orderBy('created_time', $sort)
+                ->get();
+        }
+
+        // Apply fuzzy dates
+        foreach ($jobPostings as $jobPosting)
+        {
+            $jobPosting->created_time = $this->fuzzyDate($jobPosting->created_time);
+        }
+
+        // Get categories from database
+        $categories = Category::all();
+
+        // Get category counts
+        $countJobs = number_format(JobPosting::jobs()->count());
+        $countJobSeekers = number_format(JobPosting::jobSeekers()->count());
+        $countDiscussions = number_format(JobPosting::discussions()->count());
+
+        // Create the subreddit title field here
+        foreach ($jobPostings as $j)
+        {
+            $j->subreddit_title = $j->subreddit->title;
+        }
+
+        return View::make('search.layout', array(
+            'jobPostings'        => $jobPostings,
+            'selectedJobPosting' => new JobPosting(),
+            'keyword'            => "",
+            'filter' => 2,
+            'city'               => "",
+            'distance'           => "",
+            'sort'               => $sort,
+            'days'               => $days,
+            'karmaRank'          => $karmaRank,
+            'id'                 => $id,
+            'previousSearches'   => $previousSearches,
+            'categories'         => $categories,
+            'countJobs'          => $countJobs,
+            'countJobSeekers'    => $countJobSeekers,
+            'countDiscussions'   => $countDiscussions,
+            'title'              => "KarmaJobs"
+        ));
+
+    }
+
+
+    public function getSearchResults()
+    {
+        // Get variables from search form
+        $keyword = strtolower(Input::get('keyword'));
+        $filter = Input::get('filter') != "" ? Input::get('filter') : 0;
+        $city = strtolower(Input::get('city'));
+        $distance = Input::get('distance');
+        $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
+        $days = Input::get('days') != "" ? Input::get('days') : 7;
+        $karmaRank = Input::get('karmaRank');
+        $id = Input::get('id');
+
+        return $this->renderSearchResults($keyword, $filter, $city, $distance, $sort, $days, $karmaRank, $id);
+
     }
 
 }
