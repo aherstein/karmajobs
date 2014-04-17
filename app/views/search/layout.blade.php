@@ -106,6 +106,12 @@
 
     <script>
         jQuery(document).ready(function () {
+            // Load post ID if exists
+            var id = document.location.hash;
+            if (id != "") {
+                getResultsDetail(id.slice(1));
+            }
+
             // Custom scrollbars
             jQuery("#results-list").mCustomScrollbar({
                 scrollInertia: 0
@@ -162,6 +168,14 @@
             // Bold the current link
             document.getElementById('link' + id).style.fontWeight = 'bold';
         }
+    </script>
+
+    <script>
+        window.onhashchange = function () {
+            var id = document.location.hash;
+            getResultsDetail(id.slice(1));
+        }
+
     </script>
 </head>
 <body>

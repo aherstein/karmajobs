@@ -29,7 +29,7 @@
         @foreach($jobPostings as $jobPosting)
         <div class="result-listing">
             @if ($jobPosting->id == $id) <b> @endif
-                <a href="javascript:getResultsDetail({{$jobPosting->id}})" id="link{{$jobPosting->id}}" name="link">{{$jobPosting->title}}</a>
+                <a href="#{{$jobPosting->id}}" id="link{{$jobPosting->id}}" name="link">{{$jobPosting->title}}</a>
                 {{--href="/search?keyword={{$keyword}}&filter={{$filter}}&city={{$city}}&distance={{$distance}}&days={{$days}}&karmaRank={{$karmaRank}}&id={{$jobPosting->id}}"--}}
                 @if ($jobPosting->id == $id) </b> @endif
             <div class="time">{{$jobPosting->created_time}} in
