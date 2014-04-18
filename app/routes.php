@@ -12,7 +12,8 @@
 */
 
 Route::get('/', 'SearchResultsController@getAllJobPostings');
-Route::get('search', 'SearchResultsController@getSearchResults');
+Route::get('search/{keyword?}/{category?}/{location?}', array('as' => 'search', 'uses' => 'SearchResultsController@getSearchResults'));
+Route::post('searchPost', 'SearchResultsController@post');
 
 // Ajax
 Route::get('/ajax/result-detail', array(

@@ -5,18 +5,18 @@
     <div id="search">
         <h3>search parameters</h3>
 
-        <form action="/search">
-        <div class="input-wrap">
+        <form action="/searchPost" method="post">
+            <div class="input-wrap">
                 <input class="text-input" name="keyword" value="{{$keyword}}" placeholder="keyword" type="text"/>
-                <select name="filter" id="filter">
-                    @foreach($categories as $category)
-                    <option value="{{$category->id}}"
-                    @if ($filter == "$category->id") selected @endif>{{$category->title}}</option>
+                <select name="category" id="filter">
+                    @foreach($categories as $c)
+                    <option value="{{$c->id}}"
+                    @if ($category == "$c->id") selected @endif>{{$c->title}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="input-wrap">
-                <input class="text-input-long" name="city" value="{{$city}}" placeholder="city or zip" type="text"/>
+                <input class="text-input-long" name="location" value="{{$location}}" placeholder="city or zip" type="text"/>
                 {{--
                 <select name="distance" id="distance">
                     <option value="25"

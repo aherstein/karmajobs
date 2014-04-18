@@ -77,7 +77,7 @@ class SearchResultsController extends BaseController
     }
 
 
-    private function renderSearchResults($keyword, $filter, $city, $distance, $sort, $days, $karmaRank, $id)
+    private function renderSearchResults($keyword, $category, $location, $distance, $sort, $days, $karmaRank, $id)
     {
         // If job posting id is set, get that (i.e. user has clicked on a search result)
         if ($id != "")
@@ -104,9 +104,9 @@ class SearchResultsController extends BaseController
         }
 
         // Set filter (category) portion of WHERE clause
-        if ($filter != 0)
+        if ($category != 0)
         {
-            $whereFilter = "  AND category_id = $filter";
+            $whereFilter = "  AND category_id = $category";
         }
         else
         {
@@ -114,7 +114,7 @@ class SearchResultsController extends BaseController
         }
 
         // Search options
-        if ($keyword == "" && $city == "") // No search
+        if ($keyword == "" && $location == "") // No search
         {
             $where = "now() - created_time < INTERVAL '$days days' $whereFilter";
 
@@ -150,17 +150,17 @@ class SearchResultsController extends BaseController
         else // User searched for job postings
         {
             // Generate where portion of query – keyword amd days
-            $where = "(lower(job_postings.title) LIKE '%$keyword%' OR lower(selftext) LIKE '%$keyword%') AND category_id = '$filter' AND now() - created_time < INTERVAL '$days days' $whereFilter";
+            $where = "(lower(job_postings.title) LIKE '%$keyword%' OR lower(selftext) LIKE '%$keyword%') AND category_id = '$category' AND now() - created_time < INTERVAL '$days days' $whereFilter";
 
             // Process city field
             $cityWhere = "";
-            if ($city != "") // City field is set
+            if ($location != "") // City field is set
             {
-                if (strlen($city) == 5 && preg_match('/^[0-9]{5}$/', $city)) // Is a 5 digit zip code
+                if (strlen($location) == 5 && preg_match('/^[0-9]{5}$/', $location)) // Is a 5 digit zip code
                 {
-                    $city = strtolower($this->getCityByZip($city));
+                    $location = strtolower($this->getCityByZip($location));
                 }
-                $cityWhere = "AND (lower(job_postings.title) LIKE '%$city%' OR lower(selftext) LIKE '%$city%' OR lower(subreddits.title) LIKE '%$city%' OR lower(subreddits.description) LIKE '%$city%')";
+                $cityWhere = "AND (lower(job_postings.title) LIKE '%$location%' OR lower(selftext) LIKE '%$location%' OR lower(subreddits.title) LIKE '%$location%' OR lower(subreddits.description) LIKE '%$location%')";
             }
             $where .= $cityWhere; // Append city where clause to the main where clause
 
@@ -242,13 +242,20 @@ class SearchResultsController extends BaseController
             $j->subreddit_title = str_replace("/", "", str_replace("/r/", "", $j->url));
         }
 
+        $searchParams = array(
+            'keyword'  => $keyword,
+            'category' => $category,
+            'location' => $location
+        );
+
         // Return the view. We need to pass back all the search criteria variables for the job posting links.
         return View::make('search.layout', array(
             'jobPostings'        => $jobPostings,
             'selectedJobPosting' => $selectedJobPosting,
+            'searchParams' => $searchParams,
             'keyword'            => $keyword,
-            'filter'             => $filter,
-            'city'               => $city,
+            'category'     => $category,
+            'location'     => $location,
             'distance'           => $distance,
             'sort'               => $sort,
             'days'               => $days,
@@ -284,6 +291,7 @@ class SearchResultsController extends BaseController
         else
         {
             $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
+
             return $this->renderSearchResults($previousSearches[0], 2, "", "", $sort, $days, $karmaRank, $id);
         }
 
@@ -329,12 +337,19 @@ class SearchResultsController extends BaseController
             $j->subreddit_title = $j->subreddit->title;
         }
 
+        $searchParams = array(
+            'keyword'  => "",
+            'category' => 2,
+            'location' => ""
+        );
+
         return View::make('search.layout', array(
             'jobPostings'        => $jobPostings,
             'selectedJobPosting' => new JobPosting(),
+            'searchParams' => $searchParams,
             'keyword'            => "",
-            'filter' => 2,
-            'city'               => "",
+            'category'     => 2,
+            'location'     => "",
             'distance'           => "",
             'sort'               => $sort,
             'days'               => $days,
@@ -351,19 +366,19 @@ class SearchResultsController extends BaseController
     }
 
 
-    public function getSearchResults()
+    public function getSearchResults($keyword = "", $category = 2, $location = "")
     {
         // Get variables from search form
-        $keyword = strtolower(Input::get('keyword'));
-        $filter = Input::get('filter') != "" ? Input::get('filter') : 0;
-        $city = strtolower(Input::get('city'));
-        $distance = Input::get('distance');
+//        $keyword = strtolower(Input::get('keyword'));
+//        $category = Input::get('filter') != "" ? Input::get('filter') : 0;
+//        $location = strtolower(Input::get('city'));
+//        $distance = Input::get('distance');
         $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
         $days = Input::get('days') != "" ? Input::get('days') : 7;
         $karmaRank = Input::get('karmaRank');
         $id = Input::get('id');
 
-        return $this->renderSearchResults($keyword, $filter, $city, $distance, $sort, $days, $karmaRank, $id);
+        return $this->renderSearchResults($keyword, $category, $location, "", $sort, $days, $karmaRank, $id);
 
     }
 
@@ -379,6 +394,46 @@ class SearchResultsController extends BaseController
         return View::make('search.ajax.result-detail', array(
             'selectedJobPosting' => $selectedJobPosting
         ));
+    }
+
+
+    // Pretty URL post method
+    public function post()
+    {
+        // Get variables from search form
+        $keyword = strtolower(Input::get("keyword", ""));
+        $category = Input::get("category", 2);
+        $location = strtolower(Input::get("location", ""));
+//      $distance = Input::get('distance');
+
+        // Clean up by removing unwanted characters
+        $keyword = preg_replace("[^ 0-9a-zA-Z]", " ", $keyword);
+        $location = preg_replace("[^ 0-9a-zA-Z]", " ", $location);
+
+        // Remove multiple adjacent spaces
+        while (strstr($keyword, "  "))
+        {
+            $keyword = str_replace("  ", " ", $keyword);
+        }
+        while (strstr($location, "  "))
+        {
+            $location = str_replace("  ", " ", $location);
+        }
+
+        // Replace single spaces with a URL friendly plus sign
+        $keyword = str_replace(" ", "+", $keyword);
+        $location = str_replace(" ", "+", $location);
+
+        $searchParams = array(
+            'keyword'  => $keyword,
+            'category' => $category,
+            'location' => $location
+        );
+
+        $url = URL::route('search', $searchParams);
+
+        return Redirect::to($url);
+//        header('Location: ' . $url);
     }
 
 }

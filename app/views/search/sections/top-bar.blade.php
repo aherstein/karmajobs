@@ -1,7 +1,7 @@
 @section('top-bar')
 <div id="top-bar">
     <div id="top-status">
-        <a href="/" id="karma-header"><img src="img/karmajobs.png"/> </a>
+        <a href="/" id="karma-header"><img src="/img/karmajobs.png"/> </a>
 
         <div class="status-text">{{$countJobs}} jobs</div>
         <div class="status-text">{{$countJobSeekers}} job seekers</div>

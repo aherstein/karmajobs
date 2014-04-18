@@ -17,8 +17,8 @@
                 @if ($days == "30") selected @endif>past 30 days</option>
             </select>
             <input type="hidden" name="keyword" value="{{$keyword}}">
-            <input type="hidden" name="filter" value="{{$filter}}">
-            <input type="hidden" name="city" value="{{$city}}">
+            <input type="hidden" name="category" value="{{$category}}">
+            <input type="hidden" name="location" value="{{$location}}">
             <input type="hidden" name="distance" value="{{$distance}}">
             {{--<input type="hidden" name="sort" value="{{$sort}}">--}}
             <input type="hidden" name="days" value="{{$days}}">
@@ -30,7 +30,7 @@
         <div class="result-listing">
             @if ($jobPosting->id == $id) <b> @endif
                 <a href="#{{$jobPosting->id}}" id="link{{$jobPosting->id}}" name="link">{{$jobPosting->title}}</a>
-                {{--href="/search?keyword={{$keyword}}&filter={{$filter}}&city={{$city}}&distance={{$distance}}&days={{$days}}&karmaRank={{$karmaRank}}&id={{$jobPosting->id}}"--}}
+                {{--href="/search?keyword={{$keyword}}&category={{$category}}&location={{$location}}&distance={{$distance}}&days={{$days}}&karmaRank={{$karmaRank}}&id={{$jobPosting->id}}"--}}
                 @if ($jobPosting->id == $id) </b> @endif
             <div class="time">{{$jobPosting->created_time}} in
                 <a href="http://reddit.com/r/{{$jobPosting->subreddit_title}}" target="_blank">{{$jobPosting->subreddit_title}}</a>
