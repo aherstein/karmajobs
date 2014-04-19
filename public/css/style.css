@@ -648,7 +648,7 @@ h3 {
     left: 46%;
     padding: .75em .5em 0 1em;
     width: 39%;
-    overflow: scroll;
+    overflow: hidden;
 }
 
 #previous-search {
