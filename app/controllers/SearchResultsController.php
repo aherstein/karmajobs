@@ -35,7 +35,6 @@ class SearchResultsController extends BaseController
         }
     }
 
-
     private function getCityByZip($zipcode)
     {
         // Check to make sure we have a valid 5 digit zip code
@@ -74,6 +73,42 @@ class SearchResultsController extends BaseController
         }
 
         return $zipcodeObj->city;
+    }
+
+
+    private function setPreviousSearchesCookie($keyword)
+    {
+        // Set/get previous searches list
+        if (!isset($_COOKIE['previousSearches']))
+        {
+            setcookie("previousSearches", $keyword, time() + 60 * 60 * 24 * 30, "/");
+            $previousSearches = array();
+            if ($keyword != "") array_push($previousSearches, $keyword);
+        }
+        else
+        {
+            if ($keyword != "") setcookie("previousSearches", $_COOKIE['previousSearches'] . "," . $keyword, time() + 60 * 60 * 24 * 30, "/");
+            $previousSearches = explode(",", $_COOKIE['previousSearches']);
+            if ($keyword != "") array_push($previousSearches, $keyword);
+            $previousSearches = array_unique(array_reverse($previousSearches));
+        }
+
+        return $previousSearches;
+    }
+
+
+    private function getCategoryIdFromName($category)
+    {
+        $category = ucwords(str_replace("+", " ", $category));
+
+        $categories = Category::all();
+
+        foreach ($categories as $categoryObj)
+        {
+            if ($categoryObj->title == $category) return $categoryObj->id;
+        }
+
+        return 2; // Default to Job category
     }
 
 
@@ -133,19 +168,7 @@ class SearchResultsController extends BaseController
                     ->get();
             }
 
-            // Set/get previous searches list
-            if (!isset($_COOKIE['previousSearches']))
-            {
-                setcookie("previousSearches", $keyword, time() + 60 * 60 * 24 * 30, "/");
-                $previousSearches = array();
-                array_push($previousSearches, $keyword);
-            }
-            else
-            {
-                $previousSearches = explode(",", $_COOKIE['previousSearches']);
-                array_push($previousSearches, $keyword);
-                $previousSearches = array_unique(array_reverse($previousSearches));
-            }
+            $previousSearches = $this->setPreviousSearchesCookie($keyword);
         }
         else // User searched for job postings
         {
@@ -180,23 +203,7 @@ class SearchResultsController extends BaseController
                     ->get();
             }
 
-            // Set/get previous searches list
-            if (!isset($_COOKIE['previousSearches']))
-            {
-                setcookie("previousSearches", $keyword, time() + 60 * 60 * 24 * 30, "/");
-                $previousSearches = array();
-                array_push($previousSearches, $keyword);
-            }
-            else
-            {
-                if ($keyword != "")
-                {
-                    setcookie("previousSearches", $_COOKIE['previousSearches'] . "," . $keyword, time() + 60 * 60 * 24 * 30, "/");
-                }
-                $previousSearches = explode(",", $_COOKIE['previousSearches']);
-                array_push($previousSearches, $keyword);
-                $previousSearches = array_unique(array_reverse($previousSearches));
-            }
+            $previousSearches = $this->setPreviousSearchesCookie($keyword);
 
             // Open first job posting
             if ($id == "")
@@ -266,107 +273,12 @@ class SearchResultsController extends BaseController
             'countJobs'          => $countJobs,
             'countJobSeekers'    => $countJobSeekers,
             'countDiscussions'   => $countDiscussions,
-            'title'              => $title
+            'title' => "KarmaJobs - " . $title
         ));
     }
 
 
-    public function getAllJobPostings()
-    {
-        $sort = Input::get('sort') != "" ? Input::get('sort') : "desc";
-        $days = Input::get('days') != "" ? Input::get('days') : 7;
-        $karmaRank = Input::get('karmaRank');
-        $id = Input::get('id');
-
-        // Get newest job posting
-//        $selectedJobPostings = DB::table('job_postings')->order_by('created_time', 'desc')->first();
-//        $selectedJobPostings[0]->created_time = $this->fuzzyDate($selectedJobPostings[0]->created_time);
-
-        // Set/get previous searches list
-        if (!isset($_COOKIE['previousSearches']))
-        {
-            setcookie("previousSearches", "", time() + 60 * 60 * 24 * 30, "/");
-            $previousSearches = array();
-        }
-        else
-        {
-            $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
-
-            return $this->renderSearchResults($previousSearches[0], 2, "", "", $sort, $days, $karmaRank, $id);
-        }
-
-        // Apply days filter
-        $where = "now() - created_time < INTERVAL '$days days'";
-
-        // Default to showing only jobs category
-        $where .= "  AND category_id = '2'";
-
-        // Rank by karma
-        if ($karmaRank == "on")
-        {
-            $jobPostings = JobPosting::
-                whereRaw($where)
-                ->orderBy('num_up_votes', "desc")
-                ->get();
-        }
-        else
-        {
-            $jobPostings = JobPosting::
-                whereRaw($where)
-                ->orderBy('created_time', $sort)
-                ->get();
-        }
-
-        // Apply fuzzy dates
-        foreach ($jobPostings as $jobPosting)
-        {
-            $jobPosting->created_time = $this->fuzzyDate($jobPosting->created_time);
-        }
-
-        // Get categories from database
-        $categories = Category::all();
-
-        // Get category counts
-        $countJobs = number_format(JobPosting::jobs()->count());
-        $countJobSeekers = number_format(JobPosting::jobSeekers()->count());
-        $countDiscussions = number_format(JobPosting::discussions()->count());
-
-        // Create the subreddit title field here
-        foreach ($jobPostings as $j)
-        {
-            $j->subreddit_title = $j->subreddit->title;
-        }
-
-        $searchParams = array(
-            'keyword'  => "",
-            'category' => 2,
-            'location' => ""
-        );
-
-        return View::make('search.layout', array(
-            'jobPostings'        => $jobPostings,
-            'selectedJobPosting' => new JobPosting(),
-            'searchParams' => $searchParams,
-            'keyword'            => "",
-            'category'     => 2,
-            'location'     => "",
-            'distance'           => "",
-            'sort'               => $sort,
-            'days'               => $days,
-            'karmaRank'          => $karmaRank,
-            'id'                 => $id,
-            'previousSearches'   => $previousSearches,
-            'categories'         => $categories,
-            'countJobs'          => $countJobs,
-            'countJobSeekers'    => $countJobSeekers,
-            'countDiscussions'   => $countDiscussions,
-            'title'              => "KarmaJobs"
-        ));
-
-    }
-
-
-    public function getSearchResults($keyword = "", $category = 2, $location = "")
+    public function getSearchResults($keyword = "", $category = "", $location = "")
     {
         // Get variables from search form
 //        $keyword = strtolower(Input::get('keyword'));
@@ -377,6 +289,21 @@ class SearchResultsController extends BaseController
         $days = Input::get('days') != "" ? Input::get('days') : 7;
         $karmaRank = Input::get('karmaRank');
         $id = Input::get('id');
+
+        // Get category ID from name
+        $category = $this->getCategoryIdFromName($category);
+
+        // If no search and previous search cookie has been set, show the last entered search
+        if (isset($_COOKIE['previousSearches']) && $keyword == "")
+        {
+            $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
+
+            return $this->renderSearchResults($previousSearches[0], 2, "", "", $sort, $days, $karmaRank, $id);
+        }
+
+        // Process default values "all" and "everywhere"
+        if ($keyword == "all") $keyword = "";
+        if ($location == "everywhere") $location = "";
 
         return $this->renderSearchResults($keyword, $category, $location, "", $sort, $days, $karmaRank, $id);
 
@@ -401,10 +328,14 @@ class SearchResultsController extends BaseController
     public function post()
     {
         // Get variables from search form
-        $keyword = strtolower(Input::get("keyword", ""));
+        $keyword = Input::get("keyword") != "" ? strtolower(Input::get("keyword", "all")) : "all";
         $category = Input::get("category", 2);
-        $location = strtolower(Input::get("location", ""));
+        $location = Input::get("location") != "" ? strtolower(Input::get("location", "everywhere")) : "everywhere";
 //      $distance = Input::get('distance');
+
+        // Get category name from database and add it to the URL
+        $categoryObj = Category::findOrFail($category);
+        $category = strtolower($categoryObj->title);
 
         // Clean up by removing unwanted characters
         $keyword = preg_replace("[^ 0-9a-zA-Z]", " ", $keyword);
@@ -422,6 +353,7 @@ class SearchResultsController extends BaseController
 
         // Replace single spaces with a URL friendly plus sign
         $keyword = str_replace(" ", "+", $keyword);
+        $category = str_replace(" ", "+", $category);
         $location = str_replace(" ", "+", $location);
 
         $searchParams = array(
@@ -433,7 +365,6 @@ class SearchResultsController extends BaseController
         $url = URL::route('search', $searchParams);
 
         return Redirect::to($url);
-//        header('Location: ' . $url);
     }
 
 }
