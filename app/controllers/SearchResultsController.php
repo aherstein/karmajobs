@@ -112,7 +112,36 @@ class SearchResultsController extends BaseController
     }
 
 
-    private function renderSearchResults($keyword, $category, $location, $distance, $sort, $days, $karmaRank, $id)
+    private function normalizeParameters($keyword, $category, $location)
+    {
+        // Clean up by removing unwanted characters
+        $keyword = preg_replace("[^ 0-9a-zA-Z]", " ", $keyword);
+        $location = preg_replace("[^ 0-9a-zA-Z]", " ", $location);
+
+        // Remove multiple adjacent spaces
+        while (strstr($keyword, "  "))
+        {
+            $keyword = str_replace("  ", " ", $keyword);
+        }
+        while (strstr($location, "  "))
+        {
+            $location = str_replace("  ", " ", $location);
+        }
+
+        // Replace single spaces with a URL friendly plus sign
+        $keyword = str_replace(" ", "+", $keyword);
+        $category = str_replace(" ", "+", $category);
+        $location = str_replace(" ", "+", $location);
+
+        return array(
+            'keyword'  => $keyword,
+            'category' => $category,
+            'location' => $location
+        );
+    }
+
+
+    private function renderSearchResults($keyword, $category, $location, $distance, $sort, $days, $karmaRank, $id, $searchParams = array())
     {
         // If job posting id is set, get that (i.e. user has clicked on a search result)
         if ($id != "")
@@ -249,11 +278,6 @@ class SearchResultsController extends BaseController
             $j->subreddit_title = str_replace("/", "", str_replace("/r/", "", $j->url));
         }
 
-        $searchParams = array(
-            'keyword'  => $keyword,
-            'category' => $category,
-            'location' => $location
-        );
 
         // Return the view. We need to pass back all the search criteria variables for the job posting links.
         return View::make('search.layout', array(
@@ -290,6 +314,8 @@ class SearchResultsController extends BaseController
         $karmaRank = Input::get('karmaRank');
         $id = Input::get('id');
 
+        $searchParams = $this->normalizeParameters($keyword, $category, $location);
+
         // Get category ID from name
         $category = $this->getCategoryIdFromName($category);
 
@@ -298,14 +324,14 @@ class SearchResultsController extends BaseController
         {
             $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
 
-            return $this->renderSearchResults($previousSearches[0], 2, "", "", $sort, $days, $karmaRank, $id);
+            return $this->renderSearchResults($previousSearches[0], 2, "", "", $sort, $days, $karmaRank, $id, $searchParams);
         }
 
         // Process default values "all" and "everywhere"
         if ($keyword == "all") $keyword = "";
         if ($location == "everywhere") $location = "";
 
-        return $this->renderSearchResults($keyword, $category, $location, "", $sort, $days, $karmaRank, $id);
+        return $this->renderSearchResults($keyword, $category, $location, "", $sort, $days, $karmaRank, $id, $searchParams);
 
     }
 
@@ -337,32 +363,33 @@ class SearchResultsController extends BaseController
         $categoryObj = Category::findOrFail($category);
         $category = strtolower($categoryObj->title);
 
-        // Clean up by removing unwanted characters
-        $keyword = preg_replace("[^ 0-9a-zA-Z]", " ", $keyword);
-        $location = preg_replace("[^ 0-9a-zA-Z]", " ", $location);
-
-        // Remove multiple adjacent spaces
-        while (strstr($keyword, "  "))
-        {
-            $keyword = str_replace("  ", " ", $keyword);
-        }
-        while (strstr($location, "  "))
-        {
-            $location = str_replace("  ", " ", $location);
-        }
-
-        // Replace single spaces with a URL friendly plus sign
-        $keyword = str_replace(" ", "+", $keyword);
-        $category = str_replace(" ", "+", $category);
-        $location = str_replace(" ", "+", $location);
-
-        $searchParams = array(
-            'keyword'  => $keyword,
-            'category' => $category,
-            'location' => $location
-        );
+        $searchParams = $this->normalizeParameters($keyword, $category, $location);
 
         $url = URL::route('search', $searchParams);
+
+        return Redirect::to($url);
+    }
+
+
+    // Pretty URL post method with search options (karma rank and time frame)
+    public function postOptions()
+    {
+        // Get variables from search form
+        $keyword = Input::get("keyword") != "" ? strtolower(Input::get("keyword", "all")) : "all";
+        $category = Input::get("category", 2);
+        $location = Input::get("location") != "" ? strtolower(Input::get("location", "everywhere")) : "everywhere";
+//      $distance = Input::get('distance');
+        $karmaRank = Input::get('karmaRank');
+        $days = Input::get('days');
+        $id = Input::get('id');
+
+        // Get category name from database and add it to the URL
+        $categoryObj = Category::findOrFail($category);
+        $category = strtolower($categoryObj->title);
+
+        $searchParams = $this->normalizeParameters($keyword, $category, $location);
+
+        $url = URL::route('search', $searchParams) . "/?karmaRank=$karmaRank&days=$days";
 
         return Redirect::to($url);
     }

@@ -3,8 +3,8 @@
     <h2>{{sizeof($jobPostings)}} Results</h2>
 
     <div id="sort-controls" class="clearfix">
-        <form id="sort-controls-form" action="/search">
-            <input type="checkbox" name="karmaRank" id="karma-rank" @if ($karmaRank == "on") checked @endif>rank by
+        <form id="sort-controls-form" method="post" action="/postOptions">
+        <input type="checkbox" name="karmaRank" id="karma-rank" @if ($karmaRank == "on") checked @endif>rank by
             karma
             <select id="days">
                 <option value="1"

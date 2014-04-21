@@ -5,8 +5,8 @@
     <div id="search">
         <h3>search parameters</h3>
 
-        <form action="/searchPost" method="post">
-            <div class="input-wrap">
+        <form action="/post" method="post">
+        <div class="input-wrap">
                 <input class="text-input" name="keyword" value="{{$keyword}}" placeholder="keyword" type="text"/>
                 <select name="category" id="filter">
                     @foreach($categories as $c)
