@@ -109,6 +109,23 @@ class SearchResultsController extends BaseController
     }
 
 
+    private function checkForOldPreviousSearchesCookie()
+    {
+        // Delete old cookie from before category and location was added
+        if (isset($_COOKIE['previousSearches']))
+        {
+            if (substr_count($_COOKIE['previousSearches'], ",") > 0 && substr_count($_COOKIE['previousSearches'], ":") == 0)
+            {
+                setcookie("previousSearches", "", time() - 60 * 60 * 24 * 30, "/");
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
     private function getCategoryIdFromName($category)
     {
         $category = ucwords(str_replace("+", " ", $category));
@@ -325,6 +342,8 @@ class SearchResultsController extends BaseController
         $days = Input::get('days') != "" ? Input::get('days') : 7;
         $karmaRank = Input::get('karmaRank');
         $id = Input::get('id');
+
+        if ($this->checkForOldPreviousSearchesCookie()) return Redirect::to(URL::route('home'));
 
         $searchParams = $this->normalizeParameters($keyword, $category, $location);
 
