@@ -76,24 +76,36 @@ class SearchResultsController extends BaseController
     }
 
 
-    private function setPreviousSearchesCookie($keyword)
+    private function setPreviousSearchesCookie($keyword, $category, $location)
     {
+        //Generate cookie string
+        $search = $keyword . ":" . $category . ":" . $location;
+
         // Set/get previous searches list
         if (!isset($_COOKIE['previousSearches']))
         {
-            setcookie("previousSearches", $keyword, time() + 60 * 60 * 24 * 30, "/");
+            if ($search != "::") setcookie("previousSearches", $search, time() + 60 * 60 * 24 * 30, "/");
             $previousSearches = array();
-            if ($keyword != "") array_push($previousSearches, $keyword);
+            if ($search != "::") array_push($previousSearches, $search);
         }
         else
         {
-            if ($keyword != "") setcookie("previousSearches", $_COOKIE['previousSearches'] . "," . $keyword, time() + 60 * 60 * 24 * 30, "/");
-            $previousSearches = explode(",", $_COOKIE['previousSearches']);
-            if ($keyword != "") array_push($previousSearches, $keyword);
+            if ($search != "::") setcookie("previousSearches", $_COOKIE['previousSearches'] . "," . $search, time() + 60 * 60 * 24 * 30, "/");
+            $previousSearches = explode(",", $_COOKIE['previousSearches']); // Split searches by ,
+            if ($search != "::") array_push($previousSearches, $search);
             $previousSearches = array_unique(array_reverse($previousSearches));
+
         }
 
-        return $previousSearches;
+        // Split search items (keyword, category, location) by :
+        $previousSearchesExpanded = array();
+        foreach ($previousSearches as $previousSearch)
+        {
+            $previousSearchArray = explode(":", $previousSearch);
+            array_push($previousSearchesExpanded, $this->normalizeParameters($previousSearchArray[0], $previousSearchArray[1], $previousSearchArray[2]));
+        }
+
+        return $previousSearchesExpanded;
     }
 
 
@@ -197,7 +209,7 @@ class SearchResultsController extends BaseController
                     ->get();
             }
 
-            $previousSearches = $this->setPreviousSearchesCookie($keyword);
+            $previousSearches = $this->setPreviousSearchesCookie($searchParams['keyword'], $searchParams['category'], $searchParams['location']);
         }
         else // User searched for job postings
         {
@@ -232,7 +244,7 @@ class SearchResultsController extends BaseController
                     ->get();
             }
 
-            $previousSearches = $this->setPreviousSearchesCookie($keyword);
+            $previousSearches = $this->setPreviousSearchesCookie($searchParams['keyword'], $searchParams['category'], $searchParams['location']);
 
             // Open first job posting
             if ($id == "")
@@ -323,8 +335,9 @@ class SearchResultsController extends BaseController
         if (isset($_COOKIE['previousSearches']) && $keyword == "")
         {
             $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
+            $previousSearch = explode(":", $previousSearches[0]);
 
-            return $this->renderSearchResults($previousSearches[0], 2, "", "", $sort, $days, $karmaRank, $id, $searchParams);
+            return $this->renderSearchResults(str_replace("+", " ", $previousSearch[0]), $this->getCategoryIdFromName($previousSearch[1]), str_replace("+", " ", $previousSearch[2]), "", $sort, $days, $karmaRank, $id, $searchParams);
         }
 
         // Process default values "all" and "everywhere"

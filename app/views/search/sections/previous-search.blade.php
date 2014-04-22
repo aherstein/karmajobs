@@ -6,7 +6,8 @@
 
     <div class="searches">
         @foreach($previousSearches as $previousSearch)
-        <a href="/search/{{str_replace(' ', '+', $previousSearch)}}">{{$previousSearch}}</a>
+        <a href="{{URL::route('search', $previousSearch);}}">{{str_replace("+", " ", $previousSearch['keyword'])}} {{str_replace("+", " ", $previousSearch['category'])}} in
+            {{str_replace("+", " ", $previousSearch['location'])}}</a>
         @endforeach
     </div>
 </div>
