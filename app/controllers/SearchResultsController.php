@@ -343,21 +343,24 @@ class SearchResultsController extends BaseController
         $karmaRank = Input::get('karmaRank');
         $id = Input::get('id');
 
-        if ($this->checkForOldPreviousSearchesCookie()) return Redirect::to(URL::route('home'));
+        if ($this->checkForOldPreviousSearchesCookie()) return Redirect::to(URL::route('home')); // Check for old version of previous searched cookie that causes error if parsed
+
+        // If no search and previous search cookie has been set, show the last entered search
+        if (isset($_COOKIE['previousSearches']) && $keyword == "" && $location == "")
+        {
+            $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
+            $previousSearch = explode(":", $previousSearches[0]);
+
+            $keyword = $previousSearch[0];
+            $category = $previousSearch[1];
+            $location = $previousSearch[2];
+
+        }
 
         $searchParams = $this->normalizeParameters($keyword, $category, $location);
 
         // Get category ID from name
         $category = $this->getCategoryIdFromName($category);
-
-        // If no search and previous search cookie has been set, show the last entered search
-        if (isset($_COOKIE['previousSearches']) && $keyword == "")
-        {
-            $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
-            $previousSearch = explode(":", $previousSearches[0]);
-
-            return $this->renderSearchResults(str_replace("+", " ", $previousSearch[0]), $this->getCategoryIdFromName($previousSearch[1]), str_replace("+", " ", $previousSearch[2]), "", $sort, $days, $karmaRank, $id, $searchParams);
-        }
 
         // Process default values "all" and "everywhere"
         if ($keyword == "all") $keyword = "";
