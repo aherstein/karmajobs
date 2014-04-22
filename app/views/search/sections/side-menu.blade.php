@@ -16,7 +16,7 @@
                 </select>
             </div>
             <div class="input-wrap">
-                <input class="text-input-long" name="location" value="{{$location}}" placeholder="city or zip" type="text"/>
+                <input class="text-input-long" name="location" id="location" value="{{$location}}" placeholder="city or zip" type="text"/>
                 {{--
                 <select name="distance" id="distance">
                     <option value="25"

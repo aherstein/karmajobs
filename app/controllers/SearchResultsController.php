@@ -35,6 +35,7 @@ class SearchResultsController extends BaseController
         }
     }
 
+
     private function getCityByZip($zipcode)
     {
         // Check to make sure we have a valid 5 digit zip code
@@ -307,7 +308,6 @@ class SearchResultsController extends BaseController
             $j->subreddit_title = str_replace("/", "", str_replace("/r/", "", $j->url));
         }
 
-
         // Return the view. We need to pass back all the search criteria variables for the job posting links.
         return View::make('search.layout', array(
             'jobPostings'        => $jobPostings,
@@ -326,7 +326,7 @@ class SearchResultsController extends BaseController
             'countJobs'          => $countJobs,
             'countJobSeekers'    => $countJobSeekers,
             'countDiscussions'   => $countDiscussions,
-            'title' => "KarmaJobs - " . $title
+            'title'        => "KarmaJobs - " . $title
         ));
     }
 

@@ -93,6 +93,12 @@
                      */
                     if ($this[0].id == "days") window.location.href = "{{URL::route('search', $searchParams);}}?karmaRank={{$karmaRank}}&days=" + $("#days").val();
                     if ($this[0].id == "days") window.location.href = "{{URL::route('search', $searchParams);}}?karmaRank={{$karmaRank}}&days=" + $("#days").val();
+
+                    // Hide location search box if category is discussion
+                    if ($this[0].id == "filter") {
+                        if ($this.val() == "6") $('#location').hide();
+                        else $('#location').show();
+                    }
                 });
 
                 // Hides the unordered list when clicking outside of it
@@ -150,6 +156,11 @@
             $('#karma-rank').on('ifUnchecked', function (event) {
                 $("#sort-controls-form").submit();
             });
+
+            // Hide location search box if category is discussion
+            @if ($category == 6)
+                $('#location').hide()
+            @endif
 
         });
     </script>
