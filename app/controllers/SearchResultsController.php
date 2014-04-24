@@ -110,22 +110,6 @@ class SearchResultsController extends BaseController
     }
 
 
-//    private function checkForOldPreviousSearchesCookie()
-//    {
-//        // Delete old cookie from before category and location was added
-//        if (isset($_COOKIE['previousSearches']))
-//        {
-//            if (substr_count($_COOKIE['previousSearches'], ",") > 0 && substr_count($_COOKIE['previousSearches'], ":") == 0)
-//            {
-//                setcookie("previousSearches", "", time() - 60 * 60 * 24 * 30, "/");
-//
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
-
     private function getCategoryIdFromName($category)
     {
         $category = ucwords(str_replace("-", " ", $category));
@@ -173,6 +157,53 @@ class SearchResultsController extends BaseController
             'category' => $category,
             'location' => $location
         );
+    }
+
+
+    private function title($keyword, $category, $location, $selectedJobPosting = false)
+    {
+        $prefix = "KarmaJobs –";
+        // Replace dashes with spaces
+        $keyword = ucwords(str_replace("-", " ", $keyword));
+        $category = ucwords(str_replace("-", " ", $category));
+        $location = ucwords(str_replace("-", " ", $location));
+
+        if ($keyword == "" && $category == "" && $location == "" && $selectedJobPosting != false)
+        {
+            return preg_replace("/\\[.*\\]/", "", $selectedJobPosting->title); // Remove tag from title
+        }
+
+        if ($selectedJobPosting == false || $selectedJobPosting->title == "")
+        {
+            if ($category == "discussion")
+            {
+                return "$prefix $keyword $category";
+            }
+            else if ($location == "everywhere")
+            {
+                return "$prefix $keyword $category everywhere";
+            }
+            else
+            {
+                return "$prefix $keyword $category in $location";
+            }
+        }
+        else
+        {
+            $jobPostingTitle = preg_replace("/\\[.*\\]/", "", $selectedJobPosting->title); // Remove tag from title
+            if ($category == "discussion")
+            {
+                return "$prefix $keyword $category – " . $jobPostingTitle;;
+            }
+            else if ($location == "everywhere")
+            {
+                return "$prefix $keyword $category everywhere – " . $jobPostingTitle;
+            }
+            else
+            {
+                return "$prefix $keyword $category in $location – " . $jobPostingTitle;
+            }
+        }
     }
 
 
@@ -331,7 +362,7 @@ class SearchResultsController extends BaseController
             'countJobs'          => $countJobs,
             'countJobSeekers'    => $countJobSeekers,
             'countDiscussions'   => $countDiscussions,
-            'title'        => "KarmaJobs - " . $title
+            'title'        => $this->title($searchParams['keyword'], $searchParams['category'], $searchParams['location'], $selectedJobPosting)
         ));
     }
 
@@ -382,15 +413,14 @@ class SearchResultsController extends BaseController
 
 
     // Ajax functions
-    public function resultDetail()
+    public function resultDetail($id, $keyword = "", $category = "", $location = "")
     {
-        $id = Input::get('id');
-
         $selectedJobPosting = JobPosting::findOrFail($id);
         $selectedJobPosting->created_time = $this->fuzzyDate($selectedJobPosting->created_time);
 
         return View::make('search.ajax.result-detail', array(
-            'selectedJobPosting' => $selectedJobPosting
+            'selectedJobPosting' => $selectedJobPosting,
+            'title'              => $this->title($keyword, $category, $location, $selectedJobPosting)
         ));
     }
 

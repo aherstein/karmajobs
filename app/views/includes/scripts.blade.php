@@ -142,7 +142,7 @@
 
 <script>
     function getResultsDetail(id) {
-        $('#result-detail').load('/ajax/result-detail?id=' + id); // Replace result detail with content via ajax
+        $('#result-detail').load("/ajax/result-detail/" + id + "/{{$searchParams['keyword']}}/{{$searchParams['category']}}/{{$searchParams['location']}}"); // Replace result detail with content via ajax
         $('#result-detail').scrollTop(0); // Scroll to the top
 
         // Unbold all other links

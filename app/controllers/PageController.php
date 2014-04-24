@@ -2,7 +2,7 @@
 
 class PageController extends BaseController
 {
-    function data($title)
+    private function data($title)
     {
         // Get category counts
         $countJobs = number_format(JobPosting::jobs()->count());

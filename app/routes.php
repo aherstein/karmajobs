@@ -22,7 +22,7 @@ Route::get('whynoads', array('as' => 'whynoads', 'uses' => 'PageController@whyNo
 Route::get('contact', array('as' => 'contact', 'uses' => 'PageController@contact'));
 
 // Ajax
-Route::get('/ajax/result-detail', array(
+Route::get('/ajax/result-detail/{id}/{keyword?}/{category?}/{location?}', array(
     'as'   => 'search.ajax.result-detail',
     'uses' => 'SearchResultsController@resultDetail'
 ));
