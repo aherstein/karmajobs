@@ -83,16 +83,16 @@ class SearchResultsController extends BaseController
         $search = $keyword . ":" . $category . ":" . $location;
 
         // Set/get previous searches list
-        if (!isset($_COOKIE['previousSearches2']))
+        if (!isset($_COOKIE['previousSearches3']))
         {
-            if ($search != "::") setcookie("previousSearches2", $search, time() + 60 * 60 * 24 * 30, "/");
+            if ($search != "::") setcookie("previousSearches3", $search, time() + 60 * 60 * 24 * 30, "/");
             $previousSearches = array();
             if ($search != "::") array_push($previousSearches, $search);
         }
         else
         {
-            if ($search != "::") setcookie("previousSearches2", $_COOKIE['previousSearches2'] . "," . $search, time() + 60 * 60 * 24 * 30, "/");
-            $previousSearches = explode(",", $_COOKIE['previousSearches2']); // Split searches by ,
+            if ($search != "::") setcookie("previousSearches3", $_COOKIE['previousSearches3'] . "," . $search, time() + 60 * 60 * 24 * 30, "/");
+            $previousSearches = explode(",", $_COOKIE['previousSearches3']); // Split searches by ,
             if ($search != "::") array_push($previousSearches, $search);
             $previousSearches = array_unique(array_reverse($previousSearches));
 
@@ -351,9 +351,9 @@ class SearchResultsController extends BaseController
 //        if ($this->checkForOldPreviousSearchesCookie()) return Redirect::to(URL::route('home')); // Check for old version of previous searched cookie that causes error if parsed
 
         // If no search and previous search cookie has been set, show the last entered search
-        if (isset($_COOKIE['previousSearches2']) && $keyword == "" && $location == "")
+        if (isset($_COOKIE['previousSearches3']) && $keyword == "" && $location == "")
         {
-            $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches2'])));
+            $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches3'])));
             $previousSearch = explode(":", $previousSearches[0]);
 
             $keyword = $previousSearch[0];
