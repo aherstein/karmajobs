@@ -83,7 +83,7 @@ class SearchResultsController extends BaseController
         $search = $keyword . ":" . $category . ":" . $location;
 
         // Set/get previous searches list
-        if (!isset($_COOKIE['previousSearches']))
+        if (!isset($_COOKIE['previousSearches2']))
         {
             if ($search != "::") setcookie("previousSearches", $search, time() + 60 * 60 * 24 * 30, "/");
             $previousSearches = array();
@@ -91,8 +91,8 @@ class SearchResultsController extends BaseController
         }
         else
         {
-            if ($search != "::") setcookie("previousSearches", $_COOKIE['previousSearches'] . "," . $search, time() + 60 * 60 * 24 * 30, "/");
-            $previousSearches = explode(",", $_COOKIE['previousSearches']); // Split searches by ,
+            if ($search != "::") setcookie("previousSearches", $_COOKIE['previousSearches2'] . "," . $search, time() + 60 * 60 * 24 * 30, "/");
+            $previousSearches = explode(",", $_COOKIE['previousSearches2']); // Split searches by ,
             if ($search != "::") array_push($previousSearches, $search);
             $previousSearches = array_unique(array_reverse($previousSearches));
 
@@ -110,22 +110,21 @@ class SearchResultsController extends BaseController
     }
 
 
-    private function checkForOldPreviousSearchesCookie()
-    {
-        // Delete old cookie from before category and location was added
-        if (isset($_COOKIE['previousSearches']))
-        {
-            if (substr_count($_COOKIE['previousSearches'], ",") > 0 && substr_count($_COOKIE['previousSearches'], ":") == 0)
-            {
-                setcookie("previousSearches", "", time() - 60 * 60 * 24 * 30, "/");
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
+//    private function checkForOldPreviousSearchesCookie()
+//    {
+//        // Delete old cookie from before category and location was added
+//        if (isset($_COOKIE['previousSearches']))
+//        {
+//            if (substr_count($_COOKIE['previousSearches'], ",") > 0 && substr_count($_COOKIE['previousSearches'], ":") == 0)
+//            {
+//                setcookie("previousSearches", "", time() - 60 * 60 * 24 * 30, "/");
+//
+//                return true;
+//            }
+//        }
+//
+//        return false;
+//    }
 
     private function getCategoryIdFromName($category)
     {
@@ -343,12 +342,12 @@ class SearchResultsController extends BaseController
         $karmaRank = Input::get('karmaRank');
         $id = Input::get('id');
 
-        if ($this->checkForOldPreviousSearchesCookie()) return Redirect::to(URL::route('home')); // Check for old version of previous searched cookie that causes error if parsed
+//        if ($this->checkForOldPreviousSearchesCookie()) return Redirect::to(URL::route('home')); // Check for old version of previous searched cookie that causes error if parsed
 
         // If no search and previous search cookie has been set, show the last entered search
-        if (isset($_COOKIE['previousSearches']) && $keyword == "" && $location == "")
+        if (isset($_COOKIE['previousSearches2']) && $keyword == "" && $location == "")
         {
-            $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches'])));
+            $previousSearches = array_unique(array_reverse(explode(",", $_COOKIE['previousSearches2'])));
             $previousSearch = explode(":", $previousSearches[0]);
 
             $keyword = $previousSearch[0];
