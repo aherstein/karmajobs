@@ -147,6 +147,12 @@ class SearchResultsController extends BaseController
         $keyword = preg_replace("[^ 0-9a-zA-Z]", " ", $keyword);
         $location = preg_replace("[^ 0-9a-zA-Z]", " ", $location);
 
+        // Remove commas and colons
+        $keyword = str_replace(",", " ", $keyword);
+        $keyword = str_replace(":", " ", $keyword);
+        $location = str_replace(",", " ", $location);
+        $location = str_replace(":", " ", $location);
+
         // Remove multiple adjacent spaces
         while (strstr($keyword, "  "))
         {
