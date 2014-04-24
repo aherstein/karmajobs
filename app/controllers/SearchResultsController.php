@@ -128,7 +128,7 @@ class SearchResultsController extends BaseController
 
     private function getCategoryIdFromName($category)
     {
-        $category = ucwords(str_replace("+", " ", $category));
+        $category = ucwords(str_replace("-", " ", $category));
 
         $categories = Category::all();
 
@@ -163,10 +163,10 @@ class SearchResultsController extends BaseController
             $location = str_replace("  ", " ", $location);
         }
 
-        // Replace single spaces with a URL friendly plus sign
-        $keyword = str_replace(" ", "+", $keyword);
-        $category = str_replace(" ", "+", $category);
-        $location = str_replace(" ", "+", $location);
+        // Replace single spaces with a URL friendly dash
+        $keyword = str_replace(" ", "-", $keyword);
+        $category = str_replace(" ", "-", $category);
+        $location = str_replace(" ", "-", $location);
 
         return array(
             'keyword'  => $keyword,
@@ -361,6 +361,11 @@ class SearchResultsController extends BaseController
             $location = $previousSearch[2];
 
         }
+
+        // Replace dashes with spaces
+        $keyword = str_replace("-", " ", $keyword);
+        $category = str_replace("-", " ", $category);
+        $location = str_replace("-", " ", $location);
 
         $searchParams = $this->normalizeParameters($keyword, $category, $location);
 
