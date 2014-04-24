@@ -4,6 +4,7 @@
 @include('search.sections.result-detail')
 @include('search.sections.previous-search')
 @include('global.footer')
+@include('includes.scripts')
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +24,8 @@
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="icon" type="image/png" href="/img/favicon.png">
 
-    @include('includes.scripts')
+    @yield('scripts-global')
+    @yield('scripts-ajax')
 </head>
 <body>
 @include('includes.google-analytics')
