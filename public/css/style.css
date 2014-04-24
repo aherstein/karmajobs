@@ -669,6 +669,14 @@ h3 {
     color: #484848;
 }
 
+#page {
+    background-color: #E8E8E8;
+    left: 25%;
+    padding: .75em .5em 0 1em;
+    width: 75%;
+    overflow: scroll;
+}
+
 #search-toggle {
     width: 21px;
     height: 19px;

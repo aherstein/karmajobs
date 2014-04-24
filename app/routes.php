@@ -16,6 +16,11 @@ Route::get('search/{keyword?}/{category?}/{location?}', array('as' => 'search', 
 Route::post('post', 'SearchResultsController@post');
 Route::post('postOptions', 'SearchResultsController@postOptions');
 
+// Pages
+Route::get('about', array('as' => 'about', 'uses' => 'PageController@about'));
+Route::get('whynoads', array('as' => 'whynoads', 'uses' => 'PageController@whyNoAds'));
+Route::get('contact', array('as' => 'contact', 'uses' => 'PageController@contact'));
+
 // Ajax
 Route::get('/ajax/result-detail', array(
     'as'   => 'search.ajax.result-detail',
