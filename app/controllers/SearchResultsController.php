@@ -175,11 +175,11 @@ class SearchResultsController extends BaseController
 
         if ($selectedJobPosting == false || $selectedJobPosting->title == "")
         {
-            if ($category == "discussion")
+            if (strtolower($category) == "discussion")
             {
                 return "$prefix $keyword $category";
             }
-            else if ($location == "everywhere")
+            else if (strtolower($location) == "everywhere")
             {
                 return "$prefix $keyword $category everywhere";
             }
@@ -191,11 +191,11 @@ class SearchResultsController extends BaseController
         else
         {
             $jobPostingTitle = preg_replace("/\\[.*\\]/", "", $selectedJobPosting->title); // Remove tag from title
-            if ($category == "discussion")
+            if (strtolower($category) == "discussion")
             {
                 return "$prefix $keyword $category – " . $jobPostingTitle;;
             }
-            else if ($location == "everywhere")
+            else if (strtolower($location) == "everywhere")
             {
                 return "$prefix $keyword $category everywhere – " . $jobPostingTitle;
             }
