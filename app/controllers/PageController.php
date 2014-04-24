@@ -14,7 +14,7 @@ class PageController extends BaseController
 
         return array(
 
-            'searchParams'     => array(),
+            'searchParams'     => array('keyword' => "", 'category' => "", 'location => ""),
             'keyword'          => "",
             'category'         => "",
             'location'         => "",
