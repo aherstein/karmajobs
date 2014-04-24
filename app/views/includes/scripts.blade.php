@@ -1,4 +1,4 @@
-@section('global')
+@section('scripts-global')
 <script>
     // Iterate over each select element to create custom element
     function setupSelects() {
@@ -142,7 +142,7 @@
 </script>
 @stop
 
-@section('ajax')
+@section('scripts-ajax')
 <script>
     function getResultsDetail(id) {
         $('#result-detail').load("/ajax/result-detail/" + id + "/{{$searchParams['keyword']}}/{{$searchParams['category']}}/{{$searchParams['location']}}"); // Replace result detail with content via ajax
