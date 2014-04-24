@@ -1,0 +1,3 @@
+@section('page')
+{{$page}}
+@stop

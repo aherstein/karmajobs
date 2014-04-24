@@ -1,8 +1,6 @@
 @include('global.top-bar')
 @include('search.sections.side-menu')
-@include('search.sections.results')
-@include('search.sections.result-detail')
-@include('search.sections.previous-search')
+@include('page.page')
 @include('global.footer')
 <!DOCTYPE html>
 <html>
@@ -30,11 +28,7 @@
 @yield('top-bar')
 <div id="middle">
     @yield('side-menu')
-    @yield('results')
-    <div id="result-detail" class="main-column">
-        @yield('result-detail')
-    </div>
-    @yield('previous-search')
+    @yield('page')
 </div>
 @yield('footer')
 </body>

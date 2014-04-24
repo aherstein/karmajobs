@@ -85,13 +85,13 @@ class SearchResultsController extends BaseController
         // Set/get previous searches list
         if (!isset($_COOKIE['previousSearches2']))
         {
-            if ($search != "::") setcookie("previousSearches", $search, time() + 60 * 60 * 24 * 30, "/");
+            if ($search != "::") setcookie("previousSearches2", $search, time() + 60 * 60 * 24 * 30, "/");
             $previousSearches = array();
             if ($search != "::") array_push($previousSearches, $search);
         }
         else
         {
-            if ($search != "::") setcookie("previousSearches", $_COOKIE['previousSearches2'] . "," . $search, time() + 60 * 60 * 24 * 30, "/");
+            if ($search != "::") setcookie("previousSearches2", $_COOKIE['previousSearches2'] . "," . $search, time() + 60 * 60 * 24 * 30, "/");
             $previousSearches = explode(",", $_COOKIE['previousSearches2']); // Split searches by ,
             if ($search != "::") array_push($previousSearches, $search);
             $previousSearches = array_unique(array_reverse($previousSearches));
