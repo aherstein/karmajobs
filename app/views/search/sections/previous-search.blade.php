@@ -6,8 +6,11 @@
 
     <div class="searches">
         @foreach($previousSearches as $previousSearch)
-        <a href="{{URL::route('search', $previousSearch);}}">{{str_replace("-", " ", $previousSearch['keyword'])}} {{str_replace("-", " ", $previousSearch['category'])}}&nbsp;
-            @if ($previousSearch['category'] != "discussion") in {{str_replace("-", " ", $previousSearch['location'])}}</a> @endif
+        <a href="{{URL::route('search', $previousSearch);}}">{{str_replace("-", " ", $previousSearch['keyword'])}} {{str_replace("-", " ", $previousSearch['category'])}}
+            @if ($previousSearch['category'] != "discussion")
+            @if ($previousSearch['location'] != "everywhere") in @endif
+            {{str_replace("-", " ", $previousSearch['location'])}}</a>
+        @endif
         @endforeach
     </div>
 </div>
