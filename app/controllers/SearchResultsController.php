@@ -162,7 +162,7 @@ class SearchResultsController extends BaseController
 
     private function title($keyword, $category, $location, $selectedJobPosting = false)
     {
-        $prefix = "KarmaJobs –";
+        $prefix = "";
         // Replace dashes with spaces
         $keyword = ucwords(str_replace("-", " ", $keyword));
         $category = ucwords(str_replace("-", " ", $category));
