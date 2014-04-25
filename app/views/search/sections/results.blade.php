@@ -1,6 +1,9 @@
 @section('results')
 <div id="results" class="main-column">
-    <h2>{{sizeof($jobPostings)}} Results</h2>
+    <h2>
+        @if (sizeof($jobPostings) > 1) {{sizeof($jobPostings)}} Results
+        @else {{sizeof($jobPostings)}} Result @endif
+    </h2>
 
     <div id="sort-controls" class="clearfix">
         <form id="sort-controls-form" method="post" action="/postOptions">
