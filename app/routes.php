@@ -22,10 +22,10 @@ Route::get('whynoads', array('as' => 'whynoads', 'uses' => 'PageController@whyNo
 Route::get('contact', array('as' => 'contact', 'uses' => 'PageController@contact'));
 
 // Ajax
-Route::get('/ajax/result-detail/{id}/{keyword?}/{category?}/{location?}', array(
-    'as'   => 'search.ajax.result-detail',
-    'uses' => 'SearchResultsController@resultDetail'
-));
+Route::get('/ajax/result-detail/{id}/{keyword?}/{category?}/{location?}', array('as' => 'search.ajax.result-detail', 'uses' => 'SearchResultsController@resultDetail'));
+
+// Sitemap
+Route::get('sitemap.xml', array('as' => 'sitemap', 'uses' => 'SiteMapController@getSiteMap'));
 
 Route::group(array('prefix' => 'api', 'before' => 'auth.basic'), function ()
 {
