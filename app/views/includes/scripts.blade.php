@@ -1,8 +1,10 @@
 @section('scripts-global')
 <script>
     // Iterate over each select element to create custom element
-    function setupSelects() {
-        jQuery('select').each(function () {
+    function setupSelects()
+    {
+        jQuery('select').each(function ()
+        {
 
             // Cache the number of options
             var $this = $(this),
@@ -21,8 +23,12 @@
             var $styledSelect = $this.next('div.styledSelect');
 
             // Show the selected option in the styled div
-            for (var i = 0; i < numberOfOptions; i++) {
-                if ($this[0][i].selected) $styledSelect.text($this.children('option').eq(i).text());
+            for (var i = 0; i < numberOfOptions; i++)
+            {
+                if ($this[0][i].selected)
+                {
+                    $styledSelect.text($this.children('option').eq(i).text());
+                }
             }
 
             // Insert an unordered list after the styled div and also cache the list
@@ -31,7 +37,8 @@
             }).insertAfter($styledSelect);
 
             // Insert a list item into the unordered list for each select option
-            for (var i = 0; i < numberOfOptions; i++) {
+            for (var i = 0; i < numberOfOptions; i++)
+            {
                 $('<li />', {
                     text: $this.children('option').eq(i).text(),
                     rel: $this.children('option').eq(i).val()
@@ -42,13 +49,17 @@
             var $listItems = $list.children('li');
 
             // Show the unordered list when the styled div is clicked (also hides it if the div is clicked again)
-            $styledSelect.click(function (e) {
+            $styledSelect.click(function (e)
+            {
                 e.stopPropagation();
-                if (jQuery('div.styledSelect.active').length) {
-                    $('div.styledSelect.active').each(function () {
+                if (jQuery('div.styledSelect.active').length)
+                {
+                    $('div.styledSelect.active').each(function ()
+                    {
                         $(this).removeClass('active').next('ul.options').hide();
                     });
-                } else {
+                } else
+                {
                     $(this).toggleClass('active').next('ul.options').toggle();
                 }
 
@@ -57,7 +68,8 @@
 
             // Hides the unordered list when a list item is clicked and updates the styled div to show the selected list item
             // Updates the select element to have the value of the equivalent option
-            $listItems.click(function (e) {
+            $listItems.click(function (e)
+            {
                 e.stopPropagation();
                 $styledSelect.text($(this).text()).removeClass('active');
                 $this.val($(this).attr('rel'));
@@ -67,18 +79,32 @@
                 /**
                  * Workaround for inability to use jQuery events with this styling function
                  */
-                if ($this[0].id == "days") window.location.href = "{{URL::route('search', $searchParams);}}?karmaRank={{$karmaRank}}&days=" + $("#days").val();
-                if ($this[0].id == "days") window.location.href = "{{URL::route('search', $searchParams);}}?karmaRank={{$karmaRank}}&days=" + $("#days").val();
+                if ($this[0].id == "days")
+                {
+                    window.location.href = "{{URL::route('search', $searchParams);}}?karmaRank={{$karmaRank}}&days=" + $("#days").val();
+                }
+                if ($this[0].id == "days")
+                {
+                    window.location.href = "{{URL::route('search', $searchParams);}}?karmaRank={{$karmaRank}}&days=" + $("#days").val();
+                }
 
                 // Hide location search box if category is discussion
-                if ($this[0].id == "filter") {
-                    if ($this.val() == "6") $('#location').hide();
-                    else $('#location').show();
+                if ($this[0].id == "filter")
+                {
+                    if ($this.val() == "6")
+                    {
+                        $('#location').hide();
+                    }
+                    else
+                    {
+                        $('#location').show();
+                    }
                 }
             });
 
             // Hides the unordered list when clicking outside of it
-            $(document).click(function () {
+            $(document).click(function ()
+            {
                 $styledSelect.removeClass('active');
                 $list.hide();
             });
@@ -88,10 +114,12 @@
 </script>
 
 <script>
-    jQuery(document).ready(function () {
+    jQuery(document).ready(function ()
+    {
         // Load post ID if exists
         var id = document.location.hash;
-        if (id != "") {
+        if (id != "")
+        {
             getResultsDetail(id.slice(1));
         }
 
@@ -110,32 +138,40 @@
             cursor: true
         });
 
-        jQuery('#search-toggle').on("click", function (event) {
+        jQuery('#search-toggle').on("click", function (event)
+        {
             jQuery('#side-menu').toggleClass('expanded')
         });
 
-        jQuery('#previous-toggle').on("click", function (event) {
+        jQuery('#previous-toggle').on("click", function (event)
+        {
             jQuery('#previous-search').toggleClass('expanded')
         });
 
-        jQuery('.result-listing a').on("click", function (event) {
+        jQuery('.result-listing a').on("click", function (event)
+        {
             jQuery('#result-detail').addClass('activated')
         });
 
-        jQuery('#back').on("click", function (event) {
+        jQuery('#back').on("click", function (event)
+        {
             jQuery('#result-detail').removeClass('activated')
         });
 
-        $('#karma-rank').on('ifChecked', function (event) {
+        $('#karma-rank').on('ifChecked', function (event)
+        {
             $("#sort-controls-form").submit();
         });
-        $('#karma-rank').on('ifUnchecked', function (event) {
+        $('#karma-rank').on('ifUnchecked', function (event)
+        {
             $("#sort-controls-form").submit();
         });
 
         // Hide location search box if category is discussion
         @if ($category == 6)
-            $('#location').hide()
+    {
+        $('#location').hide()
+    }
             @endif
 
     });
@@ -144,24 +180,30 @@
 
 @section('scripts-ajax')
 <script>
-    function getResultsDetail(id) {
+    function getResultsDetail(id)
+    {
         $('#result-detail').load("/ajax/result-detail/" + id + "/{{$searchParams['keyword']}}/{{$searchParams['category']}}/{{$searchParams['location']}}"); // Replace result detail with content via ajax
         $('#result-detail').scrollTop(0); // Scroll to the top
 
         // Unbold all other links
         arr = document.getElementsByName('link');
-        for (var i = 0; i < arr.length; i++) {
+        for (var i = 0; i < arr.length; i++)
+        {
             var obj = document.getElementsByName('link').item(i)
             obj.style.fontWeight = 'normal';
         }
 
         // Bold the current link
-        document.getElementById('link' + id).style.fontWeight = 'bold';
+        if (document.getElementById('link' + id) != null)
+        {
+            document.getElementById('link' + id).style.fontWeight = 'bold';
+        }
     }
 </script>
 
 <script>
-    window.onhashchange = function () {
+    window.onhashchange = function ()
+    {
         var id = document.location.hash;
         getResultsDetail(id.slice(1));
     }
