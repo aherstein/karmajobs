@@ -199,11 +199,12 @@
             document.getElementById('link' + id).style.fontWeight = 'bold';
         }
 
-        // rRemove new icon
+        // Remove new icon
         if (document.getElementById('new' + id) != null)
         {
             $('#new' + id).hide();
         }
+
     }
 </script>
 

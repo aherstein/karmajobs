@@ -1,24 +1,23 @@
-#top-bar{
+#top-bar {
     background-color: #484848;
     height: 50px;
 }
 
-#karma-header, .status-text, #top-links, #top-status{
+#karma-header, .status-text, #top-links, #top-status {
     display: inline-block;
 
 }
 
-.status-text{
+.status-text {
     color: #ffffff;
     font-size: .75em;
     padding: .5em;
     padding-left: 1.25em;
 }
 
-#top-status{
+#top-status {
     padding: 0.55em;
 }
-
 
 #top-links {
     height: 50px;
@@ -26,31 +25,31 @@
     right: 0;
 }
 
-#top-links a{
+#top-links a {
     color: #FFFFFF;
     display: inline-block;
     float: left;
     height: 100%;
-    padding:  1.25em;
+    padding: 1.25em;
     font-size: .75em;
     background-repeat: no-repeat;
     background-position: center;
 }
 
-#welcome-link{
+#welcome-link {
     background-color: #717171;
- }
+}
 
-#profile-link{
+#profile-link {
     background-color: #606060;
 }
 
-#logoff-link{
+#logoff-link {
     background-color: #545454;
     border-right: 3px solid #343434;
 }
 
-#settings-link{
+#settings-link {
     background-color: #2d2d2d;
     width: 1em;
     background-image: url("img/gear.png");
@@ -62,39 +61,38 @@
     position: relative;
     width: 100%;
 }
-.main-column{
+
+.main-column {
     height: 100%;
     position: absolute;
 }
 
-#side-menu{
+#side-menu {
     background-color: #4c70a6;
     width: 25%;
     left: 0;
     text-align: right;
-    padding-right:2% ;
+    padding-right: 2%;
     padding-left: 3%;
     z-index: 5;
 }
 
-
-#results{
+#results {
     left: 25%;
     padding: 0 1%;
     width: 21%;
     background-color: #FFFFFF;
 }
 
-
-#result-detail{
+#result-detail {
     background-color: #E8E8E8;
     left: 46%;
     padding: 0.75em .5em 0 1em;
     width: 39%;
-    overflow: scroll;
+    /*overflow: hidden;*/
 }
 
-#previous-search{
+#previous-search {
     background-color: #D8D8D8;
     right: 0%;
     padding: 0 1%;
@@ -103,16 +101,16 @@
     z-index: 15;
 }
 
-#previous-search h2{
+#previous-search h2 {
     color: #989898;
     font-size: 1em;
 }
 
-#previous-search a{
+#previous-search a {
     color: #484848;
 }
 
-#search-toggle{
+#search-toggle {
     width: 21px;
     height: 19px;
     background-image: url("img/search-toggle.png");
@@ -122,7 +120,7 @@
     background-repeat: no-repeat;
 }
 
-#previous-toggle{
+#previous-toggle {
     width: 21px;
     height: 21px;
     background-image: url("img/previous-toggle.png");
@@ -132,32 +130,30 @@
     background-repeat: no-repeat;
 }
 
-#side-menu.expanded{
+#side-menu.expanded {
     left: -.5em;
     padding: 0 1.5em;
 }
 
-#side-menu.expanded #search-toggle{
+#side-menu.expanded #search-toggle {
     right: 18em;
 }
 
-#previous-search.expanded{
+#previous-search.expanded {
     right: 0;
 }
 
-#previous-search.expanded #previous-toggle{
+#previous-search.expanded #previous-toggle {
     left: 14.5em;
 }
 
-
-#mail-link{
+#mail-link {
     background-color: #646464;
     background-image: url('img/mail.png');
     padding: 0 2em !important;
 }
 
-
-#footer{
+#footer {
     height: 10%;
     background-color: #484848;
     position: relative;
@@ -167,49 +163,49 @@
 /* iPhone and other smartphones (landscape) */
 @media screen and (max-width: 40em) {
 
-    #welcome-link{
+    #welcome-link {
         display: none !important;
     }
 
-    #footer{
+    #footer {
         height: 12%;
     }
 
-    #middle{
+    #middle {
         height: 81%;
     }
 
-    #karma-header img{
+    #karma-header img {
         width: 80%;
     }
 
-    #top-bar, #top-links  {
+    #top-bar, #top-links {
         height: 2.5em;
     }
 
-    #top-links a{
+    #top-links a {
         background-size: 1.5em auto;
         padding: 1em 1.25em;
 
     }
 
-
-
     #top-status {
         padding: 0.35em;
     }
-    #side-menu{
+
+    #side-menu {
         left: -17.75em;
         min-width: 20em;
         z-index: 7;
         padding: 0 2.5em 0 3%;
         width: 35%;
     }
-    #side-menu h3{
+
+    #side-menu h3 {
         margin-bottom: .5em;
     }
 
-    #result-detail{
+    #result-detail {
         z-index: 1;
     }
 
@@ -223,7 +219,7 @@
         top: 0;
     }
 
-    #result-detail.activated #back{
+    #result-detail.activated #back {
         display: block;
         background-image: url("img/back-button.png");
         width: 89px;
@@ -231,7 +227,7 @@
         margin: 15px 0px;
     }
 
-    #results{
+    #results {
         z-index: 4;
     }
 
@@ -248,7 +244,7 @@
         padding-left: 2.25em;
     }
 
-    #previous-toggle{
+    #previous-toggle {
         left: 0.5em;
     }
 
@@ -260,49 +256,47 @@
         padding-top: 0%;
     }
 
-    #results-list{
+    #results-list {
         height: 82%;
 
     }
 
-    .status-text{
+    .status-text {
         display: none;
     }
 
-
-
-    #profile-link, #logoff-link{
+    #profile-link, #logoff-link {
         text-indent: -999px;
     }
 
-    #profile-link{
+    #profile-link {
         background-image: url('img/edit-profile.png');
     }
-    #logoff-link{
+
+    #logoff-link {
         background-image: url('img/logout.png');
     }
 
-    #mail-link, #logoff-link, #profile-link{
+    #mail-link, #logoff-link, #profile-link {
         padding: 1em 1.25em !important;
         width: .25em;
     }
-
 
 }
 
 /* iPad and other tablets (portrait) */
 @media screen and (min-width: 40em) and (max-width: 60em) {
-    #side-menu{
+    #side-menu {
         left: -17.5em;
         min-width: 20em;
         z-index: 5;
         padding: 0 2.5em 0 3%;
     }
 
-
-    #footer{
+    #footer {
         height: 12%;
     }
+
     #results {
         left: 2%;
         padding: 0 2%;
@@ -310,7 +304,7 @@
         padding-left: 4%;
     }
 
-    .result-listing a{
+    .result-listing a {
         font-size: 0.75em;
         line-height: 1em;
     }
@@ -320,7 +314,6 @@
         left: 38%;
         padding: 0.75em 1em 0 2%;
     }
-
 
     #previous-search {
         padding-left: 2.5em;
@@ -332,7 +325,7 @@
         left: .5em;
     }
 
-    #previous-search.expanded{
+    #previous-search.expanded {
         padding: 0 1%;
     }
 
@@ -341,15 +334,13 @@
 
     }
 
-
-    #results-list{
-        height:87%;
+    #results-list {
+        height: 87%;
     }
 
-    .status-text{
+    .status-text {
         display: none;
     }
-
 
     #star-link {
         right: .85em;
@@ -358,8 +349,6 @@
 
 }
 
-
-
 /* iPad and other tablets (landscape) */
 @media screen and (min-width: 985px) {
 
@@ -367,11 +356,11 @@
         padding-top: 2.75em;
     }
 
-    #search-toggle, #previous-toggle{
+    #search-toggle, #previous-toggle {
         display: none;
     }
 
-    #later-link a{
+    #later-link a {
         line-height: 1em;
     }
 

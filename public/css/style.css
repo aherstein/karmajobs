@@ -424,7 +424,8 @@ h3 {
 
 #post-text {
     font-size: .75em;
-    height: 100%;
+    max-height: 90%;
+    /*height: 100%;*/
     /*margin-bottom: 2.7em;*/
 }
 
@@ -648,7 +649,7 @@ h3 {
     left: 46%;
     padding: .75em .5em 0 1em;
     width: 39%;
-    overflow: scroll;
+    /*overflow: hidden;*/
 }
 
 #previous-search {
