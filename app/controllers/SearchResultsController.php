@@ -333,6 +333,7 @@ class SearchResultsController extends BaseController
                     $id = $jobPosting->id;
                     $selectedJobPosting = JobPosting::findOrFail($jobPosting->id);
                     $selectedJobPosting->created_time = $this->fuzzyDate($selectedJobPosting->created_time);
+                    $this->setViewedJobPostingsCookie($id);
                     break;
                 }
             }
@@ -353,15 +354,6 @@ class SearchResultsController extends BaseController
         $countJobSeekers = number_format(JobPosting::jobSeekers()->count());
         $countDiscussions = number_format(JobPosting::discussions()->count());
 
-        // Set page title
-        if ($id == "") // No post was selected
-        {
-            $title = "KarmaJobs";
-        }
-        else // A post was selected, set title to title of that post
-        {
-            $title = $selectedJobPosting->title;
-        }
 
         // Since we are using the join method for the query (I think), we can't call the subreddit object for the job postings, so we create the field here
         foreach ($jobPostings as $j)
