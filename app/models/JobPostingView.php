@@ -2,7 +2,7 @@
 
 class JobPostingView extends Eloquent
 {
-    protected $primaryKey = 'created_at';
+	protected $primaryKey = 'created_at';
 }
 
 ?>

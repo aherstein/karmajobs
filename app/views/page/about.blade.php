@@ -1,3 +1,3 @@
 <div id="page" class="main-column">
-    About
+	About
 </div>

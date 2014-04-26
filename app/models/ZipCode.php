@@ -2,7 +2,7 @@
 
 class ZipCode extends Eloquent
 {
-    protected $primaryKey = "zip";
+	protected $primaryKey = "zip";
 }
 
 ?>
