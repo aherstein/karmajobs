@@ -110,6 +110,25 @@ class SearchResultsController extends BaseController
     }
 
 
+    private function setViewedJobPostingsCookie($id)
+    {
+        if (!isset($_COOKIE['viewedJobPostings']))
+        {
+            if ($id != "") setcookie("viewedJobPostings", $id, time() + 60 * 60 * 24 * 30, "/");
+        }
+        else
+        {
+            if ($id != "") setcookie("viewedJobPostings", $_COOKIE['viewedJobPostings'] . "," . $id, time() + 60 * 60 * 24 * 30, "/");
+        }
+    }
+
+
+    private function getViewedJobPostingsCookie()
+    {
+        return isset($_COOKIE['viewedJobPostings']) ? explode(",", $_COOKIE['viewedJobPostings']) : array();
+    }
+
+
     private function getCategoryIdFromName($category)
     {
         $category = ucwords(str_replace("-", " ", $category));
@@ -354,21 +373,22 @@ class SearchResultsController extends BaseController
         return View::make('search.layout', array(
             'jobPostings'        => $jobPostings,
             'selectedJobPosting' => $selectedJobPosting,
-            'searchParams' => $searchParams,
+            'searchParams'      => $searchParams,
             'keyword'            => $keyword,
-            'category'     => $category,
-            'location'     => $location,
+            'category'          => $category,
+            'location'          => $location,
             'distance'           => $distance,
             'sort'               => $sort,
             'days'               => $days,
             'karmaRank'          => $karmaRank,
             'id'                 => $id,
             'previousSearches'   => $previousSearches,
+            'viewedJobPostings' => $this->getViewedJobPostingsCookie(),
             'categories'         => $categories,
             'countJobs'          => $countJobs,
             'countJobSeekers'    => $countJobSeekers,
             'countDiscussions'   => $countDiscussions,
-            'title'        => $this->title($searchParams['keyword'], $searchParams['category'], $searchParams['location'], $selectedJobPosting)
+            'title'             => $this->title($searchParams['keyword'], $searchParams['category'], $searchParams['location'], $selectedJobPosting)
         ));
     }
 
@@ -423,6 +443,8 @@ class SearchResultsController extends BaseController
     {
         $selectedJobPosting = JobPosting::findOrFail($id);
         $selectedJobPosting->created_time = $this->fuzzyDate($selectedJobPosting->created_time);
+
+        $this->setViewedJobPostingsCookie($id);
 
         return View::make('search.ajax.result-detail', array(
             'selectedJobPosting' => $selectedJobPosting,

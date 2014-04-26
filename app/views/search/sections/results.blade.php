@@ -7,7 +7,7 @@
 
     <div id="sort-controls" class="clearfix">
         <form id="sort-controls-form" method="post" action="/postOptions">
-        <input type="checkbox" name="karmaRank" id="karma-rank" @if ($karmaRank == "on") checked @endif>rank by
+            <input type="checkbox" name="karmaRank" id="karma-rank" @if ($karmaRank == "on") checked @endif>rank by
             karma
             <select id="days">
                 <option value="1"
@@ -33,9 +33,10 @@
         <div class="result-listing">
             @if ($jobPosting->id == $id) <b> @endif
                 <a href="#{{$jobPosting->id}}" id="link{{$jobPosting->id}}" name="link">{{$jobPosting->title}}</a>
-                {{--href="/search?keyword={{$keyword}}&category={{$category}}&location={{$location}}&distance={{$distance}}&days={{$days}}&karmaRank={{$karmaRank}}&id={{$jobPosting->id}}"--}}
                 @if ($jobPosting->id == $id) </b> @endif
-            <div class="time">{{$jobPosting->created_time}} in
+            <div class="time">
+                @if (!in_array($jobPosting->id, $viewedJobPostings)) <img id="new{{$jobPosting->id}}" src="/img/new.png"/> @endif
+                {{$jobPosting->created_time}} in
                 <a href="http://reddit.com/r/{{$jobPosting->subreddit_title}}" target="_blank">{{$jobPosting->subreddit_title}}</a>
             </div>
         </div>
