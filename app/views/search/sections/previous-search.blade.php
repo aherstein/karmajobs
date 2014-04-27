@@ -1,6 +1,6 @@
 @section('previous-search')
 <div id="previous-search" class="main-column">
-	<a id="previous-toggle" href="#"></a>
+	<a id="previous-toggle"></a>
 
 	<h2>previous searches</h2>
 

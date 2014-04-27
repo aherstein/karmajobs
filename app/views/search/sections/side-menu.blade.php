@@ -1,6 +1,6 @@
 @section('side-menu')
 <div id="side-menu" class="main-column">
-	<a id="search-toggle" href="#"></a>
+	<a id="search-toggle"></a>
 
 	<div id="search">
 		<h3>search parameters</h3>

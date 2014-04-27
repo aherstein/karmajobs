@@ -171,9 +171,41 @@
 		@if ($category == 6)
 	{
 		$('#location').hide()
-	}
-            @endif
+	} @endif
 
+		// Fade new icon for currelty selected job posting
+		if ($("#new{{$id}}") != null)
+		{
+			$("#new{{$id}}").fadeOut(4000);
+		}
+
+	});
+</script>
+
+<script>
+	// Mobile swipe functions
+	$(function ()
+	{
+		// Bind the swipeHandler callback function to the swipe event on div.box
+		$("#side-toggle").on("swipe", swipeHandler);
+
+		// Callback function references the event target and adds the 'swipe' class to it
+		function swipeHandler(event)
+		{
+			$(event.target).toggleClass('expanded');
+		}
+	});
+
+	$(function ()
+	{
+		// Bind the swipeHandler callback function to the swipe event on div.box
+		$("#previous-toggle").on("swipe", swipeHandler);
+
+		// Callback function references the event target and adds the 'swipe' class to it
+		function swipeHandler(event)
+		{
+			$(event.target).toggleClass('expanded');
+		}
 	});
 </script>
 @stop
