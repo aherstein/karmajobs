@@ -317,27 +317,27 @@ class SearchResultsController extends BaseController
 					->get();
 			}
 
-			// If no results are returned, increade the day range
-			if (sizeof($jobPostings) == 0 && $days < 30)
+		}
+
+		// If no results are returned, increade the day range
+		if (sizeof($jobPostings) == 0 && $days < 30)
+		{
+			return $this->renderSearchResults($keyword, $category, $location, "", $sort, 30, $karmaRank, $id, $searchParams);
+		}
+
+		$previousSearches = $this->setPreviousSearchesCookie($searchParams['keyword'], $searchParams['category'], $searchParams['location']);
+
+		// Open first job posting
+		if ($id == "")
+		{
+			foreach ($jobPostings as $jobPosting)
 			{
-				return $this->renderSearchResults($keyword, $category, $location, "", $sort, 30, $karmaRank, $id, $searchParams);
+				$id = $jobPosting->id;
+				$selectedJobPosting = JobPosting::findOrFail($jobPosting->id);
+				$selectedJobPosting->created_time = $this->fuzzyDate($selectedJobPosting->created_time);
+				$this->setViewedJobPostingsCookie($id);
+				break;
 			}
-
-			$previousSearches = $this->setPreviousSearchesCookie($searchParams['keyword'], $searchParams['category'], $searchParams['location']);
-
-			// Open first job posting
-			if ($id == "")
-			{
-				foreach ($jobPostings as $jobPosting)
-				{
-					$id = $jobPosting->id;
-					$selectedJobPosting = JobPosting::findOrFail($jobPosting->id);
-					$selectedJobPosting->created_time = $this->fuzzyDate($selectedJobPosting->created_time);
-					$this->setViewedJobPostingsCookie($id);
-					break;
-				}
-			}
-
 		}
 
 		// Apply fuzzy dates
