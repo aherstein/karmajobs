@@ -478,6 +478,42 @@
     background: url(images/bug-crypto.png) top right no-repeat;
 }
 
+#page h3
+{
+	padding: 0;
+	margin: 0;
+	font-weight: normal;
+	color: #484848;
+	font-size: 38px;
+}
+
+#page h3 em
+{
+	font-size: 11px;
+}
+
+#page .about p
+{
+	margin: 0 0 40px 0;
+	padding: 5px 0 0 105px;
+	min-height: 67px;
+}
+
+#page .about p.dan
+{
+	background: url(/img/about-dan.jpg) left no-repeat;
+}
+
+#page .about p.adam
+{
+	background: url(/img/about-adam.jpg) left no-repeat;
+}
+
+#page .about p.frank
+{
+	background: url(/img/about-frank.jpg) left no-repeat;
+}
+
 /* iPad and other tablets (landscape) */
 @media screen and (min-width: 985px) {
 
