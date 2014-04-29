@@ -459,23 +459,23 @@
 }
 
 #page .home-slug.forhire h1 {
-    background: url(images/bug-forhire.png) top right no-repeat;
+	background: url(/img/bug-forhire.png) top right no-repeat;
 }
 
 #page .home-slug.hiring h1 {
-    background: url(images/bug-hiring.png) top right no-repeat;
+	background: url(/img/bug-hiring.png) top right no-repeat;
 }
 
 #page .home-slug.researchers h1 {
-    background: url(images/bug-researchers.png) top right no-repeat;
+	background: url(/img/bug-researchers.png) top right no-repeat;
 }
 
 #page .home-slug.students h1 {
-    background: url(images/bug-students.png) top right no-repeat;
+	background: url(/img/bug-students.png) top right no-repeat;
 }
 
 #page .home-slug.crypto-hoarders h1 {
-    background: url(images/bug-crypto.png) top right no-repeat;
+	background: url(/img/bug-crypto.png) top right no-repeat;
 }
 
 #page h3
