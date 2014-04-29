@@ -29,6 +29,12 @@ class PageController extends BaseController
 	}
 
 
+	function home()
+	{
+		return View::make('page.layout', $this->data(""))->nest('page', 'page.home');
+	}
+
+
 	function about()
 	{
 		return View::make('page.layout', $this->data("About"))->nest('page', 'page.about');

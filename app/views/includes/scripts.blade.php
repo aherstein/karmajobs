@@ -173,10 +173,19 @@
 		$('#location').hide()
 	} @endif
 
+
 		// Fade new icon for currelty selected job posting
-		if ($("#new{{$id}}") != null)
+		if ($("#new{{isset($id) ? $id : "{
+			"}}"
+		}
+		) !=
+		null
+		)
 		{
-			$("#new{{$id}}").fadeOut(4000);
+			$("#new{{isset($id) ? $id : "
+			"}}"
+		).
+			fadeOut(4000);
 		}
 
 	});

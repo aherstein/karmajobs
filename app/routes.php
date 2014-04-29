@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/', array('as' => 'home', 'uses' => 'SearchResultsController@getSearchResults'));
+//Route::get('/', array('as' => 'home', 'uses' => 'SearchResultsController@getSearchResults'));
+Route::get('/', array('as' => 'home', 'uses' => 'PageController@home'));
 Route::get('search/{keyword?}/{category?}/{location?}', array('as' => 'search', 'uses' => 'SearchResultsController@getSearchResults'));
 Route::post('post', 'SearchResultsController@post');
 Route::post('postOptions', 'SearchResultsController@postOptions');

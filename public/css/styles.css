@@ -349,6 +349,135 @@
 
 }
 
+/* Pages */
+#page {
+    background: #FFFFFF !important;
+}
+
+#page * {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#page a {
+    color: #ff6601;
+    text-decoration: none;
+}
+
+#page a:hover {
+    text-decoration: underline;
+}
+
+#page p {
+    font-size: 13px;
+    color: #777;
+    max-width: 520px;
+}
+
+#page p.slug {
+    padding-left: 35px;
+    background: url(/img/icon-notice.jpg) left no-repeat;
+}
+
+#page p.slug strong {
+    display: block;
+}
+
+#page h1 {
+    font-weight: bold;
+    color: #484848;
+    font-size: 38px;
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
+#page h2 {
+    font-weight: normal;
+    font-style: italic;
+    color: #777;
+    padding: 0;
+    margin: 10px 0 40px;
+}
+
+#page hr {
+    height: 0px;
+    border: none;
+    border-bottom: 1px solid #c5c5c5;
+    margin: 0;
+    padding: 0;
+    clear: both;
+}
+
+#page {
+    padding: 10px;
+    background: url(/img/arrows-large.png) bottom right no-repeat;
+}
+
+#page .arrows {
+    background: url(/img/arrows-small.png);
+    width: 96px;
+    height: 52px;
+    float: left;
+    margin-left: 15px;
+}
+
+#page ul li {
+    color: #777;
+    list-style-type: none;
+    font-size: 13px;
+}
+
+/* home classes */
+
+#page .clear {
+    clear: both;
+}
+
+#page em {
+    font-size: 12px;
+}
+
+#page .home-slug {
+    max-width: 412px;
+    float: left;
+    margin: 0 50px 20px 0;
+}
+
+#page .page.home-slug h1 {
+    font-weight: normal;
+    font-size: 38px;
+    color: #484848;
+    width: 100%;
+    line-height: 63px;
+}
+
+#page .home-slug p {
+    border-left: 1px solid #c5c5c5;
+    padding-left: 15px;
+    margin-top: 62px;
+    line-height: 22px;
+}
+
+#page .home-slug.forhire h1 {
+    background: url(images/bug-forhire.png) top right no-repeat;
+}
+
+#page .home-slug.hiring h1 {
+    background: url(images/bug-hiring.png) top right no-repeat;
+}
+
+#page .home-slug.researchers h1 {
+    background: url(images/bug-researchers.png) top right no-repeat;
+}
+
+#page .home-slug.students h1 {
+    background: url(images/bug-students.png) top right no-repeat;
+}
+
+#page .home-slug.crypto-hoarders h1 {
+    background: url(images/bug-crypto.png) top right no-repeat;
+}
+
 /* iPad and other tablets (landscape) */
 @media screen and (min-width: 985px) {
 
