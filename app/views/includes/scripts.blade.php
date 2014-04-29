@@ -169,23 +169,14 @@
 
 		// Hide location search box if category is discussion
 		@if ($category == 6)
-	{
 		$('#location').hide()
-	} @endif
+		@endif
 
 
 		// Fade new icon for currelty selected job posting
-		if ($("#new{{isset($id) ? $id : "{
-			"}}"
-		}
-		) !=
-		null
-		)
+		if ($("#new{{$id}}") != null)
 		{
-			$("#new{{isset($id) ? $id : "
-			"}}"
-		).
-			fadeOut(4000);
+			$("#new{{$id}}").fadeOut(4000);
 		}
 
 	});

@@ -20,6 +20,7 @@ class PageController extends BaseController
 			'location'         => "",
 			'days'             => 7,
 			'karmaRank'        => "off",
+			'id' => 0,
 			'categories'       => $categories,
 			'countJobs'        => $countJobs,
 			'countJobSeekers'  => $countJobSeekers,
@@ -31,7 +32,7 @@ class PageController extends BaseController
 
 	function home()
 	{
-		return View::make('page.layout', $this->data(""))->nest('page', 'page.home');
+		return View::make('page.layout', $this->data("Home"))->nest('page', 'page.home');
 	}
 
 
