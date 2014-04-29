@@ -389,7 +389,6 @@
     margin: 0;
     padding: 0;
     float: left;
-	width: 100%;
 }
 
 #page h2 {
@@ -442,6 +441,10 @@
     max-width: 412px;
     float: left;
     margin: 0 50px 20px 0;
+}
+
+.home-slug h1 {
+    width: 100%;
 }
 
 #page .page.home-slug h1 {
