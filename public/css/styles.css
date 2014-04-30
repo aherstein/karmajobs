@@ -416,6 +416,10 @@
     overflow-x: hidden;
 }
 
+#page .about p {
+    max-width: 620px;
+}
+
 #page .arrows {
     background: url(/img/arrows-small.png);
     width: 96px;
