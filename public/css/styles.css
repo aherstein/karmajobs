@@ -376,6 +376,7 @@
 #page p.slug {
     padding-left: 35px;
     background: url(/img/icon-notice.jpg) left no-repeat;
+    max-width: 680px;
 }
 
 #page p.slug strong {
@@ -389,6 +390,7 @@
     margin: 0;
     padding: 0;
     float: left;
+    line-height: 52px;
 }
 
 #page h2 {
@@ -411,6 +413,7 @@
 #page {
     padding: 30px;
     background: url(/img/arrows-large.png) bottom right no-repeat;
+    overflow-x: hidden;
 }
 
 #page .arrows {
