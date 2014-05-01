@@ -22,7 +22,7 @@
 
 		<h3>Frank Scarpelli {{--<em>President</em>--}}</h3>
 
-		<p class="frank"><a href="https://www.linkedin.com/in/frankscarpelli" target="_blank">Frank</a> is the business guy and industry expert. He is a recognized thought leader
+		<p class="frank"><a href="https://www.linkedin.com/in/frankscarpelli" target="_blank">Frank</a> is a nationally recognized thought leader
 			in the world of careers and recruiting, possessing a ton of technology and business experience spanning over 20 years. Frank serves as our recruiting guru and guiding
 			light, ensuring we make solid business decisions without compromising the KarmaJobs mission.</p>
 	</div>
