@@ -3,7 +3,7 @@
 
 	<div class="arrows"></div>
 	<hr/>
-	<h2>Everyone else is doing it!</h2>
+	<h2>Do you really want to see them?</h2>
 
 	<p>You might have noticed there are no ads on KarmaJobs. Well, there's a reason for that. We’re just not very fond of the idea of cramming ads down our user's throats.</p>
 
