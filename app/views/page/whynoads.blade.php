@@ -18,8 +18,8 @@
 	<ul>
 		<li><a href="#">Donate via PayPal</a></li>
 		<li><a href="#">Donate via Amazon</a></li>
-		<li>Donate via BitCoin: 1L5FYY3dWNB75gDiwswE9MzWwWkLxi2SXj</li>
-		<li><a href="#">Donate via DogeCoin</a></li>
+		<li>Donate BitCoin: 1L5FYY3dWNB75gDiwswE9MzWwWkLxi2SXj</li>
+		<li>Donate such DogeCoin wow: D5LeyxjLScae6yq9633Mytn4ePhPyDuyyp</li>
 	</ul>
 	<p>Thank you for your support!</p>
 
