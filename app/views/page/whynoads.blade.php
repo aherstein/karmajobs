@@ -16,8 +16,6 @@
 
 	<p>If you'd like to support us, why not donate? We'll even take some crypto currency if you've got some to spare!</p>
 	<ul>
-		<li><a href="#">Donate via PayPal</a></li>
-		<li><a href="#">Donate via Amazon</a></li>
 		<li>Donate BitCoin: 1L5FYY3dWNB75gDiwswE9MzWwWkLxi2SXj</li>
 		<li>Donate such DogeCoin wow: D5LeyxjLScae6yq9633Mytn4ePhPyDuyyp</li>
 	</ul>
