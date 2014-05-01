@@ -53,4 +53,25 @@ class User extends Eloquent implements UserInterface, RemindableInterface
 		return $this->email;
 	}
 
+
+	/*
+	 * The following three methods are needed after a Laravel update
+	 */
+	public function getRememberToken()
+	{
+		return $this->remember_token;
+	}
+
+
+	public function setRememberToken($value)
+	{
+		$this->remember_token = $value;
+	}
+
+
+	public function getRememberTokenName()
+	{
+		return 'remember_token';
+	}
+
 }
