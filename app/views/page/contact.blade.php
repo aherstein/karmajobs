@@ -15,6 +15,8 @@
 
 	<p><a href="http://www.facebook.com/karmajobsdotnet">Like our facebook page!</a> We’re going to be sharing links to articles relevant to social job search.</p>
 
+	<p><a href="https://www.linkedin.com/company/3643216">Follow our company page on Linkedin!</a> We'll be posting articles and content that will help you manage your career.</p>
+
 	<p>Email us!</p>
 
 	<ul>
