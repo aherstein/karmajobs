@@ -1,9 +1,9 @@
 <div id="page" class="main-column">
-	<h1>Contact Us!</h1>
+	<h1>Contact Us</h1>
 
 	<div class="arrows"></div>
 	<hr/>
-	<h2>We can't do this without you!</h2>
+	<h2>We thrive on user feedback!</h2>
 
 	<p>Get in touch with us and tell us what you think! Positive or negative, it all helps us make a better product for you! There are lots of ways to get in touch with us:</p>
 
