@@ -16,6 +16,9 @@
 
 	<p>If you'd like to support us, why not donate? We'll even take some crypto currency if you've got some to spare!</p>
 	<ul>
+		<li><a href="mailto:danieldavidallen@gmail.com?cc=cash@square.com&subject=$10&body=Donation for KarmaJobs">Donate via Square</a> (<a
+				href="https://squareup.com/help/en-us/article/5132-send-or-request-money-with-square-cash" target="_blank">Instructions on how to use Square</a>)
+		</li>
 		<li>Donate BitCoin: 1L5FYY3dWNB75gDiwswE9MzWwWkLxi2SXj</li>
 		<li>Donate such DogeCoin wow: D5LeyxjLScae6yq9633Mytn4ePhPyDuyyp</li>
 	</ul>
