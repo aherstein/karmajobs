@@ -455,11 +455,11 @@
 }
 
 .home-slug h1 a {
-    color: #000;
+    color: #000 !important;
 }
 
 .home-slug h1 a:hover {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 #page .page.home-slug h1 {
