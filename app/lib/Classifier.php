@@ -53,7 +53,7 @@ class Classifier
         $nonprofitSubreddits = array("Nonprofit_Jobs");
         $internshipsSubreddits = array("Internships");
         $discussionSubreddits = array("AskHR","careerguidance","careeropportunities","cscareerquestions","DreamcareerHelp","entrepreneur","freelance","GetEmployed","HowsYourJob","InterviewFauxYou","jobnetworking","Jobs","jobsearchhacks","jobsecrets","resumes","retailmanagement","talesfromthejob","thisismyjob","work");
-        $cryptoSubreddits = array("Jobs4Bitcoins","Jobs4Crypto");
+        $cryptoSubreddits = array("Jobs4Bitcoins","Jobs4Crypto","jobs4dogecoin");
 
         // Lowercase all subreddits arrays
         for ($i = 0; $i < count($combinationSubreddits); $i++) $combinationSubreddits[$i] = strtolower($combinationSubreddits[$i]);
