@@ -58,6 +58,34 @@ App::error(function (Exception $exception, $code)
     Log::error($exception);
 });
 
+App::missing(function ($exception)
+{
+	// Get category counts
+	$countJobs = number_format(JobPosting::jobs()->count());
+	$countJobSeekers = number_format(JobPosting::jobSeekers()->count());
+	$countDiscussions = number_format(JobPosting::discussions()->count());
+
+	// Get categories from database
+	$categories = Category::all();
+
+	$params = array(
+
+		'searchParams'     => array('keyword' => "", 'category' => "", 'location' => ""),
+		'keyword'          => "",
+		'category'         => "",
+		'location'         => "",
+		'days'             => 7,
+		'karmaRank'        => "off",
+		'id'               => 0,
+		'categories'       => $categories,
+		'countJobs'        => $countJobs,
+		'countJobSeekers'  => $countJobSeekers,
+		'countDiscussions' => $countDiscussions
+	);
+
+	return Response::view('error.missing', $params, 404);
+});
+
 /*
 |--------------------------------------------------------------------------
 | Maintenance Mode Handler
