@@ -4,7 +4,7 @@
 @include('search.sections.result-detail')
 @include('search.sections.previous-search')
 @include('global.footer')
-@include('includes.scripts')
+@include('include.scripts')
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +28,7 @@
 	@yield('scripts-ajax')
 </head>
 <body>
-@include('includes.google-analytics')
+@include('include.google-analytics')
 @yield('top-bar')
 <div id="middle">
 	@yield('side-menu')

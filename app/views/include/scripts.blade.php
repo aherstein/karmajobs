@@ -169,7 +169,9 @@
 
 		// Hide location search box if category is discussion
 		@if ($category == 6)
+	{
 		$('#location').hide()
+	}
 		@endif
 
 

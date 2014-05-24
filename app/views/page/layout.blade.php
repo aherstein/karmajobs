@@ -2,7 +2,7 @@
 @include('search.sections.side-menu')
 @include('page.page')
 @include('global.footer')
-@include('includes.scripts')
+@include('include.scripts')
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +25,7 @@
 	@yield('scripts-global')
 </head>
 <body>
-@include('includes.google-analytics')
+@include('include.google-analytics')
 @yield('top-bar')
 <div id="middle">
 	@yield('side-menu')
